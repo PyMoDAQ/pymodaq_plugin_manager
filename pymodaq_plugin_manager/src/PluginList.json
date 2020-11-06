@@ -3,8 +3,8 @@
 	"version": "0.0.1",
 	"pymodaq-plugins": [
 		{
-			"plugin-name": "default",
-			"display-name": "Base PyMoDAQ plugins",
+			"plugin-name": "pymodaq_plugins",
+			"display-name": "Default",
 			"version": "2.0.0",
 			"id": "dd54aca79527d7968d31c078e7e5b0586373b71c065825690a12f7d5413584c4",
 			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins/archive/2.0.0.tar.gz",
@@ -13,8 +13,8 @@
 			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins"
 		},
 		{
-			"plugin-name": "daqmx",
-			"display-name": "National Instrument DAQmx plugin",
+			"plugin-name": "pymodaq_plugins_daqmx",
+			"display-name": "National Instrument DAQmx",
 			"version": "0.0.2",
 			"id": "3b4a50f1c0808343480cfbd400c6417cfa4267219d091d58441010d52eb502e3",
 			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_daqmx/archive/0.0.2.tar.gz",
@@ -23,12 +23,12 @@
 			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_daqmx"
 		},
 		{
-			"plugin-name": "orsay",
+			"plugin-name": "pymodaq_plugins_orsay",
 			"display-name": "OrsaySTEM and Cameras",
-			"version": "0.0.2",
+			"version": "0.0.1",
 			"id": "8587eca3ecdb07eab7dc6a2d2adb83bb2053f23a7d35458965566a0aa109f4b3",
 			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_orsay/archive/0.0.1.tar.gz",
-			"description": "PyMoDAQ Orsay STEM and Camera plugin\r\nCan be used to control Ropers or Princeton Cameras\r\nCan be used to control STEM (Scanning Tunnel Electron Microscope) using the HOUDs 2 hardware module to drive coils within a STEM\n\nFrom Marcel Tencé source code",
+			"description": "PyMoDAQ Orsay STEM and Camera plugin\r\nCan be used to control Ropers or Princeton Cameras\r\nCan be used to control STEM (Scanning Tunnel Electron Microscope) using the HOUDs 2 hardware module to drive coils within a STEM\n\nFrom Marcel Tence source code from LPS Laboratory at Orsay University, France ",
 			"author": "Sebastien Weber",
 			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_orsay"
 		}
