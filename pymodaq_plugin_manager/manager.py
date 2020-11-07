@@ -1,9 +1,11 @@
 import sys
+import subprocess
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import Qt, QVariant, pyqtSlot, pyqtSignal
 from pymodaq.daq_utils import gui_utils as gutils
-from pymodaq_plugin_manager.validate import validate_json_plugin_list
+from pymodaq_plugin_manager.validate import validate_json_plugin_list, get_plugins, get_plugin, get_check_repo
 import numpy as np
+import tempfile
 
 class TableModel(gutils.TableModel):
 
@@ -83,17 +85,27 @@ class FilterProxy(QtCore.QSortFilterProxyModel):
 
 
 
-class PluginManager:
+class PluginManager(QtCore.QObject):
+
+    quit_signal = pyqtSignal()
+
     def __init__(self, parent):
+        super().__init__()
         self.parent = parent
         self.parent.setLayout(QtWidgets.QVBoxLayout())
 
 
-        self.plugins_available = validate_json_plugin_list()['pymodaq-plugins']
-        self.plugins_installed = validate_json_plugin_list()['pymodaq-plugins']
-        self.plugins_update = validate_json_plugin_list()['pymodaq-plugins']
+        self.plugins_available, self.plugins_installed, self.plugins_update = get_plugins()
 
         self.setup_UI()
+
+    def quit(self):
+        self.parent.parent().close()
+        self.quit_signal.emit()
+
+    def restart(self):
+        self.parent.parent().close()
+        subprocess.call([sys.executable, __file__])
 
     def setup_UI(self):
 
@@ -111,6 +123,7 @@ class PluginManager:
         settings_widget.layout().addStretch()
         self.action_button = QtWidgets.QPushButton('Install')
         self.action_button.setEnabled(False)
+        self.action_button.clicked.connect(self.do_action)
         settings_widget.layout().addWidget(self.action_button)
 
 
@@ -144,12 +157,69 @@ class PluginManager:
         self.table_view.setSortingEnabled(True)
         self.table_view.clicked.connect(self.item_clicked)
 
-        self.info_widget = QtWidgets.QTextBrowser()
+        self.info_widget = QtWidgets.QTextEdit()
+        self.info_widget.setReadOnly(True)
 
         splitter.addWidget(self.table_view)
         splitter.addWidget(self.info_widget)
 
         self.parent.layout().addWidget(splitter)
+
+    def do_action(self):
+        if self.plugin_choice.currentText() == 'Available':
+            action = 'install'
+            plugins = [plug[0] for ind, plug in enumerate(self.model_available.get_data_all())
+                       if self.model_available.selected[ind]]
+        elif self.plugin_choice.currentText() == 'Update':
+            action = 'update'
+            plugins = [plug[0] for ind, plug in enumerate(self.model_update.get_data_all())
+                       if self.model_update.selected[ind]]
+        elif self.plugin_choice.currentText() == 'Installed':
+            action = 'remove'
+            plugins = [plug[0] for ind, plug in enumerate(self.model_installed.get_data_all())
+                       if self.model_installed.selected[ind]]
+
+        msgBox = QtWidgets.QMessageBox()
+        msgBox.setText(f"You will {action} this list of plugins: {plugins}")
+        msgBox.setInformativeText("Do you want to proceed?")
+        msgBox.setStandardButtons(msgBox.Ok | msgBox.Cancel)
+        msgBox.setDefaultButton(msgBox.Ok)
+
+        ret = msgBox.exec()
+        self.info_widget.clear()
+        if ret == msgBox.Ok:
+            for plug in plugins:
+                plugin_dict = get_plugin(plug)
+                if self.plugin_choice.currentText() == 'Available' or self.plugin_choice.currentText() == 'Update':
+                    rep = get_check_repo(plugin_dict)
+                    if rep is None:
+                        command = [sys.executable, '-m', 'pip', 'install', plugin_dict['repository']]
+                        self.do_subprocess(command)
+                    else:
+                        self.info_widget.insertPlainText(rep)
+
+
+                elif self.plugin_choice.currentText() == 'Installed':
+                    command = [sys.executable, '-m', 'pip', 'uninstall', '--yes', plug]
+                    self.do_subprocess(command)
+
+        msgBox = QtWidgets.QMessageBox()
+        msgBox.setText(f"All actions were performed!")
+        msgBox.setInformativeText(f"Do you want to quit and restart the application to take into account the modifications?")
+        msgBox.setStandardButtons(msgBox.Close | msgBox.Reset | msgBox.Cancel)
+        msgBox.setDefaultButton(msgBox.Close)
+        ret = msgBox.exec()
+        if ret == msgBox.Close:
+            self.close()
+        elif ret == msgBox.Reset:
+            self.restart()
+
+    def do_subprocess(self, command):
+        with subprocess.Popen(command, stdout=subprocess.PIPE, stdin=sys.stdout,
+                              bufsize=1) as sp:
+            for line in sp.stdout:
+                self.info_widget.insertPlainText(line.decode())
+                QtWidgets.QApplication.processEvents()
 
 
     def update_model(self, plugin_choice):
@@ -166,24 +236,26 @@ class PluginManager:
             self.action_button.setText('Remove')
         self.search_edit.textChanged.connect(model_proxy.setTextFilter)
         self.table_view.setModel(model_proxy)
-        self.item_clicked(model_proxy.index(0,0))
+        self.item_clicked(model_proxy.index(0, 0))
 
 
     def item_clicked(self, index):
-        self.display_info(index)
-        self.action_button.setEnabled(np.any(index.model().sourceModel().selected))
+        if index.isValid():
+            self.display_info(index)
+            self.action_button.setEnabled(np.any(index.model().sourceModel().selected))
 
 
 
     def display_info(self, index):
         self.info_widget.clear()
-        if self.plugin_choice.currentText() == 'Available':
-            plugin = self.plugins_available[index.model().mapToSource(index).row()]
-        elif self.plugin_choice.currentText() == 'Update':
-            plugin = self.plugins_update[index.model().mapToSource(index).row()]
-        elif self.plugin_choice.currentText() == 'Installed':
-            plugin = self.plugins_installed[index.model().mapToSource(index).row()]
-        self.info_widget.setText(plugin['description'])
+        if index.isValid():
+            if self.plugin_choice.currentText() == 'Available':
+                plugin = self.plugins_available[index.model().mapToSource(index).row()]
+            elif self.plugin_choice.currentText() == 'Update':
+                plugin = self.plugins_update[index.model().mapToSource(index).row()]
+            elif self.plugin_choice.currentText() == 'Installed':
+                plugin = self.plugins_installed[index.model().mapToSource(index).row()]
+            self.info_widget.insertPlainText(plugin['description'])
 
 
 if __name__ == '__main__':

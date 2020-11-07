@@ -43,6 +43,8 @@ setup(
     install_requires=[
         'distlib',
         'jsonchema',
+        'pytablewriter',
+        'requests',
         ],
     **setupOpts
 )
