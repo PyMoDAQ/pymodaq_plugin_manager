@@ -71,6 +71,16 @@
 			"description": "Set of PyMoDAQ plugins for Actuators from Piezoconcept (Tested on the Bio200 XY stage. Include a version of the controller firmware emulating functions from PhysikInstrumente)",
 			"author": "Sebastien Weber",
 			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_piezoconcept"
+		},
+		{
+			"plugin-name": "pymodaq_plugins_smaract",
+			"display-name": "Smaract",
+			"version": "0.0.1",
+			"id": "eb8c349bb16aa8c538b10617fb0af5bd8562c3f24e28a5c2a0f92e12fcdec18c",
+			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_smaract/archive/0.0.1.tar.gz",
+			"description": "Set of PyMoDAQ plugins for Actuators from Smaract (MCS_controller, ...)",
+			"author": "David Bresteau",
+			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_smaract"
 		}
     ]
 }

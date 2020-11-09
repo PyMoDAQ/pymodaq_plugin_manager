@@ -42,7 +42,7 @@ setup(
     packages=find_packages(),
     install_requires=[
         'distlib',
-        'jsonchema',
+        'jsonschema',
         'pytablewriter',
         'requests',
         ],
