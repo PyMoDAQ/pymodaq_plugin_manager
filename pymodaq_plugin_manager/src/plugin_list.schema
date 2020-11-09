@@ -26,7 +26,9 @@
 				"id",
 				"repository",
 				"description",
+				"instruments",
 				"author",
+				"contributors",
 				"homepage"
 			],
 			"properties": {
@@ -53,8 +55,14 @@
 					"type": "string",
 					"minLength": 1
 				},
+				"instruments": {
+					"type": "array"
+				},
 				"author": {
 					"type": "string"
+				},
+				"contributors": {
+					"type": "array"
 				},
 				"homepage": {
 					"oneOf": [

@@ -11,7 +11,7 @@ from distlib.locators import SimpleScrapingLocator
 from pathlib import Path
 #using pip directly https://pip.pypa.io/en/latest/reference/pip_install/#git
 from pytablewriter import MarkdownTableWriter
-
+from yawrap import Doc
 from pymodaq.daq_utils import daq_utils as utils
 
 pypi_index = PackageIndex()
@@ -180,15 +180,27 @@ def write_plugin_doc():
     plugins = get_plugins_from_json()
     base_path = Path(__file__).parent
 
-    header_keys = ['display-name', 'author', 'homepage', 'version', 'description']
-    header = ['Plugin Name', 'Author', 'Homepage', 'Version', 'Description']
+    header_keys = ['display-name', 'author', 'version', 'description', 'instruments']
+    header = ['Plugin Name', 'Author', 'Version', 'Description', 'Instruments']
     plugins_tmp = []
 
     for ind, plug in enumerate(plugins):
+        doc, tag, text = Doc().tagtext()
         tmp = []
         for k in header_keys:
-            if k == 'version':
+            if k == 'display-name':
+                tmp.append(f'<a href="{plug["homepage"]}" target="_top">{plug["display-name"]}</a> ')
+            elif k == 'version':
                 tmp.append(f'<a href="{plug["repository"]}" target="_top">{plug["version"]}</a> ')
+            elif k == 'instruments':
+                if plug['instruments']:
+                    with tag('ul'):
+                        for inst in plug['instruments']:
+                            with tag('li'):
+                                text(inst)
+                    tmp.append(doc.getvalue())
+                else:
+                    tmp.append('')
             else:
                 tmp.append(plug[k])
         plugins_tmp.append(tmp)
