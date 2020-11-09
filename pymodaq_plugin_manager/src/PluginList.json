@@ -101,6 +101,26 @@
 			"description": "Set of PyMoDAQ plugins for Picoquant instruments (TimeHarp260, ...)",
 			"author": "Sébastien Weber",
 			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_picoquant"
+		},
+		{
+			"plugin-name": "pymodaq_plugins_horiba",
+			"display-name": "Horiba",
+			"version": "0.0.1",
+			"id": "01817fe5388ab383e025c48466a84e16fabb3672533736bb1cb29c072a7a7b03",
+			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_horiba/archive/0.0.1.tar.gz",
+			"description": "Set of PyMoDAQ plugins for Horiba Instruments (Lapspec6TCP to communicate with labspec softaware using the AFM TCP/IP protocol)",
+			"author": "Sébastien Weber",
+			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_horiba"
+		},
+		{
+			"plugin-name": "pymodaq_plugins_flim",
+			"display-name": "FLIM",
+			"version": "0.0.1",
+			"id": "bf76f594875ef3b16cdc760499a3221e69eb0c5c0dc9b9105971f6d1325c257e",
+			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_flim/archive/0.0.1.tar.gz",
+			"description": "Set of PyMoDAQ plugins for Horiba Instruments (Lapspec6TCP to communicate with labspec softaware using the AFM TCP/IP protocol)",
+			"author": "Sébastien Weber",
+			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_horiba"
 		}
     ]
 }
