@@ -88,11 +88,13 @@ class FilterProxy(QtCore.QSortFilterProxyModel):
 class PluginManager(QtCore.QObject):
 
     quit_signal = pyqtSignal()
+    restart_signal = pyqtSignal()
 
-    def __init__(self, parent):
+    def __init__(self, parent, standalone=False):
         super().__init__()
         self.parent = parent
         self.parent.setLayout(QtWidgets.QVBoxLayout())
+        self.standalone = standalone
 
 
         self.plugins_available, self.plugins_installed, self.plugins_update = get_plugins()
@@ -105,7 +107,10 @@ class PluginManager(QtCore.QObject):
 
     def restart(self):
         self.parent.parent().close()
-        subprocess.call([sys.executable, __file__])
+        if self.standalone:
+            subprocess.call([sys.executable, __file__])
+        else:
+            self.restart_signal.emit()
 
     def setup_UI(self):
 
@@ -264,6 +269,6 @@ if __name__ == '__main__':
     win.setWindowTitle('PyMoDAQ Plugin Manager')
     widget = QtWidgets.QWidget()
     win.setCentralWidget(widget)
-    prog = PluginManager(widget)
+    prog = PluginManager(widget, standalone=True)
     win.show()
     sys.exit(app.exec_())

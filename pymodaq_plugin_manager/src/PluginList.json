@@ -1,6 +1,6 @@
 {
 	"name": "pymodaq-pluginList",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"pymodaq-plugins": [
 		{
 			"plugin-name": "pymodaq_plugins",
@@ -31,6 +31,46 @@
 			"description": "PyMoDAQ Orsay STEM and Camera plugin\r\nCan be used to control Ropers or Princeton Cameras\r\nCan be used to control STEM (Scanning Tunnel Electron Microscope) using the HOUDs 2 hardware module to drive coils within a STEM\n\nFrom Marcel Tence source code from LPS Laboratory at Orsay University, France ",
 			"author": "Sebastien Weber",
 			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_orsay"
+		},
+		{
+			"plugin-name": "pymodaq_plugins_newport",
+			"display-name": "Newport Instruments",
+			"version": "0.0.2",
+			"id": "11aaa70103138967053ae3db31af8977acf76f1f75b03bcc8e9624076d5e5dbd",
+			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_newport/archive/0.0.2.tar.gz",
+			"description": "Set of PyMoDAQ plugins for instruments from Newport (Conex, ESP100,...)",
+			"author": "Sebastien Weber",
+			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_newport"
+		},
+		{
+			"plugin-name": "pymodaq_plugins_thorlabs",
+			"display-name": "Thorlabs Instruments",
+			"version": "0.0.1",
+			"id": "562ef6ea46d9dc326db4448a8e314b815d363f1edcca4eeb6434d36ba8654d76",
+			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_thorlabs/archive/0.0.1.tar.gz",
+			"description": "Set of PyMoDAQ plugins for instruments from Thorlabs (Kinesis K10CR1 (stepper rotation actuator), Kinesis Flipper, Kinesis KSP100...)",
+			"author": "Sebastien Weber",
+			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_thorlabs"
+		},
+		{
+			"plugin-name": "pymodaq_plugins_physik_instrumente",
+			"display-name": "Physik Instrumente",
+			"version": "0.0.1",
+			"id": "ae911130b4a6816f16707abd25db7bcd6d92801358d37a5541bdca0c92a6900f",
+			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_physik_instrumente/archive/0.0.1.tar.gz",
+			"description": "Set of PyMoDAQ plugins for Actuators from Physik Instumente (All the ones compatible with the GCS2 commands as well as the old 32bits MMC controller...)",
+			"author": "Sebastien Weber",
+			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_physik_instrumente"
+		},
+		{
+			"plugin-name": "pymodaq_plugins_piezoconcept",
+			"display-name": "PiezoConcept",
+			"version": "0.0.1",
+			"id": "ad8e6ce57cb06adb0bb5f0b14e62e5a2c63c27b9d79d3c5baf660c26d5e8bbb6",
+			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_piezo_concept/archive/0.0.1.tar.gz",
+			"description": "Set of PyMoDAQ plugins for Actuators from Piezoconcept (Tested on the Bio200 XY stage. Include a version of the controller firmware emulating functions from PhysikInstrumente)",
+			"author": "Sebastien Weber",
+			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_piezoconcept"
 		}
     ]
 }
