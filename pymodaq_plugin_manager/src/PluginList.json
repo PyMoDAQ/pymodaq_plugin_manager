@@ -81,6 +81,26 @@
 			"description": "Set of PyMoDAQ plugins for Actuators from Smaract (MCS_controller, ...)",
 			"author": "David Bresteau",
 			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_smaract"
+		},
+		{
+			"plugin-name": "pymodaq_plugins_andor",
+			"display-name": "Andor",
+			"version": "0.0.1",
+			"id": "9f2ce447a5a400e3c9457877d1cc9e138906e053344d2b4c3bb3aa20e7de033a",
+			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_andor/archive/0.0.1.tar.gz",
+			"description": "Set of PyMoDAQ plugins for Andor Camera (CCD camera using SDK2, SCMOS cameras using SDK3...)",
+			"author": "Sébastien Weber",
+			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_andor"
+		},
+		{
+			"plugin-name": "pymodaq_plugins_picoquant",
+			"display-name": "Picoquant",
+			"version": "0.0.1",
+			"id": "59c7d4bbede284fecf074bf1d32d7618c919107bd266710e492cf1db6f81308a",
+			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_picoquant/archive/0.0.1.tar.gz",
+			"description": "Set of PyMoDAQ plugins for Picoquant instruments (TimeHarp260, ...)",
+			"author": "Sébastien Weber",
+			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_picoquant"
 		}
     ]
 }
