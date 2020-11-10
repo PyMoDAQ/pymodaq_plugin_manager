@@ -180,8 +180,8 @@ def write_plugin_doc():
     plugins = get_plugins_from_json()
     base_path = Path(__file__).parent
 
-    header_keys = ['display-name', 'authors', 'version', 'instruments', 'description']
-    header = ['Plugin Name', 'Authors', 'Version', 'Instruments', 'Description']
+    header_keys = ['display-name', 'authors', 'version', 'description']
+    header = ['Plugin Name', 'Authors', 'Version', 'Description']
     plugins_tmp = []
 
     for ind, plug in enumerate(plugins):
@@ -198,13 +198,14 @@ def write_plugin_doc():
                 tmp.append(doc.getvalue())
             elif k == 'version':
                 tmp.append(f'<a href="{plug["repository"]}" target="_top">{plug["version"]}</a> ')
-            elif k == 'instruments':
+            elif k == 'description':
+                doc, tag, text = Doc().tagtext()
+                text(plug[k]+'\r\n')
                 if plug['instruments']:
-                    doc, tag, text = Doc().tagtext()
                     for inst in plug['instruments']:
                         text(f'{inst}:')
                         with tag('ul'):
-                            for instt in plug[k][inst]:
+                            for instt in plug['instruments'][inst]:
                                 with tag('li'):
                                     text(instt)
                     tmp.append(doc.getvalue())
