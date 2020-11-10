@@ -29,10 +29,7 @@ class TableModel(gutils.TableModel):
         if index.isValid():
             if role == Qt.DisplayRole or role == Qt.EditRole:
                 if index.column() == 0:
-                    if self._data[index.row()][0] == 'pymodaq_plugins':
-                        dat = 'default'
-                    else:
-                        dat = self._data[index.row()][0].split('pymodaq_plugins_')[1]
+                    dat = self._data[index.row()][0]
                 else:
                     dat = self._data[index.row()][index.column()]
                 return dat
@@ -105,6 +102,7 @@ class PluginManager(QtCore.QObject):
         self.parent.setLayout(QtWidgets.QVBoxLayout())
         self.standalone = standalone
 
+        self.parent.setMinimumSize(1000, 500)
 
         self.plugins_available, self.plugins_installed, self.plugins_update = get_plugins()
 
@@ -146,22 +144,24 @@ class PluginManager(QtCore.QObject):
         splitter = QtWidgets.QSplitter(Qt.Vertical)
 
         self.table_view = gutils.TableView()
+
         styledItemDelegate = QtWidgets.QStyledItemDelegate()
         styledItemDelegate.setItemEditorFactory(gutils.SpinBoxDelegate())
         self.table_view.setItemDelegate(styledItemDelegate)
         self.table_view.horizontalHeader().show()
+        self.table_view.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
 
-        self.model_available = TableModel([[plugin['plugin-name'],
+        self.model_available = TableModel([[plugin['display-name'],
                                             plugin['version']] for plugin in self.plugins_available],
                                           header=['Plugin', 'Version'],
                                           editable=[False, False],
                                           plugins=self.plugins_available)
-        self.model_update = TableModel([[plugin['plugin-name'],
+        self.model_update = TableModel([[plugin['display-name'],
                                          plugin['version']] for plugin in self.plugins_update],
                                        header=['Plugin', 'Version'],
                                        editable=[False, False],
                                           plugins=self.plugins_update)
-        self.model_installed = TableModel([[plugin['plugin-name'],
+        self.model_installed = TableModel([[plugin['display-name'],
                                             plugin['version']] for plugin in self.plugins_installed],
                                           header=['Plugin', 'Version'],
                                           editable=[False, False],
@@ -217,18 +217,19 @@ class PluginManager(QtCore.QObject):
 
 
                 elif self.plugin_choice.currentText() == 'Installed':
-                    command = [sys.executable, '-m', 'pip', 'uninstall', '--yes', plug]
+                    command = [sys.executable, '-m', 'pip', 'uninstall', '--yes', plugin_dict['plugin-name']]
                     self.do_subprocess(command)
 
         msgBox = QtWidgets.QMessageBox()
         msgBox.setText(f"All actions were performed!")
         msgBox.setInformativeText(f"Do you want to quit and restart the application to take into account the modifications?")
-        msgBox.setStandardButtons(msgBox.Close | msgBox.Reset | msgBox.Cancel)
+        msgBox.setStandardButtons(msgBox.Close | msgBox.Cancel)
+        restart_button = msgBox.addButton('Restart', msgBox.ApplyRole)
         msgBox.setDefaultButton(msgBox.Close)
         ret = msgBox.exec()
         if ret == msgBox.Close:
             self.quit()
-        elif ret == msgBox.Reset:
+        elif msgBox.clickedButton() is restart_button:
             self.restart()
 
     def do_subprocess(self, command):

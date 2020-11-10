@@ -71,9 +71,9 @@ def get_plugins_from_json():
     return validate_json_plugin_list()['pymodaq-plugins']
 
 
-def get_plugin(name):
+def get_plugin(name, entry='display-name'):
     plugins = get_plugins_from_json()
-    d = find_dict_in_list_from_key_val(plugins, 'plugin-name', name)
+    d = find_dict_in_list_from_key_val(plugins, entry, name)
     return d
 
 def get_check_repo(plugin_dict):
