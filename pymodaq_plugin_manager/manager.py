@@ -3,15 +3,17 @@ import subprocess
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import Qt, QVariant, pyqtSlot, pyqtSignal
 from pymodaq.daq_utils import gui_utils as gutils
-from pymodaq_plugin_manager.validate import validate_json_plugin_list, get_plugins, get_plugin, get_check_repo
+from pymodaq_plugin_manager.validate import validate_json_plugin_list, get_plugins, get_plugin, get_check_repo,\
+    find_dict_in_list_from_key_val
 import numpy as np
-import tempfile
+from yawrap import Doc
 
 class TableModel(gutils.TableModel):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, plugins=[], **kwargs):
         super().__init__(*args, **kwargs)
         self._selected = [False for ind in range(len(self._data))]
+        self.plugins = plugins
 
     @property
     def selected(self):
@@ -73,7 +75,13 @@ class FilterProxy(QtCore.QSortFilterProxyModel):
         plugin_index = self.sourceModel().index(sourcerow, 0, parent_index)
         try:
             plugin_name = self.sourceModel().data(plugin_index)
-            return self.textRegExp.pattern() in plugin_name
+            plugin = find_dict_in_list_from_key_val(self.sourceModel().plugins, 'plugin-name',
+                                                    f'pymodaq_plugins_{plugin_name}')
+            match = self.textRegExp.pattern().lower() in plugin_name.lower()
+            if not not plugin:
+                match = self.textRegExp.pattern() in plugin['description'].lower() or \
+                any(self.textRegExp.pattern() in plug.lower() for plug in plugin['instruments'])
+            return match
         except Exception as e:
             print(e)
             return True
@@ -145,15 +153,18 @@ class PluginManager(QtCore.QObject):
         self.model_available = TableModel([[plugin['plugin-name'],
                                             plugin['version']] for plugin in self.plugins_available],
                                           header=['Plugin', 'Version'],
-                                          editable=[False, False])
+                                          editable=[False, False],
+                                          plugins=self.plugins_available)
         self.model_update = TableModel([[plugin['plugin-name'],
                                          plugin['version']] for plugin in self.plugins_update],
                                        header=['Plugin', 'Version'],
-                                       editable=[False, False])
+                                       editable=[False, False],
+                                          plugins=self.plugins_update)
         self.model_installed = TableModel([[plugin['plugin-name'],
                                             plugin['version']] for plugin in self.plugins_installed],
                                           header=['Plugin', 'Version'],
-                                          editable=[False, False])
+                                          editable=[False, False],
+                                          plugins=self.plugins_installed)
 
         model_available_proxy = FilterProxy()
         model_available_proxy.setSourceModel(self.model_available)
@@ -262,6 +273,23 @@ class PluginManager(QtCore.QObject):
                 plugin = self.plugins_installed[index.model().mapToSource(index).row()]
             self.info_widget.insertPlainText(plugin['description'])
 
+            if not not plugin['authors']:
+                self.info_widget.insertPlainText('\r\n\r\nAuthors:')
+                doc, tag, text = Doc().tagtext()
+                with tag('ul'):
+                    for inst in plugin['authors']:
+                        with tag('li'):
+                            text(inst)
+                self.info_widget.insertHtml(doc.getvalue())
+
+            if not not plugin['instruments']:
+                self.info_widget.insertPlainText('\r\n\r\nThis package include plugins for the instruments listed below:')
+                doc, tag, text = Doc().tagtext()
+                with tag('ul'):
+                    for inst in plugin['instruments']:
+                        with tag('li'):
+                            text(inst)
+                self.info_widget.insertHtml(doc.getvalue())
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)

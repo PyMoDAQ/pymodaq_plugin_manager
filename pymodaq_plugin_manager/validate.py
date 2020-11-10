@@ -180,24 +180,33 @@ def write_plugin_doc():
     plugins = get_plugins_from_json()
     base_path = Path(__file__).parent
 
-    header_keys = ['display-name', 'author', 'version', 'description', 'instruments']
-    header = ['Plugin Name', 'Author', 'Version', 'Description', 'Instruments']
+    header_keys = ['display-name', 'authors', 'version', 'instruments', 'description']
+    header = ['Plugin Name', 'Authors', 'Version', 'Instruments', 'Description']
     plugins_tmp = []
 
     for ind, plug in enumerate(plugins):
-        doc, tag, text = Doc().tagtext()
         tmp = []
         for k in header_keys:
             if k == 'display-name':
                 tmp.append(f'<a href="{plug["homepage"]}" target="_top">{plug["display-name"]}</a> ')
+            elif k == 'authors':
+                doc, tag, text = Doc().tagtext()
+                with tag('ul'):
+                    for auth in plug[k]:
+                        with tag('li'):
+                            text(auth)
+                tmp.append(doc.getvalue())
             elif k == 'version':
                 tmp.append(f'<a href="{plug["repository"]}" target="_top">{plug["version"]}</a> ')
             elif k == 'instruments':
                 if plug['instruments']:
-                    with tag('ul'):
-                        for inst in plug['instruments']:
-                            with tag('li'):
-                                text(inst)
+                    doc, tag, text = Doc().tagtext()
+                    for inst in plug['instruments']:
+                        text(f'{inst}:')
+                        with tag('ul'):
+                            for instt in plug[k][inst]:
+                                with tag('li'):
+                                    text(instt)
                     tmp.append(doc.getvalue())
                 else:
                     tmp.append('')

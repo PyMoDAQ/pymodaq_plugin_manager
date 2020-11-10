@@ -27,7 +27,7 @@
 				"repository",
 				"description",
 				"instruments",
-				"author",
+				"authors",
 				"contributors",
 				"homepage"
 			],
@@ -56,13 +56,51 @@
 					"minLength": 1
 				},
 				"instruments": {
-					"type": "array"
+					"type": "object",
+					"properties": {
+						"Actuator": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"Viewer0D": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"Viewer1D": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"Viewer2D": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"ViewerND": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						}
+					}
 				},
-				"author": {
-					"type": "string"
+				"authors": {
+					"type": "array",
+					"items": {
+    					"type": "string"
+					}
 				},
 				"contributors": {
-					"type": "array"
+					"type": "array",
+					"items": {
+    					"type": "string"
+					}
 				},
 				"homepage": {
 					"oneOf": [

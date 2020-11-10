@@ -9,8 +9,30 @@
 			"id": "dd54aca79527d7968d31c078e7e5b0586373b71c065825690a12f7d5413584c4",
 			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins/archive/2.0.0.tar.gz",
 			"description": "Plugins initially developed with PyMoDAQ\r\nIncludes Mock plugins that are plugins of virtual instruments dedicated to code testing a new functionalities development. The list of included plugins can be found on https://docs.google.com/spreadsheets/d/1wfMfvLwTitZd2R2m1O5i6wVEaX1lJBahP2HUbxVdidg",
-			"instruments": [],
-			"author": "Sebastien Weber",
+			"instruments": {
+				"Actuator": [
+					"Mock actuator to test PyMoDAQ functionnalities",
+					"TCP server to communicate with other DAQ_Move or third party applications"
+				],
+				"Viewer0D": [
+					"Mock detector to test PyMoDAQ functionnalities",
+					"Mock detector to test PyMoDAQ adaptive scan mode",
+					"TCP server to communicate with other DAQ_Viewer or third party applications"
+				],
+				"Viewer1D": [
+					"Mock detector to test PyMoDAQ functionnalities",
+					"Mock detector to test pymodaq_spectro functionalities",
+					"TCP server to communicate with other DAQ_Viewer or third party applications"
+				],
+				"Viewer2D": [
+					"Mock detector to test PyMoDAQ functionnalities",
+					"TCP server to communicate with other DAQ_Viewer or third party applications"
+				],
+				"ViewerND": [
+					"Mock actuator to test PyMoDAQ functionnalities"
+				]
+			},
+			"authors": ["Sebastien Weber"],
 			"contributors": [],
 			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins"
 		},
@@ -21,9 +43,14 @@
 			"id": "3b4a50f1c0808343480cfbd400c6417cfa4267219d091d58441010d52eb502e3",
 			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_daqmx/archive/0.0.2.tar.gz",
 			"description": "Plugin devoted to the National Instrument signal acquisition and generation using the NiDAQmx library. Includes an actuator plugin for signal generation, a 1D viewer plugin for data acquisition as a function of time and a 0D viewer plugin for quick time averaging acquisition",
-			"instruments": [],
-			"author": "Sebastien Weber",
-			"contributors": [],
+			"instruments":
+				{"Actuator" : ["Analog output DC, Sinus, Ramp..."],
+				"Viewer0D": ["Analog acquisition",
+								"Counting"],
+				"Viewer1D": ["Analog acquisition"]
+			},
+			"authors": ["Sebastien Weber"],
+			"contributors": ["Amelie Jarnac"],
 			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_daqmx"
 		},
 		{
@@ -33,8 +60,12 @@
 			"id": "8587eca3ecdb07eab7dc6a2d2adb83bb2053f23a7d35458965566a0aa109f4b3",
 			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_orsay/archive/0.0.1.tar.gz",
 			"description": "PyMoDAQ Orsay STEM and Camera plugin\r\nCan be used to control Ropers or Princeton Cameras\r\nCan be used to control STEM (Scanning Tunnel Electron Microscope) using the HOUDs 2 hardware module to drive coils within a STEM\n\nFrom Marcel Tence source code from LPS Laboratory at Orsay University, France ",
-			"instruments": [],
-			"author": "Sebastien Weber",
+			"instruments": {
+				"Actuator" : ["X and Y electron beam displacement in a STEM"],
+				"Viewer2D": ["Cameras from Ropers and Princeton Instruments",
+							"STEM Imaging (even hyperspectral imaging)"]
+			},
+			"authors": ["Sebastien Weber"],
 			"contributors": [],
 			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_orsay"
 		},
@@ -45,8 +76,13 @@
 			"id": "11aaa70103138967053ae3db31af8977acf76f1f75b03bcc8e9624076d5e5dbd",
 			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_newport/archive/0.0.2.tar.gz",
 			"description": "Set of PyMoDAQ plugins for instruments from Newport (Conex, ESP100,...)",
-			"instruments": [],
-			"author": "Sebastien Weber",
+			"instruments": {
+				"Actuator": [
+					"Piezo actuators from the CONEX-AGAP series",
+					"ESP100 controllers"
+				]
+			},
+			"authors": ["Sebastien Weber"],
 			"contributors": [],
 			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_newport"
 		},
@@ -57,8 +93,11 @@
 			"id": "562ef6ea46d9dc326db4448a8e314b815d363f1edcca4eeb6434d36ba8654d76",
 			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_thorlabs/archive/0.0.1.tar.gz",
 			"description": "Set of PyMoDAQ plugins for instruments from Thorlabs (Kinesis K10CR1 (stepper rotation actuator), Kinesis Flipper, Kinesis KSP100...)",
-			"instruments": [],
-			"author": "Sebastien Weber",
+			"instruments": {
+				"Actuator" : ["Kinesis serie (tested on K10CR1 and Flipper)"],
+				"Viewer0D": ["Kinesis KPA101 Position Sensing Detector"]
+			},
+			"authors": ["Sebastien Weber"],
 			"contributors": [],
 			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_thorlabs"
 		},
@@ -69,20 +108,25 @@
 			"id": "ae911130b4a6816f16707abd25db7bcd6d92801358d37a5541bdca0c92a6900f",
 			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_physik_instrumente/archive/0.0.1.tar.gz",
 			"description": "Set of PyMoDAQ plugins for Actuators from Physik Instumente (All the ones compatible with the GCS2 commands as well as the old 32bits MMC controller...)",
-			"instruments": [],
-			"author": "Sebastien Weber",
+			"instruments": {
+				"Actuator" : ["All stages compatible with the GCS2 library",
+								"Old Stages using the 32 bits MMC dll"]
+			},
+			"authors": ["Sebastien Weber"],
 			"contributors": [],
 			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_physik_instrumente"
 		},
 		{
 			"plugin-name": "pymodaq_plugins_piezoconcept",
 			"display-name": "PiezoConcept",
-			"version": "0.0.1",
-			"id": "ad8e6ce57cb06adb0bb5f0b14e62e5a2c63c27b9d79d3c5baf660c26d5e8bbb6",
-			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_piezo_concept/archive/0.0.1.tar.gz",
+			"version": "0.0.2",
+			"id": "3ccdc960a25384f18a2a77d8b86e4100e2df6a2c8f020b479932dc3d7f2b3007",
+			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_piezoconcept/archive/0.0.2.tar.gz",
 			"description": "Set of PyMoDAQ plugins for Actuators from Piezoconcept (Tested on the Bio200 XY stage. Include a version of the controller firmware emulating functions from PhysikInstrumente)",
-			"instruments": [],
-			"author": "Sebastien Weber",
+			"instruments": {
+				"Actuator" : ["PiezoConcept stages (tested on BIO2.100) both using the usual serial commands and the ones derived from PI command set"]
+			},
+			"authors": ["Sebastien Weber"],
 			"contributors": [],
 			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_piezoconcept"
 		},
@@ -93,8 +137,12 @@
 			"id": "eb8c349bb16aa8c538b10617fb0af5bd8562c3f24e28a5c2a0f92e12fcdec18c",
 			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_smaract/archive/0.0.1.tar.gz",
 			"description": "Set of PyMoDAQ plugins for Actuators from Smaract (MCS_controller, ...)",
-			"instruments": [],
-			"author": "David Bresteau",
+			"instruments": {
+				"Actuator": [
+					"Actuators driven using the MCS controller and its library"
+				]
+			},
+			"authors": ["David Bresteau"],
 			"contributors": [],
 			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_smaract"
 		},
@@ -105,8 +153,11 @@
 			"id": "9f2ce447a5a400e3c9457877d1cc9e138906e053344d2b4c3bb3aa20e7de033a",
 			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_andor/archive/0.0.1.tar.gz",
 			"description": "Set of PyMoDAQ plugins for Andor Camera (CCD camera using SDK2, SCMOS cameras using SDK3...)",
-			"instruments": [],
-			"author": "Sebastien Weber",
+			"instruments": {
+				"Viewer1D": ["Shamrock series of spectrometer using the Andor CCD cameras"],
+				"Viewer2D": ["Andor CCD camera using the SDK2"]
+			},
+			"authors": ["Sebastien Weber"],
 			"contributors": [],
 			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_andor"
 		},
@@ -117,8 +168,10 @@
 			"id": "59c7d4bbede284fecf074bf1d32d7618c919107bd266710e492cf1db6f81308a",
 			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_picoquant/archive/0.0.1.tar.gz",
 			"description": "Set of PyMoDAQ plugins for Picoquant instruments (TimeHarp260, ...)",
-			"instruments": [],
-			"author": "Sebastien Weber",
+			"instruments": {
+				"Viewer1D": ["Timeharp 260 for photon counting and time tagging"]
+			},
+			"authors": ["Sebastien Weber"],
 			"contributors": [],
 			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_picoquant"
 		},
@@ -129,8 +182,10 @@
 			"id": "01817fe5388ab383e025c48466a84e16fabb3672533736bb1cb29c072a7a7b03",
 			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_horiba/archive/0.0.1.tar.gz",
 			"description": "Set of PyMoDAQ plugins for Horiba Instruments (Lapspec6TCP to communicate with labspec softaware using the AFM TCP/IP protocol)",
-			"instruments": [],
-			"author": "Sebastien Weber",
+			"instruments": {
+				"Viewer1D": ["Control of Labspec6 settings and acquisition using TCP/IP communication"]
+			},
+			"authors": ["Sebastien Weber"],
 			"contributors": [],
 			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_horiba"
 		},
@@ -140,9 +195,11 @@
 			"version": "0.0.1",
 			"id": "bf76f594875ef3b16cdc760499a3221e69eb0c5c0dc9b9105971f6d1325c257e",
 			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_flim/archive/0.0.1.tar.gz",
-			"description": "Set of PyMoDAQ plugins for Horiba Instruments (Lapspec6TCP to communicate with labspec softaware using the AFM TCP/IP protocol)",
-			"instruments": [],
-			"author": "Sebastien Weber",
+			"description": "Set of PyMoDAQ plugins for Fluorescence Lifetime Imaging Microscopy ",
+			"instruments": {
+				"ViewerND": ["FLIM using piezoconcept XY stage and picoquant timeharp TH260"]
+			},
+			"authors": ["Sebastien Weber"],
 			"contributors": [],
 			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_horiba"
 		},
@@ -153,13 +210,20 @@
 			"id": "ecb69225b7c0f74074bc5033f9c8c5568e5ee7968a08498bab6df1c583e157d5",
 			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_physical_measurements/archive/0.0.1.tar.gz",
 			"description": "Set of PyMoDAQ plugins for various physical measurements: multimeter, lockin, oscilloscope, indus cameras...",
-			"instruments": ["Pico-Amperemeter Keithley 648X Series, 6430 and 6514",
-				"Multimeter Keithley  2121",
-				"Lockin Amplifier Ametek 7270",
-				"LockIn Amplifier SR830"],
-
-			"author": "Sebastien Weber",
-			"contributors": [],
+			"instruments": {
+				"Viewer0D": ["Pico-Amperemeter Keithley 648X Series, 6430 and 6514",
+							"Multimeter Keithley  2121",
+							"Lockin Amplifier Ametek 7270",
+							"LockIn Amplifier SR830"],
+				"Viewer1D": ["Oscilloscope LecroyWaveRunner 6Zi",
+							"Oscilloscope Tektronix MDO Series",
+							"Picoscope"],
+				"Viewer2D": ["Webcams control using the opencv library",
+							"GeniCam compliant cameras",
+							"The Imaging Source TIS cameras"]
+			},
+			"authors": ["Sebastien Weber", "Damien Lodie"],
+			"contributors": ["David Bresteau", "Nicolas Bruyant"],
 			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_horiba"
 		}
     ]
