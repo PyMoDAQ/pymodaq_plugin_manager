@@ -207,8 +207,8 @@
 			"plugin-name": "pymodaq_plugins_physical_measurements",
 			"display-name": "Physical Measurements Hardware",
 			"version": "0.0.3",
-			"id": "aad070b94772b2bb877f14118194825df758b3d3f7fb3d647923d69d64cbeef0",
-			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_physical_measurements/archive/0.0.2.tar.gz",
+			"id": "",
+			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_physical_measurements/archive/0.0.3.tar.gz",
 			"description": "Set of PyMoDAQ plugins for various physical measurements: multimeter, lockin, oscilloscope, indus cameras...",
 			"instruments": {
 				"Viewer0D": ["Pico-Amperemeter Keithley 648X Series, 6430 and 6514",
