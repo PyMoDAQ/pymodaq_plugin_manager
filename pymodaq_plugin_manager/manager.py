@@ -227,7 +227,7 @@ class PluginManager(QtCore.QObject):
         msgBox.setDefaultButton(msgBox.Close)
         ret = msgBox.exec()
         if ret == msgBox.Close:
-            self.close()
+            self.quit()
         elif ret == msgBox.Reset:
             self.restart()
 

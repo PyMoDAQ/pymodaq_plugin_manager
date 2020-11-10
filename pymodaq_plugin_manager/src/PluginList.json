@@ -5,9 +5,9 @@
 		{
 			"plugin-name": "pymodaq_plugins",
 			"display-name": "Default",
-			"version": "2.0.0",
-			"id": "dd54aca79527d7968d31c078e7e5b0586373b71c065825690a12f7d5413584c4",
-			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins/archive/2.0.0.tar.gz",
+			"version": "3.0.0",
+			"id": "d1f66d6066e28d76335c40213ee6569ab5d52849e490a5475b39283e8e3d6a1f",
+			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins/archive/3.0.0.tar.gz",
 			"description": "Plugins initially developed with PyMoDAQ\r\nIncludes Mock plugins that are plugins of virtual instruments dedicated to code testing a new functionalities development. The list of included plugins can be found on https://docs.google.com/spreadsheets/d/1wfMfvLwTitZd2R2m1O5i6wVEaX1lJBahP2HUbxVdidg",
 			"instruments": {
 				"Actuator": [
