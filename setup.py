@@ -40,11 +40,13 @@ setupOpts = dict(
 setup(
     version=version.get_version(),
     packages=find_packages(),
+    include_package_data=True,
     install_requires=[
         'distlib',
         'jsonschema',
         'pytablewriter',
         'requests',
+        'yawrap',
         ],
     **setupOpts
 )

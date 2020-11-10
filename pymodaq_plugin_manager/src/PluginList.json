@@ -1,11 +1,11 @@
 {
 	"name": "pymodaq-pluginList",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"pymodaq-plugins": [
 		{
 			"plugin-name": "pymodaq_plugins",
 			"display-name": "Default",
-			"version": "3.0.0",
+			"version": "3.0.1",
 			"id": "d1f66d6066e28d76335c40213ee6569ab5d52849e490a5475b39283e8e3d6a1f",
 			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins/archive/3.0.0.tar.gz",
 			"description": "Plugins initially developed with PyMoDAQ\r\nIncludes Mock plugins that are plugins of virtual instruments dedicated to code testing a new functionalities development. The list of included plugins can be found on https://docs.google.com/spreadsheets/d/1wfMfvLwTitZd2R2m1O5i6wVEaX1lJBahP2HUbxVdidg",
@@ -206,7 +206,7 @@
 		{
 			"plugin-name": "pymodaq_plugins_physical_measurements",
 			"display-name": "Physical Measurements Hardware",
-			"version": "0.0.2",
+			"version": "0.0.3",
 			"id": "aad070b94772b2bb877f14118194825df758b3d3f7fb3d647923d69d64cbeef0",
 			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_physical_measurements/archive/0.0.2.tar.gz",
 			"description": "Set of PyMoDAQ plugins for various physical measurements: multimeter, lockin, oscilloscope, indus cameras...",

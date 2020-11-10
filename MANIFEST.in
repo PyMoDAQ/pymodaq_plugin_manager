@@ -1,1 +1,1 @@
-include README.rst
+include README.rst pymodaq_plugin_manager/src/*.json pymodaq_plugin_manager/src/*.schema pymodaq_plugin_manager/doc/*.md

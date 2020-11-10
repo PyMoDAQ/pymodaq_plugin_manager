@@ -232,12 +232,14 @@ class PluginManager(QtCore.QObject):
             self.restart()
 
     def do_subprocess(self, command):
-        with subprocess.Popen(command, stdout=subprocess.PIPE, stdin=sys.stdout,
+        with subprocess.Popen(command, stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.PIPE,
                               bufsize=1) as sp:
             for line in sp.stdout:
                 self.info_widget.insertPlainText(line.decode())
                 QtWidgets.QApplication.processEvents()
-
+            for line in sp.stderr:
+                self.info_widget.insertPlainText(line.decode())
+                QtWidgets.QApplication.processEvents()
 
     def update_model(self, plugin_choice):
         self.search_edit.textChanged.disconnect()
