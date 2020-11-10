@@ -207,7 +207,7 @@
 			"plugin-name": "pymodaq_plugins_physical_measurements",
 			"display-name": "Physical Measurements Hardware",
 			"version": "0.0.3",
-			"id": "",
+			"id": "4bd8c1f4ed210e5e3a84a314d5ea20f29f3485a41f56f7da58f1f786b3d28dd1",
 			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_physical_measurements/archive/0.0.3.tar.gz",
 			"description": "Set of PyMoDAQ plugins for various physical measurements: multimeter, lockin, oscilloscope, indus cameras...",
 			"instruments": {
