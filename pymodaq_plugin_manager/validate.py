@@ -184,6 +184,8 @@ def write_plugin_doc():
     header = ['Plugin Name', 'Authors', 'Version', 'Description']
     plugins_tmp = []
 
+    plugins.sort(key=lambda plugin: plugin['display-name'])
+
     for ind, plug in enumerate(plugins):
         tmp = []
         for k in header_keys:

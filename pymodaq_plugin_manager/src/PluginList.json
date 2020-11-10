@@ -1,6 +1,6 @@
 {
 	"name": "pymodaq-pluginList",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"pymodaq-plugins": [
 		{
 			"plugin-name": "pymodaq_plugins",
@@ -169,7 +169,7 @@
 			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_picoquant/archive/0.0.1.tar.gz",
 			"description": "Set of PyMoDAQ plugins for Picoquant instruments (TimeHarp260, ...)",
 			"instruments": {
-				"Viewer1D": ["Timeharp 260 for photon counting and time tagging"]
+				"Viewer1D": ["Timeharp TH260 for photon counting and time tagging"]
 			},
 			"authors": ["Sebastien Weber"],
 			"contributors": [],
@@ -206,9 +206,9 @@
 		{
 			"plugin-name": "pymodaq_plugins_physical_measurements",
 			"display-name": "Physical Measurements Hardware",
-			"version": "0.0.1",
-			"id": "ecb69225b7c0f74074bc5033f9c8c5568e5ee7968a08498bab6df1c583e157d5",
-			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_physical_measurements/archive/0.0.1.tar.gz",
+			"version": "0.0.2",
+			"id": "aad070b94772b2bb877f14118194825df758b3d3f7fb3d647923d69d64cbeef0",
+			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_physical_measurements/archive/0.0.2.tar.gz",
 			"description": "Set of PyMoDAQ plugins for various physical measurements: multimeter, lockin, oscilloscope, indus cameras...",
 			"instruments": {
 				"Viewer0D": ["Pico-Amperemeter Keithley 648X Series, 6430 and 6514",
@@ -225,6 +225,52 @@
 			"authors": ["Sebastien Weber", "Damien Lodie"],
 			"contributors": ["David Bresteau", "Nicolas Bruyant"],
 			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_horiba"
+		},
+		{
+			"plugin-name": "pymodaq_plugins_holoeye",
+			"display-name": "Holoeye",
+			"version": "0.0.2",
+			"id": "a3a63205dee749872a0ce3f5151a941d04b6780d57b57e771cf4bc5272141a1a",
+			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_holoeye/archive/0.0.2.tar.gz",
+			"description": "Set of PyMoDAQ plugins for Holoeye Spatial Light Modulator (SLM)",
+			"instruments": {
+				"Actuator": [
+					"Let you apply various phase accross the SLM (tested with the LC2012)"
+				]
+			},
+			"authors": ["Sebastien Weber"],
+			"contributors": [],
+			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_holoeye"
+		},
+		{
+			"plugin-name": "pymodaq_plugins_amplitude",
+			"display-name": "Amplitude Lasers",
+			"version": "0.0.2",
+			"id": "f8c262aedd985f3d3be90b28399caeda13a4855f99e68aa53ff640f7cab5e511",
+			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_amplitude/archive/0.0.1.tar.gz",
+			"description": "This repository contains a set of PyMoDAQ plugins for Amplitude Systems Lasers",
+			"instruments": {
+				"Viewer0D": [
+					"Let you control the laser settings and grab info on the laser status (tested on a Satsuma)"
+				]
+			},
+			"authors": ["Sebastien Weber"],
+			"contributors": [],
+			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_amplitude"
+		},
+		{
+			"plugin-name": "pymodaq_plugins_oceaninsight",
+			"display-name": "Ocean Insight (Optics)",
+			"version": "0.0.1",
+			"id": "02c9776f0cfba56a6987300fb88040a22fbac1ba66573445d239ef685eb12007",
+			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_oceaninsight/archive/0.0.1.tar.gz",
+			"description": "Set of PyMoDAQ plugins for OceanInsight (OceanOptics) spectrometers",
+			"instruments": {
+				"Viewer1D": ["Control of Spectrometer using the Omnidriver library (should be installed)"]
+			},
+			"authors": ["Sebastien Weber"],
+			"contributors": [],
+			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_oceaninsight"
 		}
-    ]
+	]
 }

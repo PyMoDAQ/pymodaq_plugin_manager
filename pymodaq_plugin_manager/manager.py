@@ -79,8 +79,9 @@ class FilterProxy(QtCore.QSortFilterProxyModel):
                                                     f'pymodaq_plugins_{plugin_name}')
             match = self.textRegExp.pattern().lower() in plugin_name.lower()
             if not not plugin:
-                match = self.textRegExp.pattern() in plugin['description'].lower() or \
-                any(self.textRegExp.pattern() in plug.lower() for plug in plugin['instruments'])
+                match = match or self.textRegExp.pattern() in plugin['description'].lower()
+                for plug in plugin['instruments']:
+                    match = match | any(self.textRegExp.pattern().lower() in p.lower() for p in plugin['instruments'][plug])
             return match
         except Exception as e:
             print(e)
@@ -271,25 +272,29 @@ class PluginManager(QtCore.QObject):
                 plugin = self.plugins_update[index.model().mapToSource(index).row()]
             elif self.plugin_choice.currentText() == 'Installed':
                 plugin = self.plugins_installed[index.model().mapToSource(index).row()]
-            self.info_widget.insertPlainText(plugin['description'])
+            doc, tag, text = Doc().tagtext()
+
+            with tag('p'):
+                text(plugin['description'])
 
             if not not plugin['authors']:
-                self.info_widget.insertPlainText('\r\n\r\nAuthors:')
-                doc, tag, text = Doc().tagtext()
+                text('Authors:')
                 with tag('ul'):
                     for inst in plugin['authors']:
                         with tag('li'):
                             text(inst)
-                self.info_widget.insertHtml(doc.getvalue())
 
             if not not plugin['instruments']:
-                self.info_widget.insertPlainText('\r\n\r\nThis package include plugins for the instruments listed below:')
-                doc, tag, text = Doc().tagtext()
-                with tag('ul'):
-                    for inst in plugin['instruments']:
-                        with tag('li'):
-                            text(inst)
-                self.info_widget.insertHtml(doc.getvalue())
+                with tag('p'):
+                    text('This package include plugins for the instruments listed below:')
+                for inst in plugin['instruments']:
+                    with tag('p'):
+                        text(f'{inst}:')
+                    with tag('ul'):
+                        for instt in plugin['instruments'][inst]:
+                            with tag('li'):
+                                text(instt)
+            self.info_widget.insertHtml(doc.getvalue())
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
