@@ -235,18 +235,13 @@ def write_plugin_doc():
         margin=1
     )
     writer.dump(base_path.joinpath('doc/PluginList.md'))
+    writer.dump(base_path.parent.joinpath('README.md'))
 
-    writer = RstSimpleTableWriter(table_name="PyMoDAQ Plugins",
-        headers=header,
-        value_matrix=plugins_tmp,
-        margin=1
-    )
-
-    with open(base_path.parent.joinpath('README_base.rst'), 'r') as f:
-        content = f.read()
-    with open(base_path.parent.joinpath('README.rst'), 'w') as f:
-        content += writer.dumps()
-        f.write(content)
+    # with open(base_path.parent.joinpath('README_base.md'), 'r') as f:
+    #     content = f.read()
+    # with open(base_path.parent.joinpath('README.md'), 'w') as f:
+    #     content += writer.dumps()
+    #     f.write(content)
 
 if __name__ == '__main__':
     #check_plugin_entries()
