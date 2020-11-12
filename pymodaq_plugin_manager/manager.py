@@ -102,7 +102,7 @@ class PluginManager(QtCore.QObject):
         self.parent.setLayout(QtWidgets.QVBoxLayout())
         self.standalone = standalone
 
-        self.parent.setMinimumSize(1000, 500)
+        #self.parent.setMinimumSize(1000, 500)
 
         self.plugins_available, self.plugins_installed, self.plugins_update = get_plugins()
 
@@ -299,7 +299,8 @@ class PluginManager(QtCore.QObject):
                                 text(instt)
             self.info_widget.insertHtml(doc.getvalue())
 
-if __name__ == '__main__':
+
+def main():
     app = QtWidgets.QApplication(sys.argv)
     win = QtWidgets.QMainWindow()
     win.setWindowTitle('PyMoDAQ Plugin Manager')
@@ -308,3 +309,7 @@ if __name__ == '__main__':
     prog = PluginManager(widget, standalone=True)
     win.show()
     sys.exit(app.exec_())
+
+
+if __name__ == '__main__':
+    main()

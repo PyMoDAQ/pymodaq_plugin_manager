@@ -39,13 +39,24 @@ def find_dict_in_list_from_key_val(dicts, key, value):
     return None
 
 
+def get_pypi_pymodaq():
+    versions = []
+    for ss in pypi_index.search('pymodaq'):
+        if 'pymodaq' == ss['name']:
+            d = s.locate(ss['name'])
+            if d is not None:
+                versions.append({"name": ss['name'],
+                                 "version": ss['version'],
+                                 })
+    return versions
+
 def get_pypi_plugins():
     plugins = []
     for ss in pypi_index.search('pymodaq'):
         if 'pymodaq-plugin' in ss['name']:
             d = s.locate(ss['name'])
             if d is not None:
-                plugins.append([{"plugin-name": ss['name'],
+                plugins.append({"plugin-name": ss['name'],
                                  "display-name": ss['name'],
                                  "version": ss['version'],
                                  "id": '',
@@ -53,7 +64,7 @@ def get_pypi_plugins():
                                  "description": ss['summary'],
                                  "author": '',
                                  "homepage": '',
-                                 }])
+                                 })
     return plugins
 
 
@@ -227,5 +238,7 @@ def write_plugin_doc():
 
 
 if __name__ == '__main__':
-    check_plugin_entries()
+    #check_plugin_entries()
     write_plugin_doc()
+    versions = get_pypi_pymodaq()
+    import pymodaq_plugin_manager.version

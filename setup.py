@@ -41,6 +41,7 @@ setup(
     version=version.get_version(),
     packages=find_packages(),
     include_package_data=True,
+    entry_points={'console_scripts': ['plugin_manager=pymodaq_plugin_manager.manager:main',]},
     install_requires=[
         'distlib',
         'jsonschema',

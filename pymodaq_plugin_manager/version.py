@@ -7,9 +7,12 @@ which in turn needs access to this version information.)
 """
 from subprocess import Popen, PIPE
 from os.path import abspath, dirname
+from packaging import version as version_mod
+from .validate import validate_json_plugin_list
 
+vers = version_mod.parse(validate_json_plugin_list()['version'])
 
-VERSION = (0, 0, 6, 'final', 0)
+VERSION = (vers.major, vers.minor, vers.micro, 'final', 0)
 
 
 
