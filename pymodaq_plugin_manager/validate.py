@@ -10,7 +10,7 @@ from distlib.index import PackageIndex
 from distlib.locators import SimpleScrapingLocator
 from pathlib import Path
 #using pip directly https://pip.pypa.io/en/latest/reference/pip_install/#git
-from pytablewriter import MarkdownTableWriter
+from pytablewriter import MarkdownTableWriter, RstSimpleTableWriter
 from yawrap import Doc
 from pymodaq.daq_utils import daq_utils as utils
 
@@ -236,6 +236,17 @@ def write_plugin_doc():
     )
     writer.dump(base_path.joinpath('doc/PluginList.md'))
 
+    writer = RstSimpleTableWriter(table_name="PyMoDAQ Plugins",
+        headers=header,
+        value_matrix=plugins_tmp,
+        margin=1
+    )
+
+    with open(base_path.parent.joinpath('README_base.rst'), 'r') as f:
+        content = f.read()
+    with open(base_path.parent.joinpath('README.rst'), 'w') as f:
+        content += writer.dumps()
+        f.write(content)
 
 if __name__ == '__main__':
     #check_plugin_entries()
