@@ -12,7 +12,7 @@ except ImportError:
 
 version = importlib.import_module('.version', 'pymodaq_plugin_manager')
 
-with open('README.md') as fd:
+with open('README_base.md') as fd:
     long_description = fd.read()
 
 setupOpts = dict(

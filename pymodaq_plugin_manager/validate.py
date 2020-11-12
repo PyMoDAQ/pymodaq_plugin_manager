@@ -192,7 +192,7 @@ def write_plugin_doc():
     base_path = Path(__file__).parent
 
     header_keys = ['display-name', 'authors', 'version', 'description']
-    header = ['Repo Name', 'Authors', 'Version', 'Description']
+    header = ['Repo Name', 'Authors', 'Versiopluginn', 'Description']
     plugins_tmp = []
 
     plugins.sort(key=lambda plugin: plugin['display-name'])

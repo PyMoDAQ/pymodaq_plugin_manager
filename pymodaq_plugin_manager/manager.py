@@ -71,12 +71,12 @@ class FilterProxy(QtCore.QSortFilterProxyModel):
     def filterAcceptsRow(self, sourcerow, parent_index):
         plugin_index = self.sourceModel().index(sourcerow, 0, parent_index)
         try:
-            plugin_name = self.sourceModel().data(plugin_index)
-            plugin = find_dict_in_list_from_key_val(self.sourceModel().plugins, 'plugin-name',
-                                                    f'pymodaq_plugins_{plugin_name}')
-            match = self.textRegExp.pattern().lower() in plugin_name.lower()
+            plugin = self.sourceModel().plugins[plugin_index.row()]
+            match = False
             if not not plugin:
-                match = match or self.textRegExp.pattern() in plugin['description'].lower()
+                match = match or self.textRegExp.pattern().lower() in plugin['plugin-name'].lower()
+                match = match or self.textRegExp.pattern().lower() in plugin['display-name'].lower()
+                match = match or self.textRegExp.pattern().lower() in plugin['description'].lower()
                 for plug in plugin['instruments']:
                     match = match | any(self.textRegExp.pattern().lower() in p.lower() for p in plugin['instruments'][plug])
             return match
