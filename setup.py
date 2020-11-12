@@ -10,6 +10,9 @@ except ImportError:
     from distutils.core import setup
     from distutils.command import install
 
+from pymodaq_plugin_manager.validate import write_plugin_doc
+write_plugin_doc()
+
 version = importlib.import_module('.version', 'pymodaq_plugin_manager')
 
 with open('README_base.md') as fd:
