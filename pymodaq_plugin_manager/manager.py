@@ -7,6 +7,13 @@ from pymodaq_plugin_manager.validate import validate_json_plugin_list, get_plugi
     find_dict_in_list_from_key_val
 import numpy as np
 from yawrap import Doc
+from pymodaq_plugin_manager.validate import get_pypi_pymodaq
+from packaging import version as version_mod
+from pymodaq_plugin_manager.version import get_version
+from pymodaq.daq_utils import daq_utils as utils
+logger = utils.set_logger(utils.get_module_name(__file__))
+config = utils.load_config()
+
 
 class TableModel(gutils.TableModel):
 
@@ -108,6 +115,35 @@ class PluginManager(QtCore.QObject):
 
         self.setup_UI()
 
+
+        if config['general']['check_version']:
+            self.check_version(show=False)
+
+    def check_version(self, show=True):
+        try:
+            current_version = version_mod.parse(get_version())
+            available_version = [version_mod.parse(ver['version']) for ver in get_pypi_pymodaq('pymodaq-plugin-manager')]
+            msgBox = QtWidgets.QMessageBox()
+            if max(available_version) > current_version:
+                msgBox.setText(f"A new version of PyMoDAQ Plugin Manager is available, {str(max(available_version))}!")
+                msgBox.setInformativeText("Do you want to install it?")
+                msgBox.setStandardButtons(msgBox.Ok | msgBox.Cancel)
+                msgBox.setDefaultButton(msgBox.Ok)
+
+                ret = msgBox.exec()
+
+                if ret == msgBox.Ok:
+                    command = [sys.executable, '-m', 'pip', 'install', f'pymodaq-plugin-manager=={str(max(available_version))}']
+                    subprocess.Popen(command)
+
+                self.restart()
+            else:
+                if show:
+                    msgBox.setText(f"Your version of PyMoDAQ Plugin Manager, {str(current_version)}, is up to date!")
+                    ret = msgBox.exec()
+        except Exception as e:
+            logger.exception("Error while checking the available PyMoDAQ version")
+
     def quit(self):
         self.parent.parent().close()
         self.quit_signal.emit()
@@ -126,9 +162,15 @@ class PluginManager(QtCore.QObject):
         self.plugin_choice = QtWidgets.QComboBox()
         self.plugin_choice.addItems(['Available', 'Update', 'Installed'])
         self.plugin_choice.currentTextChanged.connect(self.update_model)
+
+        self.check_updates_pb = QtWidgets.QPushButton('Check Updates')
+        self.check_updates_pb.clicked.connect(lambda: self.check_version(True))
+
         self.search_edit = QtWidgets.QLineEdit()
         self.search_edit.setPlaceholderText("Plugin name")
         settings_widget.layout().addWidget(self.plugin_choice)
+        settings_widget.layout().addStretch()
+        settings_widget.layout().addWidget(self.check_updates_pb)
         settings_widget.layout().addStretch()
         settings_widget.layout().addWidget(QtWidgets.QLabel('Search:'))
         settings_widget.layout().addWidget(self.search_edit)

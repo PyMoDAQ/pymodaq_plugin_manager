@@ -39,10 +39,10 @@ def find_dict_in_list_from_key_val(dicts, key, value):
     return None
 
 
-def get_pypi_pymodaq():
+def get_pypi_pymodaq(search_string='pymodaq'):
     versions = []
-    for ss in pypi_index.search('pymodaq'):
-        if 'pymodaq' == ss['name']:
+    for ss in pypi_index.search(search_string):
+        if search_string == ss['name']:
             d = s.locate(ss['name'])
             if d is not None:
                 versions.append({"name": ss['name'],
