@@ -136,7 +136,7 @@ class PluginManager(QtCore.QObject):
                     command = [sys.executable, '-m', 'pip', 'install', f'pymodaq-plugin-manager=={str(max(available_version))}']
                     subprocess.Popen(command)
 
-                self.restart()
+                    self.restart()
             else:
                 if show:
                     msgBox.setText(f"Your version of PyMoDAQ Plugin Manager, {str(current_version)}, is up to date!")
