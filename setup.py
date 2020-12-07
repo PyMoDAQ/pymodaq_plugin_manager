@@ -1,19 +1,8 @@
+from setuptools import setup, find_packages
+import json
 
-import importlib
-import sys
-try:
-    import setuptools
-    from setuptools import setup, find_packages
-    from setuptools.command import install
-except ImportError:
-    sys.stderr.write("Warning: could not import setuptools; falling back to distutils.\n")
-    from distutils.core import setup
-    from distutils.command import install
-
-from pymodaq_plugin_manager.validate import write_plugin_doc
-write_plugin_doc()
-
-version = importlib.import_module('.version', 'pymodaq_plugin_manager')
+with open('./src/pymodaq_plugin_manager/data/PluginList.json') as f:
+    version = json.load(f)['version']
 
 with open('README_base.md') as fd:
     long_description = fd.read()
@@ -41,8 +30,9 @@ setupOpts = dict(
 
 
 setup(
-    version=version.get_version(),
-    packages=find_packages(),
+    version=version,
+    packages=find_packages(where='./src'),
+    package_dir={'': 'src'},
     include_package_data=True,
     entry_points={'console_scripts': ['plugin_manager=pymodaq_plugin_manager.manager:main',]},
     install_requires=[

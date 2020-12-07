@@ -133,7 +133,7 @@ def get_plugins():
 
 
 def validate_json_plugin_list():
-    base_path = Path(__file__).parent.joinpath('src')
+    base_path = Path(__file__).parent.joinpath('data')
     with open(str(base_path.joinpath('plugin_list.schema'))) as f:
         schema = json.load(f)
     with open(str(base_path.joinpath('PluginList.json'))) as f:
@@ -234,14 +234,14 @@ def write_plugin_doc():
         value_matrix=plugins_tmp,
         margin=1
     )
-    writer.dump(base_path.joinpath('doc/PluginList.md'))
+    writer.dump(base_path.parent.parent.joinpath('doc/PluginList.md'))
 
 
-    with open(base_path.parent.joinpath('README_base.md'), 'r') as f:
+    with open(base_path.parent.parent.joinpath('README_base.md'), 'r') as f:
         content = f.read()
         content += '\r\n'
 
-    with open(base_path.parent.joinpath('README.md'), 'w') as f:
+    with open(base_path.parent.parent.joinpath('README.md'), 'w') as f:
         content += writer.dumps()
         f.write(content)
 
@@ -249,4 +249,5 @@ if __name__ == '__main__':
     #check_plugin_entries()
     write_plugin_doc()
     versions = get_pypi_pymodaq()
-    import pymodaq_plugin_manager.version
+    from pymodaq_plugin_manager import __version__ as version
+    print(version)
