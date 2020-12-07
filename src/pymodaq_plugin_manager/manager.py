@@ -2,6 +2,7 @@ import sys
 import subprocess
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import Qt, QVariant, pyqtSlot, pyqtSignal
+from PyQt5.QtGui import QTextCursor
 from pymodaq.daq_utils import gui_utils as gutils
 from pymodaq_plugin_manager.validate import validate_json_plugin_list, get_plugins, get_plugin, get_check_repo,\
     find_dict_in_list_from_key_val
@@ -9,8 +10,9 @@ import numpy as np
 from yawrap import Doc
 from pymodaq_plugin_manager.validate import get_pypi_pymodaq
 from packaging import version as version_mod
-from pymodaq_plugin_manager.version import get_version
+from pymodaq_plugin_manager import __version__ as version
 from pymodaq.daq_utils import daq_utils as utils
+
 logger = utils.set_logger(utils.get_module_name(__file__))
 config = utils.load_config()
 
@@ -121,7 +123,7 @@ class PluginManager(QtCore.QObject):
 
     def check_version(self, show=True):
         try:
-            current_version = version_mod.parse(get_version())
+            current_version = version_mod.parse(version)
             available_version = [version_mod.parse(ver['version']) for ver in get_pypi_pymodaq('pymodaq-plugin-manager')]
             msgBox = QtWidgets.QMessageBox()
             if max(available_version) > current_version:
@@ -275,14 +277,20 @@ class PluginManager(QtCore.QObject):
             self.restart()
 
     def do_subprocess(self, command):
-        with subprocess.Popen(command, stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.PIPE,
-                              bufsize=1) as sp:
-            for line in sp.stdout:
-                self.info_widget.insertPlainText(line.decode())
+        with subprocess.Popen(command, stdout=subprocess.PIPE, stdin=sys.stdout, stderr=sys.stdout,
+                              universal_newlines=True) as sp:
+            while True:
+                self.info_widget.moveCursor(QTextCursor.End)
+                self.info_widget.insertPlainText(sp.stdout.readline())
+                self.info_widget.moveCursor(QTextCursor.End)
                 QtWidgets.QApplication.processEvents()
-            for line in sp.stderr:
-                self.info_widget.insertPlainText(line.decode())
-                QtWidgets.QApplication.processEvents()
+                return_code = sp.poll()
+                if return_code is not None:
+                    self.info_widget.insertPlainText(str(return_code))
+                    for output in sp.stdout.readlines():
+                        print(output.strip())
+                    break
+
 
     def update_model(self, plugin_choice):
         self.search_edit.textChanged.disconnect()
@@ -304,7 +312,7 @@ class PluginManager(QtCore.QObject):
     def item_clicked(self, index):
         if index.isValid():
             self.display_info(index)
-            self.action_button.setEnabled(np.any(index.model().sourceModel().selected))
+            self.action_button.setEnabled(bool(np.any(index.model().sourceModel().selected)))
 
 
 
