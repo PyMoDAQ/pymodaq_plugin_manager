@@ -7,16 +7,17 @@ import pkg_resources
 from jsonschema import validate
 import json
 from distlib.index import PackageIndex
-from distlib.locators import SimpleScrapingLocator
+from distlib.locators import PyPIJSONLocator
 from pathlib import Path
 #using pip directly https://pip.pypa.io/en/latest/reference/pip_install/#git
 from pytablewriter import MarkdownTableWriter, RstSimpleTableWriter
 from yawrap import Doc
 from pymodaq.daq_utils import daq_utils as utils
-
+import requests
+from lxml import html
 pypi_index = PackageIndex()
-s = SimpleScrapingLocator(pypi_index.url)
 logger = utils.set_logger('plugin_manager', add_handler=False, base_logger=False, add_to_console=True)
+from copy import deepcopy
 
 def find_dict_in_list_from_key_val(dicts, key, value):
     """ lookup within a list of dicts. Look for the dict within the list which has the correct key, value pair
@@ -38,33 +39,35 @@ def find_dict_in_list_from_key_val(dicts, key, value):
                 return dict
     return None
 
+def get_pypi_package_list(match_name=None):
+    simple_package = requests.get('https://pypi.org/simple/')
+    tree = html.fromstring(simple_package.text)
+    packages = []
+    for child in tree.body:
+        if match_name is None or match_name in child.text:
+            packages.append(child.text)
+    return packages
 
-def get_pypi_pymodaq(search_string='pymodaq'):
-    versions = []
-    for ss in pypi_index.search(search_string):
-        if search_string == ss['name']:
-            d = s.locate(ss['name'])
-            if d is not None:
-                versions.append({"name": ss['name'],
-                                 "version": ss['version'],
-                                 })
-    return versions
+def get_pypi_pymodaq(package_name='pymodaq-plugins'):
+    metadata = dict([])
+    response_dict = requests.get(f'https://pypi.python.org/pypi/{package_name}/json').json()
+    metadata['versions'] = list(response_dict['releases'].keys())
+    metadata['author'] = response_dict['info']['author']
+    metadata['description'] = response_dict['info']['description']
+    metadata['project_url'] = response_dict['info']['project_url']
+    metadata['version'] = response_dict['info']['version']
+    return metadata
 
 def get_pypi_plugins():
     plugins = []
-    for ss in pypi_index.search('pymodaq'):
-        if 'pymodaq-plugin' in ss['name']:
-            d = s.locate(ss['name'])
-            if d is not None:
-                plugins.append({"plugin-name": ss['name'],
-                                 "display-name": ss['name'],
-                                 "version": ss['version'],
-                                 "id": '',
-                                 "repository": d.download_url,
-                                 "description": ss['summary'],
-                                 "author": '',
-                                 "homepage": '',
-                                 })
+    for package in get_pypi_package_list('pymodaq-plugins'):
+        metadata = get_pypi_pymodaq(package)
+        plugin = {'plugin-name': package.replace('-', '_'), 'display-name': package.replace('-', '_'),
+                  'version': metadata['version'],
+                  'id': '', 'repository': '', 'description': metadata['description'],
+                  'instruments': '', 'authors': [metadata['author']], 'contributors': [],
+                  'homepage': metadata['project_url']}
+        plugins.append(plugin)
     return plugins
 
 
@@ -110,18 +113,23 @@ def get_check_repo(plugin_dict):
 
 
 
-def get_plugins():
-    plugins_available = get_plugins_from_json()
+def get_plugins(json=False):
+    if json:
+        plugins_available = get_plugins_from_json()
+    else:
+        plugins_available = get_pypi_plugins()
+
+    plugins = deepcopy(plugins_available)
     plugins_installed_init = [{'plugin-name': entry.module_name,
                           'version': entry.dist.version} for entry in pkg_resources.iter_entry_points('pymodaq.plugins')]
     plugins_installed = []
     for plug in plugins_installed_init:
         d = find_dict_in_list_from_key_val(plugins_available, 'plugin-name', plug['plugin-name'])
-        d.update(plug)
-        plugins_installed.append(d)
-        plugins_available.pop(plugins_available.index(d))
+        if d is not None:
+            d.update(plug)
+            plugins_installed.append(d)
+            plugins_available.pop(plugins_available.index(d))
 
-    plugins = get_plugins_from_json()
     plugins_update = []
     for plug in plugins_installed:
         d = find_dict_in_list_from_key_val(plugins, 'plugin-name', plug['plugin-name'])
@@ -247,7 +255,8 @@ def write_plugin_doc():
 
 if __name__ == '__main__':
     #check_plugin_entries()
-    write_plugin_doc()
-    versions = get_pypi_pymodaq()
-    from pymodaq_plugin_manager import __version__ as version
-    print(version)
+    # write_plugin_doc()
+    # versions = get_pypi_pymodaq()
+    # from pymodaq_plugin_manager import __version__ as version
+    # print(version)
+    print(get_pypi_package_list('pymodaq-plugins'))

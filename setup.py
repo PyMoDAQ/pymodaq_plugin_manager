@@ -41,6 +41,7 @@ setup(
         'pytablewriter',
         'requests',
         'yawrap',
+        'lxml',
         ],
     **setupOpts
 )

@@ -12,6 +12,7 @@ from pymodaq_plugin_manager.validate import get_pypi_pymodaq
 from packaging import version as version_mod
 from pymodaq_plugin_manager import __version__ as version
 from pymodaq.daq_utils import daq_utils as utils
+from readme_renderer.rst import render
 
 logger = utils.set_logger(utils.get_module_name(__file__))
 config = utils.load_config()
@@ -67,7 +68,6 @@ class TableModel(gutils.TableModel):
                     return True
         return False
 
-
 class FilterProxy(QtCore.QSortFilterProxyModel):
 
     def __init__(self, parent=None):
@@ -97,9 +97,6 @@ class FilterProxy(QtCore.QSortFilterProxyModel):
         self.textRegExp.setPattern(regexp)
         self.invalidateFilter()
 
-
-
-
 class PluginManager(QtCore.QObject):
 
     quit_signal = pyqtSignal()
@@ -113,10 +110,9 @@ class PluginManager(QtCore.QObject):
 
         #self.parent.setMinimumSize(1000, 500)
 
-        self.plugins_available, self.plugins_installed, self.plugins_update = get_plugins()
+        self.plugins_available, self.plugins_installed, self.plugins_update = get_plugins(False)
 
         self.setup_UI()
-
 
         if config['general']['check_version']:
             self.check_version(show=False)
@@ -124,7 +120,8 @@ class PluginManager(QtCore.QObject):
     def check_version(self, show=True):
         try:
             current_version = version_mod.parse(version)
-            available_version = [version_mod.parse(ver['version']) for ver in get_pypi_pymodaq('pymodaq-plugin-manager')]
+            available_version = [version_mod.parse(ver['version']) for ver in
+                                 get_pypi_pymodaq('pymodaq-plugin-manager')['versions']]
             msgBox = QtWidgets.QMessageBox()
             if max(available_version) > current_version:
                 msgBox.setText(f"A new version of PyMoDAQ Plugin Manager is available, {str(max(available_version))}!")
@@ -325,29 +322,30 @@ class PluginManager(QtCore.QObject):
                 plugin = self.plugins_update[index.model().mapToSource(index).row()]
             elif self.plugin_choice.currentText() == 'Installed':
                 plugin = self.plugins_installed[index.model().mapToSource(index).row()]
-            doc, tag, text = Doc().tagtext()
-
-            with tag('p'):
-                text(plugin['description'])
-
-            if not not plugin['authors']:
-                text('Authors:')
-                with tag('ul'):
-                    for inst in plugin['authors']:
-                        with tag('li'):
-                            text(inst)
-
-            if not not plugin['instruments']:
-                with tag('p'):
-                    text('This package include plugins for the instruments listed below:')
-                for inst in plugin['instruments']:
-                    with tag('p'):
-                        text(f'{inst}:')
-                    with tag('ul'):
-                        for instt in plugin['instruments'][inst]:
-                            with tag('li'):
-                                text(instt)
-            self.info_widget.insertHtml(doc.getvalue())
+            # doc, tag, text = Doc().tagtext()
+            #
+            # with tag('p'):
+            #     text(plugin['description'])
+            #
+            # if not not plugin['authors']:
+            #     text('Authors:')
+            #     with tag('ul'):
+            #         for inst in plugin['authors']:
+            #             with tag('li'):
+            #                 text(inst)
+            #
+            # if not not plugin['instruments']:
+            #     with tag('p'):
+            #         text('This package include plugins for the instruments listed below:')
+            #     for inst in plugin['instruments']:
+            #         with tag('p'):
+            #             text(f'{inst}:')
+            #         with tag('ul'):
+            #             for instt in plugin['instruments'][inst]:
+            #                 with tag('li'):
+            #                     text(instt)
+            # self.info_widget.insertHtml(doc.getvalue())
+            self.info_widget.insertHtml(render(plugin['description']))
 
 
 def main():
