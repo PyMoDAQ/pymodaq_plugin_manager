@@ -120,7 +120,7 @@ class PluginManager(QtCore.QObject):
     def check_version(self, show=True):
         try:
             current_version = version_mod.parse(version)
-            available_version = [version_mod.parse(ver['version']) for ver in
+            available_version = [version_mod.parse(ver) for ver in
                                  get_pypi_pymodaq('pymodaq-plugin-manager')['versions']]
             msgBox = QtWidgets.QMessageBox()
             if max(available_version) > current_version:
