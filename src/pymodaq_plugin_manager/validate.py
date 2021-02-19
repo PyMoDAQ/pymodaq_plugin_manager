@@ -232,8 +232,8 @@ def write_plugin_doc():
     plugins = get_pypi_plugins(browse_pypi=True)
     base_path = Path(__file__).parent
 
-    header_keys = ['display-name', 'authors', 'version', 'description']
-    header = ['Repo Name', 'Authors', 'Version plugin', 'Description']
+    header_keys = ['display-name', 'authors', 'version', ]
+    header = ['Repo Name', 'Authors', 'Version plugin', ]
     plugins_tmp = []
 
     plugins.sort(key=lambda plugin: plugin['display-name'])
