@@ -4,7 +4,7 @@ import json
 with open('./src/pymodaq_plugin_manager/data/PluginList.json') as f:
     version = json.load(f)['version']
 
-with open('README_base.rst') as fd:
+with open('README_base.md') as fd:
     long_description = fd.read()
 
 setupOpts = dict(

@@ -269,7 +269,7 @@ def write_plugin_doc():
                 tmp.append(plug[k])
         plugins_tmp.append(tmp)
 
-    writer = RstSimpleTableWriter(
+    writer = MarkdownTableWriter(
         table_name="PyMoDAQ Plugins",
         headers=header,
         value_matrix=plugins_tmp,
@@ -278,11 +278,11 @@ def write_plugin_doc():
     writer.dump(base_path.parent.parent.joinpath('doc/PluginList.md'))
 
 
-    with open(base_path.parent.parent.joinpath('README_base.rst'), 'r') as f:
+    with open(base_path.parent.parent.joinpath('README_base.md'), 'r') as f:
         content = f.read()
         content += '\r\n'
 
-    with open(base_path.parent.parent.joinpath('README.rst'), 'w') as f:
+    with open(base_path.parent.parent.joinpath('README.md'), 'w') as f:
         content += writer.dumps()
         f.write(content)
 
