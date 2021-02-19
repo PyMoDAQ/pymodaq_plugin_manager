@@ -247,17 +247,20 @@ class PluginManager(QtCore.QObject):
         self.info_widget.clear()
         if ret == msgBox.Ok:
             for plug in plugins:
-                plugin_dict = get_plugin(plug)
+                # plugin_dict = get_plugin(plug)
                 if self.plugin_choice.currentText() == 'Available' or self.plugin_choice.currentText() == 'Update':
-                    rep = get_check_repo(plugin_dict)
-                    if rep is None:
-                        command = [sys.executable, '-m', 'pip', 'install', plugin_dict['repository']]
+                    if self.plugin_choice.currentText() == 'Available':
+                        plugin_dict = find_dict_in_list_from_key_val(self.plugins_available, 'plugin-name', plug)
+                    else:
+                        plugin_dict = find_dict_in_list_from_key_val(self.plugins_update, 'plugin-name', plug)
+                    if plugin_dict is not None:
+                        command = [sys.executable, '-m', 'pip', 'install', f'{plug}=={plugin_dict["version"]}']
                         self.do_subprocess(command)
                     else:
-                        self.info_widget.insertPlainText(rep)
-
+                        self.info_widget.insertPlainText(f'Plugin {plug} not found!')
 
                 elif self.plugin_choice.currentText() == 'Installed':
+                    plugin_dict = find_dict_in_list_from_key_val(self.plugins_installed, 'plugin-name', plug)
                     command = [sys.executable, '-m', 'pip', 'uninstall', '--yes', plugin_dict['plugin-name']]
                     self.do_subprocess(command)
 

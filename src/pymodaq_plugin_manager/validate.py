@@ -15,9 +15,12 @@ from yawrap import Doc
 from pymodaq.daq_utils import daq_utils as utils
 import requests
 from lxml import html
+from copy import deepcopy
+import re
+
 pypi_index = PackageIndex()
 logger = utils.set_logger('plugin_manager', add_handler=False, base_logger=False, add_to_console=True)
-from copy import deepcopy
+
 
 def find_dict_in_list_from_key_val(dicts, key, value):
     """ lookup within a list of dicts. Look for the dict within the list which has the correct key, value pair
@@ -49,25 +52,39 @@ def get_pypi_package_list(match_name=None):
     return packages
 
 def get_pypi_pymodaq(package_name='pymodaq-plugins'):
-    metadata = dict([])
-    response_dict = requests.get(f'https://pypi.python.org/pypi/{package_name}/json').json()
-    metadata['versions'] = list(response_dict['releases'].keys())
-    metadata['author'] = response_dict['info']['author']
-    metadata['description'] = response_dict['info']['description']
-    metadata['project_url'] = response_dict['info']['project_url']
-    metadata['version'] = response_dict['info']['version']
-    return metadata
+    metadata = None
+    rep = requests.get(f'https://pypi.python.org/pypi/{package_name}/json')
+    if rep.status_code != 404:
+        response_dict = rep.json()
+        metadata = dict([])
+        metadata['versions'] = list(response_dict['releases'].keys())
+        metadata['author'] = response_dict['info']['author']
+        metadata['description'] = response_dict['info']['description']
+        metadata['project_url'] = response_dict['info']['project_url']
+        metadata['version'] = response_dict['info']['version']
+        return metadata
 
-def get_pypi_plugins():
+
+def get_pypi_plugins(browse_pypi=False):
     plugins = []
-    for package in get_pypi_package_list('pymodaq-plugins'):
+    if browse_pypi:
+        packages = get_pypi_package_list('pymodaq-plugins')
+    else:
+        packages = [plug['plugin-name'] for plug in get_plugins_from_json()]
+    for package in packages:
         metadata = get_pypi_pymodaq(package)
-        plugin = {'plugin-name': package.replace('-', '_'), 'display-name': package.replace('-', '_'),
-                  'version': metadata['version'],
-                  'id': '', 'repository': '', 'description': metadata['description'],
-                  'instruments': '', 'authors': [metadata['author']], 'contributors': [],
-                  'homepage': metadata['project_url']}
-        plugins.append(plugin)
+        if metadata is not None:
+            title = metadata['description'].split('\n')[0]
+            if '(' in title and ')' in title:
+                display_name = re.search(r'\((.*?)\)', title).group(1)
+            else:
+                display_name = title
+            plugin = {'plugin-name': package.replace('-', '_'), 'display-name': display_name,
+                      'version': metadata['version'],
+                      'id': '', 'repository': '', 'description': metadata['description'],
+                      'instruments': '', 'authors': [metadata['author']], 'contributors': [],
+                      'homepage': metadata['project_url']}
+            plugins.append(plugin)
     return plugins
 
 
@@ -112,12 +129,28 @@ def get_check_repo(plugin_dict):
         logger.info(f'SHA256 is Ok')
 
 
+def get_plugins(from_json=False, browse_pypi=True):
+    """get PyMoDAQ plugins
 
-def get_plugins(json=False):
-    if json:
+    Parameters
+    ----------
+    from_json: (bool) if True get the plugins list and source files from the json data file (deprecated) else from the pypi
+    server
+    browse_pypi: (bool) if from_json is False:
+        if True get the list of plugins name from the https://pypi.org/simple/ website, then get the sources from the pypi
+            server
+        if False, get the list of plugins name from the json data, then fetch the source from the pypi server
+
+    Returns
+    -------
+    plugins_available: list of available plugins for installation
+    plugins_installed: list of already installed plugins
+    plugins_update: list of plugins with existing update
+    """
+    if from_json:
         plugins_available = get_plugins_from_json()
     else:
-        plugins_available = get_pypi_plugins()
+        plugins_available = get_pypi_plugins(browse_pypi=browse_pypi)
 
     plugins = deepcopy(plugins_available)
     plugins_installed_init = [{'plugin-name': entry.module_name,
@@ -196,11 +229,11 @@ def check_plugin_entries():
 
 
 def write_plugin_doc():
-    plugins = get_plugins_from_json()
+    plugins = get_pypi_plugins(browse_pypi=True)
     base_path = Path(__file__).parent
 
     header_keys = ['display-name', 'authors', 'version', 'description']
-    header = ['Repo Name', 'Authors', 'Versiopluginn', 'Description']
+    header = ['Repo Name', 'Authors', 'Version plugin', 'Description']
     plugins_tmp = []
 
     plugins.sort(key=lambda plugin: plugin['display-name'])
@@ -229,14 +262,14 @@ def write_plugin_doc():
                             for instt in plug['instruments'][inst]:
                                 with tag('li'):
                                     text(instt)
-                    tmp.append(doc.getvalue())
                 else:
-                    tmp.append('')
+                    text(plug['description'])
+                tmp.append(doc.getvalue())
             else:
                 tmp.append(plug[k])
         plugins_tmp.append(tmp)
 
-    writer = MarkdownTableWriter(
+    writer = RstSimpleTableWriter(
         table_name="PyMoDAQ Plugins",
         headers=header,
         value_matrix=plugins_tmp,
@@ -245,18 +278,18 @@ def write_plugin_doc():
     writer.dump(base_path.parent.parent.joinpath('doc/PluginList.md'))
 
 
-    with open(base_path.parent.parent.joinpath('README_base.md'), 'r') as f:
+    with open(base_path.parent.parent.joinpath('README_base.rst'), 'r') as f:
         content = f.read()
         content += '\r\n'
 
-    with open(base_path.parent.parent.joinpath('README.md'), 'w') as f:
+    with open(base_path.parent.parent.joinpath('README.rst'), 'w') as f:
         content += writer.dumps()
         f.write(content)
 
 if __name__ == '__main__':
     #check_plugin_entries()
-    # write_plugin_doc()
+    write_plugin_doc()
     # versions = get_pypi_pymodaq()
     # from pymodaq_plugin_manager import __version__ as version
     # print(version)
-    print(get_pypi_package_list('pymodaq-plugins'))
+    #print(get_pypi_package_list('pymodaq-plugins'))
