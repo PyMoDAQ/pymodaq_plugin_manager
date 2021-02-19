@@ -254,17 +254,23 @@ def write_plugin_doc():
                 tmp.append(f'<a href="{plug["repository"]}" target="_top">{plug["version"]}</a> ')
             elif k == 'description':
                 doc, tag, text = Doc().tagtext()
-                text(plug[k]+'\r\n')
-                if plug['instruments']:
+                #text(plug[k]+'\r\n')
+                if plug['instruments'] != '':
+
                     for inst in plug['instruments']:
                         text(f'{inst}:')
                         with tag('ul'):
                             for instt in plug['instruments'][inst]:
                                 with tag('li'):
                                     text(instt)
+                    tmp.append(doc.getvalue())
                 else:
-                    text(plug['description'])
-                tmp.append(doc.getvalue())
+                    instruments = plug['description'].split('Instruments\n===========\n')
+                    if len(instruments) > 1:
+                        text(instruments[1])
+                        tmp.append(doc.getvalue())
+                    else:
+                        tmp.append('')
             else:
                 tmp.append(plug[k])
         plugins_tmp.append(tmp)
