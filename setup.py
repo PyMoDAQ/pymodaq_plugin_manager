@@ -42,6 +42,7 @@ setup(
         'requests',
         'yawrap',
         'lxml',
+        'readme_renderer',
         ],
     **setupOpts
 )

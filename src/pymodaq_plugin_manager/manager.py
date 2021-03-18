@@ -224,18 +224,26 @@ class PluginManager(QtCore.QObject):
         self.parent.layout().addWidget(splitter)
 
     def do_action(self):
+        indexes_plugin = []
+        plugins = []
         if self.plugin_choice.currentText() == 'Available':
             action = 'install'
-            plugins = [plug[0] for ind, plug in enumerate(self.model_available.get_data_all())
-                       if self.model_available.selected[ind]]
+            for ind, plug in enumerate(self.model_available.get_data_all()):
+                if self.model_available.selected[ind]:
+                    plugins.append(plug[0])
+                    indexes_plugin.append(ind)
         elif self.plugin_choice.currentText() == 'Update':
             action = 'update'
-            plugins = [plug[0] for ind, plug in enumerate(self.model_update.get_data_all())
-                       if self.model_update.selected[ind]]
+            for ind, plug in enumerate(self.model_update.get_data_all()):
+                if self.model_update.selected[ind]:
+                    plugins.append(plug[0])
+                    indexes_plugin.append(ind)
         elif self.plugin_choice.currentText() == 'Installed':
             action = 'remove'
-            plugins = [plug[0] for ind, plug in enumerate(self.model_installed.get_data_all())
-                       if self.model_installed.selected[ind]]
+            for ind, plug in enumerate(self.model_installed.get_data_all()):
+                if self.model_installed.selected[ind]:
+                    plugins.append(plug[0])
+                    indexes_plugin.append(ind)
 
         msgBox = QtWidgets.QMessageBox()
         msgBox.setText(f"You will {action} this list of plugins: {plugins}")
@@ -246,21 +254,22 @@ class PluginManager(QtCore.QObject):
         ret = msgBox.exec()
         self.info_widget.clear()
         if ret == msgBox.Ok:
-            for plug in plugins:
+            for index in indexes_plugin:
                 # plugin_dict = get_plugin(plug)
                 if self.plugin_choice.currentText() == 'Available' or self.plugin_choice.currentText() == 'Update':
                     if self.plugin_choice.currentText() == 'Available':
-                        plugin_dict = find_dict_in_list_from_key_val(self.plugins_available, 'plugin-name', plug)
+                        plugin_dict = self.plugins_available[index]
                     else:
-                        plugin_dict = find_dict_in_list_from_key_val(self.plugins_update, 'plugin-name', plug)
+                        plugin_dict = self.plugins_update[index]
                     if plugin_dict is not None:
-                        command = [sys.executable, '-m', 'pip', 'install', f'{plug}=={plugin_dict["version"]}']
+                        command = [sys.executable, '-m', 'pip', 'install',
+                                   f'{plugin_dict["plugin-name"]}=={plugin_dict["version"]}']
                         self.do_subprocess(command)
                     else:
-                        self.info_widget.insertPlainText(f'Plugin {plug} not found!')
+                        self.info_widget.insertPlainText(f'Plugin {plugin_dict["plugin-name"]} not found!')
 
                 elif self.plugin_choice.currentText() == 'Installed':
-                    plugin_dict = find_dict_in_list_from_key_val(self.plugins_installed, 'plugin-name', plug)
+                    plugin_dict = self.plugins_installed[index]
                     command = [sys.executable, '-m', 'pip', 'uninstall', '--yes', plugin_dict['plugin-name']]
                     self.do_subprocess(command)
 
