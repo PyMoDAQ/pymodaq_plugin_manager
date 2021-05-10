@@ -286,20 +286,23 @@ class PluginManager(QtCore.QObject):
             self.restart()
 
     def do_subprocess(self, command):
-        with subprocess.Popen(command, stdout=subprocess.PIPE, stdin=sys.stdout, stderr=sys.stdout,
-                              universal_newlines=True) as sp:
-            while True:
-                self.info_widget.moveCursor(QTextCursor.End)
-                self.info_widget.insertPlainText(sp.stdout.readline())
-                self.info_widget.moveCursor(QTextCursor.End)
-                QtWidgets.QApplication.processEvents()
-                return_code = sp.poll()
-                if return_code is not None:
-                    self.info_widget.insertPlainText(str(return_code))
-                    for output in sp.stdout.readlines():
-                        print(output.strip())
-                    break
-
+        try:
+            with subprocess.Popen(command, stdout=subprocess.PIPE, stdin=sys.stdout, stderr=sys.stdout,
+                                  universal_newlines=True) as sp:
+                while True:
+                    self.info_widget.moveCursor(QTextCursor.End)
+                    self.info_widget.insertPlainText(sp.stdout.readline())
+                    self.info_widget.moveCursor(QTextCursor.End)
+                    QtWidgets.QApplication.processEvents()
+                    return_code = sp.poll()
+                    if return_code is not None:
+                        self.info_widget.insertPlainText(str(return_code))
+                        for output in sp.stdout.readlines():
+                            print(output.strip())
+                        break
+        except Exception as e:
+            logger.info(str(e))
+            subprocess.Popen(command)
 
     def update_model(self, plugin_choice):
         self.search_edit.textChanged.disconnect()
