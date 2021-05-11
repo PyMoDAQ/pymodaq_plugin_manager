@@ -287,8 +287,11 @@ class PluginManager(QtCore.QObject):
 
     def do_subprocess(self, command):
         try:
-            with subprocess.Popen(command, stdout=subprocess.PIPE, stdin=sys.stdout, stderr=sys.stdout,
-                                  universal_newlines=True) as sp:
+            self.info_widget.moveCursor(QTextCursor.End)
+            self.info_widget.insertPlainText(' '.join(command))
+            self.info_widget.moveCursor(QTextCursor.End)
+
+            with subprocess.Popen(command, stdout=subprocess.PIPE, universal_newlines=True, shell=True) as sp:
                 while True:
                     self.info_widget.moveCursor(QTextCursor.End)
                     self.info_widget.insertPlainText(sp.stdout.readline())
