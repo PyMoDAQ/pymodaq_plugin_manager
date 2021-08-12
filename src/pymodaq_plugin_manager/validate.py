@@ -266,18 +266,23 @@ def write_plugin_doc():
                     tmp.append(doc.getvalue())
                 else:
                     lines = plug['description'].split('\n')
-                    infos = []
-                    for l in lines:
-                        if l[0:4] == '* **':
-                            infos.append(l[2:])
-                    if len(infos) > 0:
-                        with tag('ul'):
-                            for inf in infos:
-                                with tag('li'):
-                                    text(inf)
-                        tmp.append(doc.getvalue())
-                    else:
-                        tmp.append('')
+                    header_inst = ['Actuators', 'Viewer0D', 'Viewer1D', 'Viewer2D', 'ViewerND']
+                    for header_ind, head in enumerate(header_inst):
+                        for ind_line, line in enumerate(lines):
+                            if head in line:
+                                text(line)
+                                with tag('ul'):
+                                    for subline in lines[ind_line+1:]:
+                                        if subline[0:4] == '* **':
+                                            with tag('li'):
+                                                text(subline[2:])
+                                        elif any([hd in subline for hd in header_inst[header_ind+1:]]):
+                                            break
+
+
+                    tmp.append(doc.getvalue())
+                    # else:
+                    #     tmp.append('')
             else:
                 tmp.append(plug[k])
         plugins_tmp.append(tmp)
