@@ -265,9 +265,16 @@ def write_plugin_doc():
                                     text(instt)
                     tmp.append(doc.getvalue())
                 else:
-                    instruments = plug['description'].split('Instruments\n===========\n')
-                    if len(instruments) > 1:
-                        text(instruments[1])
+                    lines = plug['description'].split('\n')
+                    infos = []
+                    for l in lines:
+                        if l[0:4] == '* **':
+                            infos.append(l[2:])
+                    if len(infos) > 0:
+                        with tag('ul'):
+                            for inf in infos:
+                                with tag('li'):
+                                    text(inf)
                         tmp.append(doc.getvalue())
                     else:
                         tmp.append('')
