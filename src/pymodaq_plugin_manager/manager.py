@@ -1,8 +1,8 @@
 import sys
 import subprocess
-from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtCore import Qt, QVariant, pyqtSlot, pyqtSignal
-from PyQt5.QtGui import QTextCursor
+from qtpy import QtWidgets, QtCore
+from qtpy.QtCore import Qt, QVariant, Slot, Signal
+from qtpy.QtGui import QTextCursor
 from pymodaq.daq_utils import gui_utils as gutils
 from pymodaq_plugin_manager.validate import validate_json_plugin_list, get_plugins, get_plugin, get_check_repo,\
     find_dict_in_list_from_key_val
@@ -99,8 +99,8 @@ class FilterProxy(QtCore.QSortFilterProxyModel):
 
 class PluginManager(QtCore.QObject):
 
-    quit_signal = pyqtSignal()
-    restart_signal = pyqtSignal()
+    quit_signal = Signal()
+    restart_signal = Signal()
 
     def __init__(self, parent, standalone=False):
         super().__init__()
