@@ -1,7 +1,7 @@
 import sys
 import subprocess
 from qtpy import QtWidgets, QtCore
-from qtpy.QtCore import Qt, QVariant, Slot, Signal
+from qtpy.QtCore import Qt, Slot, Signal
 from qtpy.QtGui import QTextCursor
 from pymodaq.daq_utils import gui_utils as gutils
 from pymodaq_plugin_manager.validate import validate_json_plugin_list, get_plugins, get_plugin, get_check_repo,\
@@ -13,6 +13,8 @@ from packaging import version as version_mod
 from pymodaq_plugin_manager import __version__ as version
 from pymodaq.daq_utils import daq_utils as utils
 from readme_renderer.rst import render
+
+from pymodaq.daq_utils.qvariant import QVariant
 
 logger = utils.set_logger(utils.get_module_name(__file__))
 config = utils.load_config()
