@@ -107,6 +107,7 @@ def get_plugin(name, entry='display-name'):
     d = find_dict_in_list_from_key_val(plugins, entry, name)
     return d
 
+
 def get_check_repo(plugin_dict):
     try:
         response = requests.get(plugin_dict["repository"])

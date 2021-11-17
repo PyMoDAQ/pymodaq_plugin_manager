@@ -1,6 +1,6 @@
 {
 	"name": "pymodaq-pluginList",
-	"version": "0.0.16",
+	"version": "0.0.17",
 	"pymodaq-plugins": [
 		{
 			"plugin-name": "pymodaq_plugins",

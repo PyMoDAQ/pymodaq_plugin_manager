@@ -1,5 +1,7 @@
 import sys
 import subprocess
+
+from pymodaq.daq_utils.config import Config
 from qtpy import QtWidgets, QtCore
 from qtpy.QtCore import Qt, Slot, Signal
 from qtpy.QtGui import QTextCursor
@@ -17,7 +19,7 @@ from readme_renderer.rst import render
 from pymodaq.daq_utils.qvariant import QVariant
 
 logger = utils.set_logger(utils.get_module_name(__file__))
-config = utils.load_config()
+config = Config()
 
 
 class TableModel(gutils.TableModel):
@@ -116,7 +118,7 @@ class PluginManager(QtCore.QObject):
 
         self.setup_UI()
 
-        if config['general']['check_version']:
+        if config('general', 'check_version'):
             self.check_version(show=False)
 
     def check_version(self, show=True):
