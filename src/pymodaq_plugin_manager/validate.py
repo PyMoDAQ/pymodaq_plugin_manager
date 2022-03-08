@@ -1,26 +1,27 @@
-import os
-import requests
-import tempfile
 from hashlib import sha256
 from packaging import version
 import pkg_resources
 from jsonschema import validate
 import json
 from distlib.index import PackageIndex
-from distlib.locators import PyPIJSONLocator
 from pathlib import Path
 #using pip directly https://pip.pypa.io/en/latest/reference/pip_install/#git
-from pytablewriter import MarkdownTableWriter, RstSimpleTableWriter
+from pytablewriter import MarkdownTableWriter
 from yawrap import Doc
-from pymodaq.daq_utils import daq_utils as utils
 import requests
 from lxml import html
 from copy import deepcopy
 import re
 
-pypi_index = PackageIndex()
-logger = utils.set_logger('plugin_manager', add_handler=False, base_logger=False, add_to_console=True)
+try:
+    from pymodaq.daq_utils import daq_utils as utils
+    logging = True
+    logger = utils.set_logger('plugin_manager', add_handler=False, base_logger=False, add_to_console=True)
 
+except ImportError:
+    logging = False
+
+pypi_index = PackageIndex()
 
 def find_dict_in_list_from_key_val(dicts, key, value):
     """ lookup within a list of dicts. Look for the dict within the list which has the correct key, value pair
@@ -112,22 +113,26 @@ def get_check_repo(plugin_dict):
     try:
         response = requests.get(plugin_dict["repository"])
     except requests.exceptions.RequestException as e:
-        logger.exception(str(e))
-        return str(e)
+        if logging:
+            logger.exception(str(e))
+            return str(e)
 
     if response.status_code != 200:
         rep = f'{plugin_dict["display-name"]}: failed to download plugin. Returned code {response.status_code}'
-        logger.error(rep)
+        if logging:
+            logger.error(rep)
         return rep
 
     # Hash it and make sure its what is expected
     hash = sha256(response.content).hexdigest()
     if plugin_dict["id"].lower() != hash.lower():
         rep = f'{plugin_dict["display-name"]}: Invalid hash. Got {hash.lower()} but expected {plugin_dict["id"]}'
-        logger.error(rep)
+        if logging:
+            logger.error(rep)
         return rep
     else:
-        logger.info(f'SHA256 is Ok')
+        if logging:
+            logger.info(f'SHA256 is Ok')
 
 
 def get_plugins(from_json=False, browse_pypi=True):
@@ -185,14 +190,16 @@ def validate_json_plugin_list():
 
 
 def post_error(message):
-    logger.error(message)
+    if logging:
+        logger.error(message)
 
 
 def check_plugin_entries():
     displaynames = []
     repositories = []
     for plugin in get_plugins_from_json():
-        logger.info(f'Checking info on plugin: {plugin["display-name"]}')
+        if logging:
+            logger.info(f'Checking info on plugin: {plugin["display-name"]}')
 
         try:
             response = requests.get(plugin["repository"])
@@ -209,7 +216,8 @@ def check_plugin_entries():
         if plugin["id"].lower() != hash.lower():
             post_error(f'{plugin["display-name"]}: Invalid hash. Got {hash.lower()} but expected {plugin["id"]}')
         else:
-            logger.info(f'SHA256 is Ok')
+            if logging:
+                logger.info(f'SHA256 is Ok')
 
         # check uniqueness of json display-name and repository
         found = False
