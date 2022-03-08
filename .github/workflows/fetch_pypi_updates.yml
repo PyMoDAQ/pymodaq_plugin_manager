@@ -19,4 +19,4 @@ jobs:
         pip install -r requirements.txt
     - name: Execute validate.py
       run: |
-        python ./src/pymodaq_plugin_manager/validate.py
+        python ./src/pymodaq_plugin_manager/validate_as_workflow.py
