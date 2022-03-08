@@ -1,25 +1,21 @@
-import os
-import requests
-import tempfile
 from hashlib import sha256
 from packaging import version
 import pkg_resources
 from jsonschema import validate
 import json
 from distlib.index import PackageIndex
-from distlib.locators import PyPIJSONLocator
 from pathlib import Path
-#using pip directly https://pip.pypa.io/en/latest/reference/pip_install/#git
-from pytablewriter import MarkdownTableWriter, RstSimpleTableWriter
+# using pip directly https://pip.pypa.io/en/latest/reference/pip_install/#git
+from pytablewriter import MarkdownTableWriter
 from yawrap import Doc
-from pymodaq.daq_utils import daq_utils as utils
+# from pymodaq.daq_utils import daq_utils as utils    Will not use logging for the workflow to avoid installing pymodaq
 import requests
 from lxml import html
 from copy import deepcopy
 import re
 
 pypi_index = PackageIndex()
-logger = utils.set_logger('plugin_manager', add_handler=False, base_logger=False, add_to_console=True)
+# logger = utils.set_logger('plugin_manager', add_handler=False, base_logger=False, add_to_console=True)  No logging
 
 
 def find_dict_in_list_from_key_val(dicts, key, value):
@@ -112,22 +108,22 @@ def get_check_repo(plugin_dict):
     try:
         response = requests.get(plugin_dict["repository"])
     except requests.exceptions.RequestException as e:
-        logger.exception(str(e))
+        # logger.exception(str(e))      No logging in workflow
         return str(e)
 
     if response.status_code != 200:
         rep = f'{plugin_dict["display-name"]}: failed to download plugin. Returned code {response.status_code}'
-        logger.error(rep)
+        # logger.error(rep)             No logging in workflow
         return rep
 
     # Hash it and make sure its what is expected
     hash = sha256(response.content).hexdigest()
     if plugin_dict["id"].lower() != hash.lower():
         rep = f'{plugin_dict["display-name"]}: Invalid hash. Got {hash.lower()} but expected {plugin_dict["id"]}'
-        logger.error(rep)
+        # logger.error(rep)             No logging in workflow
         return rep
-    else:
-        logger.info(f'SHA256 is Ok')
+    # else:
+        # logger.info(f'SHA256 is Ok')  No logging in workflow
 
 
 def get_plugins(from_json=False, browse_pypi=True):
@@ -184,38 +180,38 @@ def validate_json_plugin_list():
     return plugins
 
 
-def post_error(message):
-    logger.error(message)
-
+ # def post_error(message):
+ #     # logger.error(message)
+ #     return
 
 def check_plugin_entries():
     displaynames = []
     repositories = []
     for plugin in get_plugins_from_json():
-        logger.info(f'Checking info on plugin: {plugin["display-name"]}')
+        # logger.info(f'Checking info on plugin: {plugin["display-name"]}')
 
         try:
             response = requests.get(plugin["repository"])
         except requests.exceptions.RequestException as e:
-            post_error(str(e))
+            # post_error(str(e))
             continue
 
         if response.status_code != 200:
-            post_error(f'{plugin["display-name"]}: failed to download plugin. Returned code {response.status_code}')
+            # post_error(f'{plugin["display-name"]}: failed to download plugin. Returned code {response.status_code}')
             continue
 
         # Hash it and make sure its what is expected
         hash = sha256(response.content).hexdigest()
-        if plugin["id"].lower() != hash.lower():
-            post_error(f'{plugin["display-name"]}: Invalid hash. Got {hash.lower()} but expected {plugin["id"]}')
-        else:
-            logger.info(f'SHA256 is Ok')
+        # if plugin["id"].lower() != hash.lower():
+            # post_error(f'{plugin["display-name"]}: Invalid hash. Got {hash.lower()} but expected {plugin["id"]}')
+        # else:
+            # logger.info(f'SHA256 is Ok')
 
         # check uniqueness of json display-name and repository
         found = False
         for name in displaynames:
             if plugin["display-name"] == name:
-                post_error(f'{plugin["display-name"]}: non unique display-name entry')
+                # post_error(f'{plugin["display-name"]}: non unique display-name entry')
                 found = True
         if not found:
             displaynames.append(plugin["display-name"])
@@ -223,7 +219,7 @@ def check_plugin_entries():
         found = False
         for repo in repositories:
             if plugin["repository"] == repo:
-                post_error(f'{plugin["repository"]}: non unique repository entry')
+                # post_error(f'{plugin["repository"]}: non unique repository entry')
                 found = True
         if not found:
             repositories.append(plugin["repository"])
