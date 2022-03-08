@@ -1,0 +1,9 @@
+distlib
+jsonschema
+pytablewriter
+requests
+yawrap
+lxml
+readme_renderer
+pymodaq
+packaging
