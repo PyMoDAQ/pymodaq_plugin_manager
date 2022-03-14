@@ -20,15 +20,18 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-    - name: Execute validate_as_workflow.py
+    - name: Execute validate.py
       run: |
         python ./src/pymodaq_plugin_manager/validate.py
     - name: Commit files
       run: |
         git config --local user.name "rgeneaux"
         git add .
-        git commit -m "Auto-update package list"
-    - name: Push changes 
+        if ! git diff-index --quiet HEAD; then
+          git commit -m "Auto-update package list"
+          git push origin main
+        fi
+    - name: Push changes
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
