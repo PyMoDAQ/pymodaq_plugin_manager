@@ -43,14 +43,20 @@ def find_dict_in_list_from_key_val(dicts, key, value):
                 return dict
     return None
 
+
 def get_pypi_package_list(match_name=None):
+    logger.info('Connecting to the pypi repository, may take some time to retrieve the list')
     simple_package = requests.get('https://pypi.org/simple/')
+    if simple_package.status_code == 503:
+        logger.info('The service from pypi is currently unavailable, please retry later or install your plugins'
+                    'manually')
     tree = html.fromstring(simple_package.text)
     packages = []
     for child in tree.body:
         if match_name is None or match_name in child.text:
             packages.append(child.text)
     return packages
+
 
 def get_pypi_pymodaq(package_name='pymodaq-plugins'):
     metadata = None
@@ -153,6 +159,7 @@ def get_plugins(from_json=False, browse_pypi=True):
     plugins_installed: list of already installed plugins
     plugins_update: list of plugins with existing update
     """
+    logger.info('Fetching plugin list')
     if from_json:
         plugins_available = get_plugins_from_json()
     else:
