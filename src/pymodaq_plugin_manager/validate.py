@@ -45,11 +45,18 @@ def find_dict_in_list_from_key_val(dicts, key, value):
 
 
 def get_pypi_package_list(match_name=None):
-    logger.info('Connecting to the pypi repository, may take some time to retrieve the list')
+    status = 'Connecting to the pypi repository, may take some time to retrieve the list'
+    if logging:
+        logger.info(status)
+    else:
+        print(status)
     simple_package = requests.get('https://pypi.org/simple/')
     if simple_package.status_code == 503:
-        logger.info('The service from pypi is currently unavailable, please retry later or install your plugins'
-                    'manually')
+        info = 'The service from pypi is currently unavailable, please retry later or install your plugins manually'
+        if logging:
+            logger.info(info)
+        else:
+            print(info)
     tree = html.fromstring(simple_package.text)
     packages = []
     for child in tree.body:
