@@ -251,6 +251,25 @@ def check_plugin_entries():
             repositories.append(plugin["repository"])
 
 
+def extract_authors_from_description(description):
+    """returns the authors as a list from the plugin package description (it should follow the template structure)
+
+    Parameters
+    ----------
+    description: (str)
+
+    Returns
+    -------
+    list of string
+    """
+
+    posa = description.find('Authors')
+    posc = description.find('\n\nContributors')
+    posi = description.find('\n\nInstruments')
+    authors_raw = description[posa:posc if posc != -1 else posi]
+    return authors_raw.split('\n* ')[1:]
+
+
 def write_plugin_doc():
     plugins = get_pypi_plugins(browse_pypi=True)
     base_path = Path(__file__).parent
@@ -267,9 +286,12 @@ def write_plugin_doc():
             if k == 'display-name':
                 tmp.append(f'<a href="{plug["homepage"]}" target="_top">{plug["display-name"]}</a> ')
             elif k == 'authors':
+                authors = extract_authors_from_description(plug['description'])
+                if len(authors) == 0:
+                    authors == plug[k]
                 doc, tag, text = Doc().tagtext()
                 with tag('ul'):
-                    for auth in plug[k]:
+                    for auth in authors:
                         with tag('li'):
                             text(auth)
                 tmp.append(doc.getvalue())
