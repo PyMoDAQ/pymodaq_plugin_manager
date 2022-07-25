@@ -1,8 +1,9 @@
 from setuptools import setup, find_packages
 import json
+from pathlib import Path
 
-with open('./src/pymodaq_plugin_manager/data/PluginList.json') as f:
-    version = json.load(f)['version']
+with open(str(Path(__file__).parent.joinpath(f'src/pymodaq_plugin_manager/VERSION')), 'r') as fvers:
+    version = fvers.read().strip()
 
 with open('README_base.md') as fd:
     long_description = fd.read()
