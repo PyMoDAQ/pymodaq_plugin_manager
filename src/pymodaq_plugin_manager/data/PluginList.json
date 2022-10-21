@@ -7,7 +7,7 @@
 			"display-name": "Default",
 			"version": "3.0.2",
 			"id": "52000a1191dbf8e9903708b77ac3fa82a3c41d91af328ad5d0362c4d449cdebe",
-			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins/archive/3.0.1.tar.gz",
+			"repository": "https://github.com/PyMoDAQ/pymodaq_plugins/archive/3.0.1.tar.gz",
 			"description": "Plugins initially developed with PyMoDAQ\r\nIncludes Mock plugins that are plugins of virtual instruments dedicated to code testing a new functionalities development.",
 			"instruments": {
 				"Actuator": [
@@ -34,14 +34,14 @@
 			},
 			"authors": ["Sebastien Weber"],
 			"contributors": [],
-			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins"
+			"homepage": "https://github.com/PyMoDAQ/pymodaq_plugins"
 		},
 		{
 			"plugin-name": "pymodaq_plugins_daqmx",
 			"display-name": "National Instrument DAQmx",
 			"version": "0.0.2",
 			"id": "3b4a50f1c0808343480cfbd400c6417cfa4267219d091d58441010d52eb502e3",
-			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_daqmx/archive/0.0.2.tar.gz",
+			"repository": "https://github.com/PyMoDAQ/pymodaq_plugins_daqmx/archive/0.0.2.tar.gz",
 			"description": "Plugin devoted to the National Instrument signal acquisition and generation using the NiDAQmx library. Includes an actuator plugin for signal generation, a 1D viewer plugin for data acquisition as a function of time and a 0D viewer plugin for quick time averaging acquisition",
 			"instruments":
 				{"Actuator" : ["Analog output DC, Sinus, Ramp..."],
@@ -51,14 +51,14 @@
 			},
 			"authors": ["Sebastien Weber"],
 			"contributors": ["Amelie Jarnac"],
-			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_daqmx"
+			"homepage": "https://github.com/PyMoDAQ/pymodaq_plugins_daqmx"
 		},
 		{
 			"plugin-name": "pymodaq_plugins_orsay",
 			"display-name": "OrsaySTEM and Cameras",
 			"version": "0.0.1",
 			"id": "8587eca3ecdb07eab7dc6a2d2adb83bb2053f23a7d35458965566a0aa109f4b3",
-			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_orsay/archive/0.0.1.tar.gz",
+			"repository": "https://github.com/PyMoDAQ/pymodaq_plugins_orsay/archive/0.0.1.tar.gz",
 			"description": "PyMoDAQ Orsay STEM and Camera plugin\r\nCan be used to control Ropers or Princeton Cameras\r\nCan be used to control STEM (Scanning Tunnel Electron Microscope) using the HOUDs 2 hardware module to drive coils within a STEM\n\nFrom Marcel Tence source code from LPS Laboratory at Orsay University, France ",
 			"instruments": {
 				"Actuator" : ["X and Y electron beam displacement in a STEM"],
@@ -67,14 +67,14 @@
 			},
 			"authors": ["Sebastien Weber"],
 			"contributors": [],
-			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_orsay"
+			"homepage": "https://github.com/PyMoDAQ/pymodaq_plugins_orsay"
 		},
 		{
 			"plugin-name": "pymodaq_plugins_newport",
 			"display-name": "Newport Instruments",
 			"version": "0.0.2",
 			"id": "11aaa70103138967053ae3db31af8977acf76f1f75b03bcc8e9624076d5e5dbd",
-			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_newport/archive/0.0.2.tar.gz",
+			"repository": "https://github.com/PyMoDAQ/pymodaq_plugins_newport/archive/0.0.2.tar.gz",
 			"description": "Set of PyMoDAQ plugins for instruments from Newport (Conex, ESP100,...)",
 			"instruments": {
 				"Actuator": [
@@ -84,14 +84,14 @@
 			},
 			"authors": ["Sebastien Weber"],
 			"contributors": [],
-			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_newport"
+			"homepage": "https://github.com/PyMoDAQ/pymodaq_plugins_newport"
 		},
 		{
 			"plugin-name": "pymodaq_plugins_thorlabs",
 			"display-name": "Thorlabs Instruments",
 			"version": "0.0.1",
 			"id": "562ef6ea46d9dc326db4448a8e314b815d363f1edcca4eeb6434d36ba8654d76",
-			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_thorlabs/archive/0.0.1.tar.gz",
+			"repository": "https://github.com/PyMoDAQ/pymodaq_plugins_thorlabs/archive/0.0.1.tar.gz",
 			"description": "Set of PyMoDAQ plugins for instruments from Thorlabs (Kinesis K10CR1 (stepper rotation actuator), Kinesis Flipper, Kinesis KSP100...)",
 			"instruments": {
 				"Actuator" : ["Kinesis serie (tested on K10CR1 and Flipper)"],
@@ -99,14 +99,14 @@
 			},
 			"authors": ["Sebastien Weber"],
 			"contributors": [],
-			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_thorlabs"
+			"homepage": "https://github.com/PyMoDAQ/pymodaq_plugins_thorlabs"
 		},
 		{
 			"plugin-name": "pymodaq_plugins_physik_instrumente",
 			"display-name": "Physik Instrumente",
 			"version": "0.0.1",
 			"id": "ae911130b4a6816f16707abd25db7bcd6d92801358d37a5541bdca0c92a6900f",
-			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_physik_instrumente/archive/0.0.1.tar.gz",
+			"repository": "https://github.com/PyMoDAQ/pymodaq_plugins_physik_instrumente/archive/0.0.1.tar.gz",
 			"description": "Set of PyMoDAQ plugins for Actuators from Physik Instumente (All the ones compatible with the GCS2 commands as well as the old 32bits MMC controller...)",
 			"instruments": {
 				"Actuator" : ["All stages compatible with the GCS2 library",
@@ -114,28 +114,28 @@
 			},
 			"authors": ["Sebastien Weber"],
 			"contributors": [],
-			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_physik_instrumente"
+			"homepage": "https://github.com/PyMoDAQ/pymodaq_plugins_physik_instrumente"
 		},
 		{
 			"plugin-name": "pymodaq_plugins_piezoconcept",
 			"display-name": "PiezoConcept",
 			"version": "0.0.2",
 			"id": "3ccdc960a25384f18a2a77d8b86e4100e2df6a2c8f020b479932dc3d7f2b3007",
-			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_piezoconcept/archive/0.0.2.tar.gz",
+			"repository": "https://github.com/PyMoDAQ/pymodaq_plugins_piezoconcept/archive/0.0.2.tar.gz",
 			"description": "Set of PyMoDAQ plugins for Actuators from Piezoconcept (Tested on the Bio200 XY stage. Include a version of the controller firmware emulating functions from PhysikInstrumente)",
 			"instruments": {
 				"Actuator" : ["PiezoConcept stages (tested on BIO2.100) both using the usual serial commands and the ones derived from PI command set"]
 			},
 			"authors": ["Sebastien Weber"],
 			"contributors": [],
-			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_piezoconcept"
+			"homepage": "https://github.com/PyMoDAQ/pymodaq_plugins_piezoconcept"
 		},
 		{
 			"plugin-name": "pymodaq_plugins_smaract",
 			"display-name": "Smaract",
 			"version": "0.0.1",
 			"id": "eb8c349bb16aa8c538b10617fb0af5bd8562c3f24e28a5c2a0f92e12fcdec18c",
-			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_smaract/archive/0.0.1.tar.gz",
+			"repository": "https://github.com/PyMoDAQ/pymodaq_plugins_smaract/archive/0.0.1.tar.gz",
 			"description": "Set of PyMoDAQ plugins for Actuators from Smaract (MCS_controller, ...)",
 			"instruments": {
 				"Actuator": [
@@ -144,14 +144,14 @@
 			},
 			"authors": ["David Bresteau"],
 			"contributors": [],
-			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_smaract"
+			"homepage": "https://github.com/PyMoDAQ/pymodaq_plugins_smaract"
 		},
 		{
 			"plugin-name": "pymodaq_plugins_andor",
 			"display-name": "Andor",
 			"version": "0.0.1",
 			"id": "9f2ce447a5a400e3c9457877d1cc9e138906e053344d2b4c3bb3aa20e7de033a",
-			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_andor/archive/0.0.1.tar.gz",
+			"repository": "https://github.com/PyMoDAQ/pymodaq_plugins_andor/archive/0.0.1.tar.gz",
 			"description": "Set of PyMoDAQ plugins for Andor Camera (CCD camera using SDK2, SCMOS cameras using SDK3...)",
 			"instruments": {
 				"Viewer1D": ["Shamrock series of spectrometer using the Andor CCD cameras"],
@@ -159,56 +159,56 @@
 			},
 			"authors": ["Sebastien Weber"],
 			"contributors": [],
-			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_andor"
+			"homepage": "https://github.com/PyMoDAQ/pymodaq_plugins_andor"
 		},
 		{
 			"plugin-name": "pymodaq_plugins_picoquant",
 			"display-name": "Picoquant",
 			"version": "0.0.1",
 			"id": "59c7d4bbede284fecf074bf1d32d7618c919107bd266710e492cf1db6f81308a",
-			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_picoquant/archive/0.0.1.tar.gz",
+			"repository": "https://github.com/PyMoDAQ/pymodaq_plugins_picoquant/archive/0.0.1.tar.gz",
 			"description": "Set of PyMoDAQ plugins for Picoquant instruments (TimeHarp260, ...)",
 			"instruments": {
 				"Viewer1D": ["Timeharp TH260 for photon counting and time tagging"]
 			},
 			"authors": ["Sebastien Weber"],
 			"contributors": [],
-			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_picoquant"
+			"homepage": "https://github.com/PyMoDAQ/pymodaq_plugins_picoquant"
 		},
 		{
 			"plugin-name": "pymodaq_plugins_horiba",
 			"display-name": "Horiba",
 			"version": "0.0.1",
 			"id": "01817fe5388ab383e025c48466a84e16fabb3672533736bb1cb29c072a7a7b03",
-			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_horiba/archive/0.0.1.tar.gz",
+			"repository": "https://github.com/PyMoDAQ/pymodaq_plugins_horiba/archive/0.0.1.tar.gz",
 			"description": "Set of PyMoDAQ plugins for Horiba Instruments (Lapspec6TCP to communicate with labspec softaware using the AFM TCP/IP protocol)",
 			"instruments": {
 				"Viewer1D": ["Control of Labspec6 settings and acquisition using TCP/IP communication"]
 			},
 			"authors": ["Sebastien Weber"],
 			"contributors": [],
-			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_horiba"
+			"homepage": "https://github.com/PyMoDAQ/pymodaq_plugins_horiba"
 		},
 		{
 			"plugin-name": "pymodaq_plugins_flim",
 			"display-name": "FLIM",
 			"version": "0.0.1",
 			"id": "bf76f594875ef3b16cdc760499a3221e69eb0c5c0dc9b9105971f6d1325c257e",
-			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_flim/archive/0.0.1.tar.gz",
+			"repository": "https://github.com/PyMoDAQ/pymodaq_plugins_flim/archive/0.0.1.tar.gz",
 			"description": "Set of PyMoDAQ plugins for Fluorescence Lifetime Imaging Microscopy ",
 			"instruments": {
 				"ViewerND": ["FLIM using piezoconcept XY stage and picoquant timeharp TH260"]
 			},
 			"authors": ["Sebastien Weber"],
 			"contributors": [],
-			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_horiba"
+			"homepage": "https://github.com/PyMoDAQ/pymodaq_plugins_horiba"
 		},
 		{
 			"plugin-name": "pymodaq_plugins_physical_measurements",
 			"display-name": "Physical Measurements Hardware",
 			"version": "0.0.3",
 			"id": "4bd8c1f4ed210e5e3a84a314d5ea20f29f3485a41f56f7da58f1f786b3d28dd1",
-			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_physical_measurements/archive/0.0.3.tar.gz",
+			"repository": "https://github.com/PyMoDAQ/pymodaq_plugins_physical_measurements/archive/0.0.3.tar.gz",
 			"description": "Set of PyMoDAQ plugins for various physical measurements: multimeter, lockin, oscilloscope, indus cameras...",
 			"instruments": {
 				"Viewer0D": ["Pico-Amperemeter Keithley 648X Series, 6430 and 6514",
@@ -224,14 +224,14 @@
 			},
 			"authors": ["Sebastien Weber", "Damien Lodie"],
 			"contributors": ["David Bresteau", "Nicolas Bruyant"],
-			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_horiba"
+			"homepage": "https://github.com/PyMoDAQ/pymodaq_plugins_horiba"
 		},
 		{
 			"plugin-name": "pymodaq_plugins_holoeye",
 			"display-name": "Holoeye",
 			"version": "0.0.2",
 			"id": "a3a63205dee749872a0ce3f5151a941d04b6780d57b57e771cf4bc5272141a1a",
-			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_holoeye/archive/0.0.2.tar.gz",
+			"repository": "https://github.com/PyMoDAQ/pymodaq_plugins_holoeye/archive/0.0.2.tar.gz",
 			"description": "Set of PyMoDAQ plugins for Holoeye Spatial Light Modulator (SLM)",
 			"instruments": {
 				"Actuator": [
@@ -240,14 +240,14 @@
 			},
 			"authors": ["Sebastien Weber"],
 			"contributors": [],
-			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_holoeye"
+			"homepage": "https://github.com/PyMoDAQ/pymodaq_plugins_holoeye"
 		},
 		{
 			"plugin-name": "pymodaq_plugins_amplitude",
 			"display-name": "Amplitude Lasers",
 			"version": "0.0.2",
 			"id": "f8c262aedd985f3d3be90b28399caeda13a4855f99e68aa53ff640f7cab5e511",
-			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_amplitude/archive/0.0.1.tar.gz",
+			"repository": "https://github.com/PyMoDAQ/pymodaq_plugins_amplitude/archive/0.0.1.tar.gz",
 			"description": "This repository contains a set of PyMoDAQ plugins for Amplitude Systems Lasers",
 			"instruments": {
 				"Viewer0D": [
@@ -256,21 +256,21 @@
 			},
 			"authors": ["Sebastien Weber"],
 			"contributors": [],
-			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_amplitude"
+			"homepage": "https://github.com/PyMoDAQ/pymodaq_plugins_amplitude"
 		},
 		{
 			"plugin-name": "pymodaq_plugins_oceaninsight",
 			"display-name": "Ocean Insight (Optics)",
 			"version": "0.0.1",
 			"id": "02c9776f0cfba56a6987300fb88040a22fbac1ba66573445d239ef685eb12007",
-			"repository": "https://github.com/CEMES-CNRS/pymodaq_plugins_oceaninsight/archive/0.0.1.tar.gz",
+			"repository": "https://github.com/PyMoDAQ/pymodaq_plugins_oceaninsight/archive/0.0.1.tar.gz",
 			"description": "Set of PyMoDAQ plugins for OceanInsight (OceanOptics) spectrometers",
 			"instruments": {
 				"Viewer1D": ["Control of Spectrometer using the Omnidriver library (should be installed)"]
 			},
 			"authors": ["Sebastien Weber"],
 			"contributors": [],
-			"homepage": "https://github.com/CEMES-CNRS/pymodaq_plugins_oceaninsight"
+			"homepage": "https://github.com/PyMoDAQ/pymodaq_plugins_oceaninsight"
 		}
 	]
 }
