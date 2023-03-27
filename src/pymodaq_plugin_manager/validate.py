@@ -14,9 +14,9 @@ from copy import deepcopy
 import re
 
 try:
-    from pymodaq.daq_utils import daq_utils as utils
+    from pymodaq.utils.logger import set_logger
     logging = True
-    logger = utils.set_logger('plugin_manager', add_handler=False, base_logger=False, add_to_console=True)
+    logger = set_logger('plugin_manager', add_handler=False, base_logger=False, add_to_console=True)
 
 except ImportError:
     logging = False
@@ -188,7 +188,6 @@ def get_plugins(from_json=False, browse_pypi=True):
         d = find_dict_in_list_from_key_val(plugins, 'plugin-name', plug['plugin-name'])
         if version.parse(d['version']) > version.parse(plug['version']):
             plugins_update.append(d)
-
 
     return plugins_available, plugins_installed, plugins_update
 
