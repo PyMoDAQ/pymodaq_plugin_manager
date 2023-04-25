@@ -1,28 +1,26 @@
+import logging
+from packaging import version as version_mod
 import sys
 import subprocess
 
-from pymodaq.utils.config import Config
+
+import numpy as np
 from qtpy import QtWidgets, QtCore
 from qtpy.QtCore import Qt, Slot, Signal
 from qtpy.QtGui import QTextCursor
-from pymodaq.utils import gui_utils as gutils
+from readme_renderer.rst import render
+
 from pymodaq_plugin_manager.validate import validate_json_plugin_list, get_plugins, get_plugin, get_check_repo,\
     find_dict_in_list_from_key_val
-import numpy as np
-from yawrap import Doc
 from pymodaq_plugin_manager.validate import get_pypi_pymodaq
-from packaging import version as version_mod
 from pymodaq_plugin_manager import __version__ as version
-from readme_renderer.rst import render
-from pymodaq.utils.logger import set_logger, get_module_name
+from pymodaq_plugin_manager.utils import QVariant, TableModel, TableView, SpinBoxDelegate, get_pymodaq_version
 
-from pymodaq.utils.qvariant import QVariant
-
-logger = set_logger(get_module_name(__file__))
-config = Config()
+logger = logging.getLogger(__name__)
+# logger.addHandler(logging.NullHandler())
 
 
-class TableModel(gutils.TableModel):
+class TableModel(TableModel):
 
     def __init__(self, *args, plugins=[], **kwargs):
         super().__init__(*args, **kwargs)
@@ -72,6 +70,7 @@ class TableModel(gutils.TableModel):
                     return True
         return False
 
+
 class FilterProxy(QtCore.QSortFilterProxyModel):
 
     def __init__(self, parent=None):
@@ -101,6 +100,7 @@ class FilterProxy(QtCore.QSortFilterProxyModel):
         self.textRegExp.setPattern(regexp)
         self.invalidateFilter()
 
+
 class PluginManager(QtCore.QObject):
 
     quit_signal = Signal()
@@ -112,14 +112,10 @@ class PluginManager(QtCore.QObject):
         self.parent.setLayout(QtWidgets.QVBoxLayout())
         self.standalone = standalone
 
-        #self.parent.setMinimumSize(1000, 500)
-
-        self.plugins_available, self.plugins_installed, self.plugins_update = get_plugins(False)
+        self.plugins_available, self.plugins_installed,\
+            self.plugins_update = get_plugins(False, pymodaq_version=get_pymodaq_version())
 
         self.setup_UI()
-
-        if config('general', 'check_version'):
-            self.check_version(show=False)
 
     def check_version(self, show=True):
         try:
@@ -171,12 +167,18 @@ class PluginManager(QtCore.QObject):
 
         self.search_edit = QtWidgets.QLineEdit()
         self.search_edit.setPlaceholderText("Plugin name")
+
         settings_widget.layout().addWidget(self.plugin_choice)
         settings_widget.layout().addStretch()
         settings_widget.layout().addWidget(self.check_updates_pb)
         settings_widget.layout().addStretch()
         settings_widget.layout().addWidget(QtWidgets.QLabel('Search:'))
         settings_widget.layout().addWidget(self.search_edit)
+        settings_widget.layout().addStretch()
+
+        pymodaq_version = QtWidgets.QLabel(f'PyMoDAQ Version: {get_pymodaq_version()}')
+        settings_widget.layout().addWidget(pymodaq_version)
+
         settings_widget.layout().addStretch()
         self.action_button = QtWidgets.QPushButton('Install')
         self.action_button.setEnabled(False)
@@ -188,10 +190,10 @@ class PluginManager(QtCore.QObject):
 
         splitter = QtWidgets.QSplitter(Qt.Vertical)
 
-        self.table_view = gutils.TableView()
+        self.table_view = TableView()
 
         styledItemDelegate = QtWidgets.QStyledItemDelegate()
-        styledItemDelegate.setItemEditorFactory(gutils.SpinBoxDelegate())
+        styledItemDelegate.setItemEditorFactory(SpinBoxDelegate())
         self.table_view.setItemDelegate(styledItemDelegate)
         self.table_view.horizontalHeader().show()
         self.table_view.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
@@ -205,7 +207,7 @@ class PluginManager(QtCore.QObject):
                                          plugin['version']] for plugin in self.plugins_update],
                                        header=['Plugin', 'Version'],
                                        editable=[False, False],
-                                          plugins=self.plugins_update)
+                                       plugins=self.plugins_update)
         self.model_installed = TableModel([[plugin['display-name'],
                                             plugin['version']] for plugin in self.plugins_installed],
                                           header=['Plugin', 'Version'],

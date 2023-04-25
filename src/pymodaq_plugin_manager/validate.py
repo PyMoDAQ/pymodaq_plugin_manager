@@ -1,5 +1,10 @@
+import logging
+from typing import List, Union
+
 from hashlib import sha256
 from packaging import version
+from packaging.version import Version
+from packaging.requirements import Requirement, SpecifierSet, Specifier
 import pkg_resources
 from jsonschema import validate
 import json
@@ -13,15 +18,11 @@ from lxml import html
 from copy import deepcopy
 import re
 
-try:
-    from pymodaq.utils.logger import set_logger
-    logging = True
-    logger = set_logger('plugin_manager', add_handler=False, base_logger=False, add_to_console=True)
-
-except ImportError:
-    logging = False
+logger = logging.getLogger(__name__)
+logger.addHandler(logging.NullHandler())
 
 pypi_index = PackageIndex()
+
 
 def find_dict_in_list_from_key_val(dicts, key, value):
     """ lookup within a list of dicts. Look for the dict within the list which has the correct key, value pair
@@ -65,28 +66,82 @@ def get_pypi_package_list(match_name=None):
     return packages
 
 
-def get_pypi_pymodaq(package_name='pymodaq-plugins'):
-    metadata = None
-    rep = requests.get(f'https://pypi.python.org/pypi/{package_name}/json')
+def get_pymodaq_specifier(requirements: List[str]) -> SpecifierSet:
+    """Get specifiers for pymodaq version from a list of requirements"""
+    specifier = SpecifierSet('>3.0,<4.0')
+    if requirements is not None:
+        for package in requirements:
+            req = Requirement(package)
+            if req.name == 'pymodaq':
+                specifier = req.specifier
+                break
+    return specifier
+
+
+def get_package_metadata(name: str, version: Union[str, Version] = None):
+    if version is None:
+        url = f'https://pypi.python.org/pypi/{name}/json'
+    else:
+        url = f'https://pypi.python.org/pypi/{name}/{str(version)}/json'
+    rep = requests.get(url)
     if rep.status_code != 404:
-        response_dict = rep.json()
-        metadata = dict([])
-        metadata['versions'] = list(response_dict['releases'].keys())
-        metadata['author'] = response_dict['info']['author']
-        metadata['description'] = response_dict['info']['description']
-        metadata['project_url'] = response_dict['info']['project_url']
-        metadata['version'] = response_dict['info']['version']
-        return metadata
+        return rep.json()
 
 
-def get_pypi_plugins(browse_pypi=False):
+def get_metadata_from_json(json_as_dict: dict) -> dict:
+    try:
+        if json_as_dict is not None:
+            metadata = dict([])
+            metadata['author'] = json_as_dict['info']['author']
+            metadata['description'] = json_as_dict['info']['description']
+            metadata['project_url'] = json_as_dict['info']['project_url']
+            metadata['version'] = json_as_dict['info']['version']
+            metadata['requirements'] = json_as_dict['info']['requires_dist']
+            return metadata
+    except:
+        pass
+
+
+def get_pypi_pymodaq(package_name='pymodaq-plugins', pymodaq_version: Version = None):
+    """ Get the latest plugin info compatible with a given version of pymodaq
+
+    Parameters
+    ----------
+    package_name: str
+    pymodaq_version: Version
+
+    Returns
+    -------
+    dict containing metadata of the latest compatible plugin
+    """
+    if package_name == 'pymodaq-plugins':  # has been renamed pymodaq-plugins-mock
+        return
+    if isinstance(pymodaq_version, str):
+        pymodaq_version = Version(pymodaq_version)
+    latest = get_package_metadata(package_name)
+    if latest is not None:
+        if pymodaq_version is not None:
+            versions = list(latest['releases'].keys())[::-1]
+            for _version in versions:
+                versioned = get_package_metadata(package_name, _version)
+                if versioned is not None:
+                    specifier = get_pymodaq_specifier(versioned['info']['requires_dist'])
+                    if str(specifier) == '>=2.0':  # very old stuff
+                        return
+                    if pymodaq_version in specifier:
+                        return get_metadata_from_json(versioned)
+        else:
+            return get_metadata_from_json(latest)
+
+
+def get_pypi_plugins(browse_pypi=False, pymodaq_version: Version = None):
     plugins = []
     if browse_pypi:
         packages = get_pypi_package_list('pymodaq-plugins')
     else:
         packages = [plug['plugin-name'] for plug in get_plugins_from_json()]
     for package in packages:
-        metadata = get_pypi_pymodaq(package)
+        metadata = get_pypi_pymodaq(package, pymodaq_version)
         if metadata is not None:
             title = metadata['description'].split('\n')[0]
             if '(' in title and ')' in title:
@@ -148,7 +203,7 @@ def get_check_repo(plugin_dict):
             logger.info(f'SHA256 is Ok')
 
 
-def get_plugins(from_json=False, browse_pypi=True):
+def get_plugins(from_json=False, browse_pypi=True, pymodaq_version: Version = None):
     """get PyMoDAQ plugins
 
     Parameters
@@ -170,7 +225,7 @@ def get_plugins(from_json=False, browse_pypi=True):
     if from_json:
         plugins_available = get_plugins_from_json()
     else:
-        plugins_available = get_pypi_plugins(browse_pypi=browse_pypi)
+        plugins_available = get_pypi_plugins(browse_pypi=browse_pypi, pymodaq_version=pymodaq_version)
 
     plugins = deepcopy(plugins_available)
     plugins_installed_init = [{'plugin-name': entry.module_name,
