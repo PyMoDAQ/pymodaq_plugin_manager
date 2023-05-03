@@ -4,7 +4,8 @@ from typing import List, Union
 from hashlib import sha256
 from packaging import version
 from packaging.version import Version
-from packaging.requirements import Requirement, SpecifierSet, Specifier
+from packaging.requirements import Requirement
+from packaging.specifiers import SpecifierSet
 import pkg_resources
 from jsonschema import validate
 import json
@@ -19,7 +20,8 @@ from copy import deepcopy
 import re
 
 logger = logging.getLogger(__name__)
-logger.addHandler(logging.NullHandler())
+logger.addHandler(logging.StreamHandler())
+logger.setLevel('INFO')
 
 pypi_index = PackageIndex()
 
@@ -45,24 +47,32 @@ def find_dict_in_list_from_key_val(dicts, key, value):
     return None
 
 
-def get_pypi_package_list(match_name=None):
+def get_pypi_package_list(match_name: str = None) -> List[str]:
+    """Connect to the "simple" pypi url to get the list of all packages matching all or part of
+    the given name
+
+    Parameters
+    ----------
+    match_name: str
+        The package name to be (partially) matched
+
+    Examples
+    --------
+    get_pypi_package_list('pymodaq_plugins') will retrieve the names of all packages having 'pymodaq_plugins'
+    in their name
+    """
     status = 'Connecting to the pypi repository, may take some time to retrieve the list'
-    if logging:
-        logger.info(status)
-    else:
-        print(status)
+    logger.info(status)
     simple_package = requests.get('https://pypi.org/simple/')
     if simple_package.status_code == 503:
         info = 'The service from pypi is currently unavailable, please retry later or install your plugins manually'
-        if logging:
-            logger.info(info)
-        else:
-            print(info)
+        logger.info(info)
     tree = html.fromstring(simple_package.text)
     packages = []
     for child in tree.body:
         if match_name is None or match_name in child.text:
             packages.append(child.text)
+            logger.info(f'Got package {child.text}')
     return packages
 
 
@@ -78,7 +88,21 @@ def get_pymodaq_specifier(requirements: List[str]) -> SpecifierSet:
     return specifier
 
 
-def get_package_metadata(name: str, version: Union[str, Version] = None):
+def get_package_metadata(name: str, version: Union[str, Version] = None) -> dict:
+    """Retrieve the metadata of a given package on pypi matching or not a specific version
+
+    Parameters
+    ----------
+    name: str
+        package name
+    version: Union[str, Version]
+        package version specifier
+
+
+    Returns
+    -------
+    dict of metadata
+    """
     if version is None:
         url = f'https://pypi.python.org/pypi/{name}/json'
     else:
@@ -89,6 +113,7 @@ def get_package_metadata(name: str, version: Union[str, Version] = None):
 
 
 def get_metadata_from_json(json_as_dict: dict) -> dict:
+    """Transform dict of metadata from pypi to a simpler dict"""
     try:
         if json_as_dict is not None:
             metadata = dict([])
@@ -134,13 +159,24 @@ def get_pypi_pymodaq(package_name='pymodaq-plugins', pymodaq_version: Version = 
             return get_metadata_from_json(latest)
 
 
-def get_pypi_plugins(browse_pypi=False, pymodaq_version: Version = None):
+def get_pypi_plugins(browse_pypi=True, pymodaq_version: Union[Version, str] = None) -> List[dict]:
+    """Fetch the list of plugins (for a given version) of pymodaq
+
+    Parameters
+    ----------
+    browse_pypi: bool
+        If True get the list from pypi server, if False from the builtin json (deprecated, should be True)
+    pymodaq_version: Union[str, Version]
+        a given pymodaq version (or the latest if None)
+
+    Returns
+    -------
+    list of dictionaries giving info on plugins
+    """
     plugins = []
-    if browse_pypi:
-        packages = get_pypi_package_list('pymodaq-plugins')
-    else:
-        packages = [plug['plugin-name'] for plug in get_plugins_from_json()]
+    packages = get_pypi_package_list('pymodaq-plugins')
     for package in packages:
+        logger.info(f'Fetching metadata for package {package}')
         metadata = get_pypi_pymodaq(package, pymodaq_version)
         if metadata is not None:
             title = metadata['description'].split('\n')[0]
@@ -158,6 +194,7 @@ def get_pypi_plugins(browse_pypi=False, pymodaq_version: Version = None):
 
 
 def get_plugin_sourcefile_id(filename):
+    """Get the SHA identifier of a vien file"""
     h = sha256()
     b = bytearray(128*1024)
     mv = memoryview(b)
@@ -167,40 +204,26 @@ def get_plugin_sourcefile_id(filename):
     return h.hexdigest()
 
 
-def get_plugins_from_json():
-    return validate_json_plugin_list()['pymodaq-plugins']
-
-
-def get_plugin(name, entry='display-name'):
-    plugins = get_plugins_from_json()
-    d = find_dict_in_list_from_key_val(plugins, entry, name)
-    return d
-
-
 def get_check_repo(plugin_dict):
+    """Unused"""
     try:
         response = requests.get(plugin_dict["repository"])
     except requests.exceptions.RequestException as e:
-        if logging:
-            logger.exception(str(e))
-            return str(e)
+        logger.exception(str(e))
+        return str(e)
 
     if response.status_code != 200:
         rep = f'{plugin_dict["display-name"]}: failed to download plugin. Returned code {response.status_code}'
-        if logging:
-            logger.error(rep)
-        return rep
+        logger.error(rep)
 
     # Hash it and make sure its what is expected
     hash = sha256(response.content).hexdigest()
     if plugin_dict["id"].lower() != hash.lower():
         rep = f'{plugin_dict["display-name"]}: Invalid hash. Got {hash.lower()} but expected {plugin_dict["id"]}'
-        if logging:
-            logger.error(rep)
+        logger.error(rep)
         return rep
     else:
-        if logging:
-            logger.info(f'SHA256 is Ok')
+        logger.info(f'SHA256 is Ok')
 
 
 def get_plugins(from_json=False, browse_pypi=True, pymodaq_version: Version = None):
@@ -222,10 +245,7 @@ def get_plugins(from_json=False, browse_pypi=True, pymodaq_version: Version = No
     plugins_update: list of plugins with existing update
     """
     logger.info('Fetching plugin list')
-    if from_json:
-        plugins_available = get_plugins_from_json()
-    else:
-        plugins_available = get_pypi_plugins(browse_pypi=browse_pypi, pymodaq_version=pymodaq_version)
+    plugins_available = get_pypi_plugins(browse_pypi=browse_pypi, pymodaq_version=pymodaq_version)
 
     plugins = deepcopy(plugins_available)
     plugins_installed_init = [{'plugin-name': entry.module_name,
@@ -247,62 +267,8 @@ def get_plugins(from_json=False, browse_pypi=True, pymodaq_version: Version = No
     return plugins_available, plugins_installed, plugins_update
 
 
-def validate_json_plugin_list():
-    base_path = Path(__file__).parent.joinpath('data')
-    with open(str(base_path.joinpath('plugin_list.schema'))) as f:
-        schema = json.load(f)
-    with open(str(base_path.joinpath('PluginList.json'))) as f:
-        plugins = json.load(f)
-    validate(instance=plugins, schema=schema)
-    return plugins
-
-
 def post_error(message):
-    if logging:
-        logger.error(message)
-
-
-def check_plugin_entries():
-    displaynames = []
-    repositories = []
-    for plugin in get_plugins_from_json():
-        if logging:
-            logger.info(f'Checking info on plugin: {plugin["display-name"]}')
-
-        try:
-            response = requests.get(plugin["repository"])
-        except requests.exceptions.RequestException as e:
-            post_error(str(e))
-            continue
-
-        if response.status_code != 200:
-            post_error(f'{plugin["display-name"]}: failed to download plugin. Returned code {response.status_code}')
-            continue
-
-        # Hash it and make sure its what is expected
-        hash = sha256(response.content).hexdigest()
-        if plugin["id"].lower() != hash.lower():
-            post_error(f'{plugin["display-name"]}: Invalid hash. Got {hash.lower()} but expected {plugin["id"]}')
-        else:
-            if logging:
-                logger.info(f'SHA256 is Ok')
-
-        # check uniqueness of json display-name and repository
-        found = False
-        for name in displaynames:
-            if plugin["display-name"] == name:
-                post_error(f'{plugin["display-name"]}: non unique display-name entry')
-                found = True
-        if not found:
-            displaynames.append(plugin["display-name"])
-
-        found = False
-        for repo in repositories:
-            if plugin["repository"] == repo:
-                post_error(f'{plugin["repository"]}: non unique repository entry')
-                found = True
-        if not found:
-            repositories.append(plugin["repository"])
+    logger.error(message)
 
 
 def extract_authors_from_description(description):
@@ -325,6 +291,7 @@ def extract_authors_from_description(description):
 
 
 def write_plugin_doc():
+    """Update the README from info of all available plugins"""
     plugins = get_pypi_plugins(browse_pypi=True)
     base_path = Path(__file__).parent
 
@@ -403,8 +370,8 @@ def write_plugin_doc():
         content += writer.dumps()
         f.write(content)
 
+
 if __name__ == '__main__':
-    #check_plugin_entries()
     write_plugin_doc()
     # versions = get_pypi_pymodaq()
     # from pymodaq_plugin_manager import __version__ as version
