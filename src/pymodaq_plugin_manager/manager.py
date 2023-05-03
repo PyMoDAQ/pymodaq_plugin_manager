@@ -10,14 +10,13 @@ from qtpy.QtCore import Qt, Slot, Signal
 from qtpy.QtGui import QTextCursor
 from readme_renderer.rst import render
 
-from pymodaq_plugin_manager.validate import validate_json_plugin_list, get_plugins, get_plugin, get_check_repo,\
-    find_dict_in_list_from_key_val
+from pymodaq_plugin_manager.validate import get_plugins
 from pymodaq_plugin_manager.validate import get_pypi_pymodaq
 from pymodaq_plugin_manager import __version__ as version
 from pymodaq_plugin_manager.utils import QVariant, TableModel, TableView, SpinBoxDelegate, get_pymodaq_version
 
 logger = logging.getLogger(__name__)
-# logger.addHandler(logging.NullHandler())
+logger.addHandler(logging.StreamHandler)
 
 
 class TableModel(TableModel):
@@ -329,13 +328,10 @@ class PluginManager(QtCore.QObject):
         self.table_view.setModel(model_proxy)
         self.item_clicked(model_proxy.index(0, 0))
 
-
     def item_clicked(self, index):
         if index.isValid():
             self.display_info(index)
             self.action_button.setEnabled(bool(np.any(index.model().sourceModel().selected)))
-
-
 
     def display_info(self, index):
         self.info_widget.clear()
