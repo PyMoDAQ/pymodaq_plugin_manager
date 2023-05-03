@@ -16,11 +16,11 @@ from pymodaq_plugin_manager import __version__ as version
 from pymodaq_plugin_manager.utils import QVariant, TableModel, TableView, SpinBoxDelegate, get_pymodaq_version
 
 logger = logging.getLogger(__name__)
-logger.addHandler(logging.StreamHandler)
+logger.addHandler(logging.StreamHandler())
 
 
 class TableModel(TableModel):
-
+    """Specific Model to display plugins info in a TableView"""
     def __init__(self, *args, plugins=[], **kwargs):
         super().__init__(*args, **kwargs)
         self._selected = [False for ind in range(len(self._data))]
@@ -71,7 +71,7 @@ class TableModel(TableModel):
 
 
 class FilterProxy(QtCore.QSortFilterProxyModel):
-
+    """Utility to filter the View"""
     def __init__(self, parent=None):
         super().__init__(parent)
 
@@ -101,7 +101,10 @@ class FilterProxy(QtCore.QSortFilterProxyModel):
 
 
 class PluginManager(QtCore.QObject):
+    """Main UI to display a list of plugins and install/uninstall them
 
+    Attempts to display plugins only compatible with the currently installed version of pymodaq
+    """
     quit_signal = Signal()
     restart_signal = Signal()
 

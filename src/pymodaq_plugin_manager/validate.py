@@ -20,7 +20,8 @@ from copy import deepcopy
 import re
 
 logger = logging.getLogger(__name__)
-logger.addHandler(logging.StreamHandler)
+logger.addHandler(logging.StreamHandler())
+logger.setLevel('INFO')
 
 pypi_index = PackageIndex()
 
@@ -61,22 +62,17 @@ def get_pypi_package_list(match_name: str = None) -> List[str]:
     in their name
     """
     status = 'Connecting to the pypi repository, may take some time to retrieve the list'
-    if logging:
-        logger.info(status)
-    else:
-        print(status)
+    logger.info(status)
     simple_package = requests.get('https://pypi.org/simple/')
     if simple_package.status_code == 503:
         info = 'The service from pypi is currently unavailable, please retry later or install your plugins manually'
-        if logging:
-            logger.info(info)
-        else:
-            print(info)
+        logger.info(info)
     tree = html.fromstring(simple_package.text)
     packages = []
     for child in tree.body:
         if match_name is None or match_name in child.text:
             packages.append(child.text)
+            logger.info(f'Got package {child.text}')
     return packages
 
 
@@ -180,6 +176,7 @@ def get_pypi_plugins(browse_pypi=True, pymodaq_version: Union[Version, str] = No
     plugins = []
     packages = get_pypi_package_list('pymodaq-plugins')
     for package in packages:
+        logger.info(f'Fetching metadata for package {package}')
         metadata = get_pypi_pymodaq(package, pymodaq_version)
         if metadata is not None:
             title = metadata['description'].split('\n')[0]
@@ -212,26 +209,21 @@ def get_check_repo(plugin_dict):
     try:
         response = requests.get(plugin_dict["repository"])
     except requests.exceptions.RequestException as e:
-        if logging:
-            logger.exception(str(e))
-            return str(e)
+        logger.exception(str(e))
+        return str(e)
 
     if response.status_code != 200:
         rep = f'{plugin_dict["display-name"]}: failed to download plugin. Returned code {response.status_code}'
-        if logging:
-            logger.error(rep)
-        return rep
+        logger.error(rep)
 
     # Hash it and make sure its what is expected
     hash = sha256(response.content).hexdigest()
     if plugin_dict["id"].lower() != hash.lower():
         rep = f'{plugin_dict["display-name"]}: Invalid hash. Got {hash.lower()} but expected {plugin_dict["id"]}'
-        if logging:
-            logger.error(rep)
+        logger.error(rep)
         return rep
     else:
-        if logging:
-            logger.info(f'SHA256 is Ok')
+        logger.info(f'SHA256 is Ok')
 
 
 def get_plugins(from_json=False, browse_pypi=True, pymodaq_version: Version = None):
@@ -276,8 +268,7 @@ def get_plugins(from_json=False, browse_pypi=True, pymodaq_version: Version = No
 
 
 def post_error(message):
-    if logging:
-        logger.error(message)
+    logger.error(message)
 
 
 def extract_authors_from_description(description):
