@@ -4,7 +4,8 @@ from typing import List, Union
 from hashlib import sha256
 from packaging import version
 from packaging.version import Version
-from packaging.requirements import Requirement, SpecifierSet, Specifier
+from packaging.requirements import Requirement
+from packaging.specifiers import SpecifierSet
 import pkg_resources
 from jsonschema import validate
 import json
