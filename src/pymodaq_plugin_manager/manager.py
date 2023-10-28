@@ -11,7 +11,7 @@ from qtpy.QtGui import QTextCursor
 from readme_renderer.rst import render
 
 from pymodaq_plugin_manager.validate import get_plugins
-from pymodaq_plugin_manager.validate import get_pypi_pymodaq
+from pymodaq_plugin_manager.validate import get_pypi_pymodaq, get_package_metadata
 from pymodaq_plugin_manager import __version__ as version
 from pymodaq_plugin_manager.utils import QVariant, TableModel, TableView, SpinBoxDelegate, get_pymodaq_version
 
@@ -122,11 +122,13 @@ class PluginManager(QtCore.QObject):
     def check_version(self, show=True):
         try:
             current_version = version_mod.parse(version)
-            available_version = [version_mod.parse(ver) for ver in
-                                 get_pypi_pymodaq('pymodaq-plugin-manager')['versions']]
+
+            latest = get_package_metadata('pymodaq_plugin_manager')
+            available_versions = list(latest['releases'].keys())[::-1]
+
             msgBox = QtWidgets.QMessageBox()
-            if max(available_version) > current_version:
-                msgBox.setText(f"A new version of PyMoDAQ Plugin Manager is available, {str(max(available_version))}!")
+            if max(available_versions) > current_version:
+                msgBox.setText(f"A new version of PyMoDAQ Plugin Manager is available, {str(max(available_versions))}!")
                 msgBox.setInformativeText("Do you want to install it?")
                 msgBox.setStandardButtons(msgBox.Ok | msgBox.Cancel)
                 msgBox.setDefaultButton(msgBox.Ok)
@@ -134,7 +136,7 @@ class PluginManager(QtCore.QObject):
                 ret = msgBox.exec()
 
                 if ret == msgBox.Ok:
-                    command = [sys.executable, '-m', 'pip', 'install', f'pymodaq-plugin-manager=={str(max(available_version))}']
+                    command = [sys.executable, '-m', 'pip', 'install', f'pymodaq-plugin-manager=={str(max(available_versions))}']
                     subprocess.Popen(command)
 
                     self.restart()
@@ -369,6 +371,15 @@ class PluginManager(QtCore.QObject):
             #                     text(instt)
             # self.info_widget.insertHtml(doc.getvalue())
             self.info_widget.insertHtml(render(plugin['description']))
+
+
+def main_without_qt():
+    win = QtWidgets.QMainWindow()
+    win.setWindowTitle('PyMoDAQ Plugin Manager')
+    widget = QtWidgets.QWidget()
+    win.setCentralWidget(widget)
+    prog = PluginManager(widget, standalone=True)
+    win.show()
 
 
 def main():

@@ -127,7 +127,7 @@ def get_metadata_from_json(json_as_dict: dict) -> dict:
         pass
 
 
-def get_pypi_pymodaq(package_name='pymodaq-plugins', pymodaq_version: Version = None):
+def get_pypi_pymodaq(package_name='pymodaq-plugins', pymodaq_version: Version = None, pymodaq_latest: Version = None):
     """ Get the latest plugin info compatible with a given version of pymodaq
 
     Parameters
@@ -143,6 +143,8 @@ def get_pypi_pymodaq(package_name='pymodaq-plugins', pymodaq_version: Version = 
         return
     if isinstance(pymodaq_version, str):
         pymodaq_version = Version(pymodaq_version)
+    if pymodaq_latest is None:
+        pymodaq_latest = Version(list(get_package_metadata('pymodaq')['releases'].keys())[-1])
     latest = get_package_metadata(package_name)
     if latest is not None:
         if pymodaq_version is not None:
@@ -155,6 +157,9 @@ def get_pypi_pymodaq(package_name='pymodaq-plugins', pymodaq_version: Version = 
                         return
                     if pymodaq_version in specifier:
                         return get_metadata_from_json(versioned)
+                    elif pymodaq_latest == pymodaq_version:  # if not in specifier and requested pymodaq version is
+                        # latest, not need to loop into older package versions, they won't be compatible either
+                        return
         else:
             return get_metadata_from_json(latest)
 
@@ -175,9 +180,10 @@ def get_pypi_plugins(browse_pypi=True, pymodaq_version: Union[Version, str] = No
     """
     plugins = []
     packages = get_pypi_package_list('pymodaq-plugins')
+    pymodaq_latest = Version(get_pypi_pymodaq('pymodaq')['version'])
     for package in packages:
         logger.info(f'Fetching metadata for package {package}')
-        metadata = get_pypi_pymodaq(package, pymodaq_version)
+        metadata = get_pypi_pymodaq(package, pymodaq_version, pymodaq_latest)
         if metadata is not None:
             title = metadata['description'].split('\n')[0]
             if '(' in title and ')' in title:
@@ -372,8 +378,9 @@ def write_plugin_doc():
 
 
 if __name__ == '__main__':
-    write_plugin_doc()
+    #write_plugin_doc()
     # versions = get_pypi_pymodaq()
     # from pymodaq_plugin_manager import __version__ as version
     # print(version)
     #print(get_pypi_package_list('pymodaq-plugins'))
+    plugins = get_pypi_plugins(pymodaq_version='4.0.8')
