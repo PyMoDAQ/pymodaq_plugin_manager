@@ -127,7 +127,7 @@ class PluginManager(QtCore.QObject):
             available_versions = list(latest['releases'].keys())[::-1]
 
             msgBox = QtWidgets.QMessageBox()
-            if max(available_versions) > current_version:
+            if version_mod.parse(max(available_versions)) > current_version:
                 msgBox.setText(f"A new version of PyMoDAQ Plugin Manager is available, {str(max(available_versions))}!")
                 msgBox.setInformativeText("Do you want to install it?")
                 msgBox.setStandardButtons(msgBox.Ok | msgBox.Cancel)
