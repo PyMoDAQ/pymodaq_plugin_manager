@@ -323,7 +323,7 @@ def write_plugin_doc():
                             text(auth)
                 tmp.append(doc.getvalue())
             elif k == 'version':
-                tmp.append(f'<a href="{plug["repository"]}" target="_top">{plug["version"]}</a> ')
+                tmp.append(f'<a href="{plug["homepage"]}" target="_top">{plug["version"]}</a> ')
             elif k == 'description':
                 doc, tag, text = Doc().tagtext()
                 #text(plug[k]+'\r\n')
@@ -378,9 +378,5 @@ def write_plugin_doc():
 
 
 if __name__ == '__main__':
-    #write_plugin_doc()
-    # versions = get_pypi_pymodaq()
-    # from pymodaq_plugin_manager import __version__ as version
-    # print(version)
-    #print(get_pypi_package_list('pymodaq-plugins'))
-    plugins = get_pypi_plugins(pymodaq_version='4.0.8')
+    write_plugin_doc()  # do not modify this as it is run by github actions
+
