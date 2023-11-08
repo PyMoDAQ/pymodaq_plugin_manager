@@ -155,7 +155,7 @@ def get_pypi_pymodaq(package_name='pymodaq-plugins', pymodaq_version: Version = 
                     specifier = get_pymodaq_specifier(versioned['info']['requires_dist'])
                     if str(specifier) == '>=2.0':  # very old stuff
                         return
-                    if pymodaq_version in specifier:
+                    if pymodaq_version.base_version in specifier:
                         return get_metadata_from_json(versioned)
                     elif pymodaq_latest == pymodaq_version:  # if not in specifier and requested pymodaq version is
                         # latest, not need to loop into older package versions, they won't be compatible either
