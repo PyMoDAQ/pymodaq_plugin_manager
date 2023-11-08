@@ -100,6 +100,19 @@ class FilterProxy(QtCore.QSortFilterProxyModel):
         self.invalidateFilter()
 
 
+class PluginFetcher(QtCore.QObject):
+
+    plugins_signal = QtCore.Signal(tuple)
+
+    def __init__(self, print_method=logger.info):
+        super().__init__()
+        self.print_method = print_method
+
+    def fetch_plugins(self):
+        self.plugins_signal.emit(get_plugins(False, pymodaq_version=get_pymodaq_version(),
+                                             print_method=self.print_method))
+
+
 class PluginManager(QtCore.QObject):
     """Main UI to display a list of plugins and install/uninstall them
 
@@ -114,10 +127,17 @@ class PluginManager(QtCore.QObject):
         self.parent.setLayout(QtWidgets.QVBoxLayout())
         self.standalone = standalone
 
-        self.plugins_available, self.plugins_installed,\
-            self.plugins_update = get_plugins(False, pymodaq_version=get_pymodaq_version())
-
         self.setup_UI()
+        self.enable_ui(False)
+
+        self.plugin_thread = QtCore.QThread()
+        plugin_fetcher = PluginFetcher(self.print_info)
+        plugin_fetcher.plugins_signal.connect(self.setup_models)
+        plugin_fetcher.moveToThread(self.plugin_thread)
+        self.plugin_thread.plugin_fetcher = plugin_fetcher
+        self.plugin_thread.started.connect(plugin_fetcher.fetch_plugins)
+
+        self.plugin_thread.start()
 
     def check_version(self, show=True):
         try:
@@ -157,6 +177,11 @@ class PluginManager(QtCore.QObject):
             subprocess.call([sys.executable, __file__])
         else:
             self.restart_signal.emit()
+
+    def enable_ui(self, enable=True):
+        self.check_updates_pb.setEnabled(enable)
+        self.plugin_choice.setEnabled(enable)
+        self.search_edit.setEnabled(enable)
 
     def setup_UI(self):
 
@@ -202,6 +227,18 @@ class PluginManager(QtCore.QObject):
         self.table_view.horizontalHeader().show()
         self.table_view.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
 
+        self.info_widget = QtWidgets.QTextEdit()
+        self.info_widget.setReadOnly(True)
+
+        splitter.addWidget(self.table_view)
+        splitter.addWidget(self.info_widget)
+
+        self.parent.layout().addWidget(splitter)
+        QtWidgets.QApplication.processEvents()
+
+    def setup_models(self, plugins: tuple):
+        self.plugins_available, self.plugins_installed, self.plugins_update = plugins
+
         self.model_available = TableModel([[plugin['display-name'],
                                             plugin['version']] for plugin in self.plugins_available],
                                           header=['Plugin', 'Version'],
@@ -224,14 +261,7 @@ class PluginManager(QtCore.QObject):
         self.table_view.setModel(model_available_proxy)
         self.table_view.setSortingEnabled(True)
         self.table_view.clicked.connect(self.item_clicked)
-
-        self.info_widget = QtWidgets.QTextEdit()
-        self.info_widget.setReadOnly(True)
-
-        splitter.addWidget(self.table_view)
-        splitter.addWidget(self.info_widget)
-
-        self.parent.layout().addWidget(splitter)
+        self.enable_ui(True)
 
     def do_action(self):
         indexes_plugin = []
@@ -295,18 +325,20 @@ class PluginManager(QtCore.QObject):
         elif msgBox.clickedButton() is restart_button:
             self.restart()
 
+    def print_info(self, message: str):
+        self.info_widget.moveCursor(QTextCursor.End)
+        self.info_widget.insertPlainText(f'{message}\n')
+        self.info_widget.moveCursor(QTextCursor.End)
+        QtCore.QThread.msleep(100)
+        QtWidgets.QApplication.processEvents()
+
     def do_subprocess(self, command):
         try:
-            self.info_widget.moveCursor(QTextCursor.End)
-            self.info_widget.insertPlainText(' '.join(command))
-            self.info_widget.moveCursor(QTextCursor.End)
+            self.print_info(' '.join(command))
 
             with subprocess.Popen(command, stdout=subprocess.PIPE, universal_newlines=True, shell=True) as sp:
                 while True:
-                    self.info_widget.moveCursor(QTextCursor.End)
-                    self.info_widget.insertPlainText(sp.stdout.readline())
-                    self.info_widget.moveCursor(QTextCursor.End)
-                    QtWidgets.QApplication.processEvents()
+                    self.print_info(sp.stdout.readline())
                     return_code = sp.poll()
                     if return_code is not None:
                         self.info_widget.insertPlainText(str(return_code))
@@ -388,8 +420,8 @@ def main():
     win.setWindowTitle('PyMoDAQ Plugin Manager')
     widget = QtWidgets.QWidget()
     win.setCentralWidget(widget)
-    prog = PluginManager(widget, standalone=True)
     win.show()
+    prog = PluginManager(widget, standalone=True)
     sys.exit(app.exec_())
 
 
