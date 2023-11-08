@@ -1,6 +1,5 @@
 include README.rst
 include LICENSE
-include src/pymodaq_plugin_manager/data/*.json
-include src/pymodaq_plugin_manager/data/*.schema
+graft src
 include /doc/*.md
 include icon.ico

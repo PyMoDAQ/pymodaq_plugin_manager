@@ -47,7 +47,7 @@ def find_dict_in_list_from_key_val(dicts, key, value):
     return None
 
 
-def get_pypi_package_list(match_name: str = None) -> List[str]:
+def get_pypi_package_list(match_name: str = None, print_method=logger.info) -> List[str]:
     """Connect to the "simple" pypi url to get the list of all packages matching all or part of
     the given name
 
@@ -55,6 +55,7 @@ def get_pypi_package_list(match_name: str = None) -> List[str]:
     ----------
     match_name: str
         The package name to be (partially) matched
+    print_method: Callable
 
     Examples
     --------
@@ -62,17 +63,17 @@ def get_pypi_package_list(match_name: str = None) -> List[str]:
     in their name
     """
     status = 'Connecting to the pypi repository, may take some time to retrieve the list'
-    logger.info(status)
+    print_method(status)
     simple_package = requests.get('https://pypi.org/simple/')
     if simple_package.status_code == 503:
         info = 'The service from pypi is currently unavailable, please retry later or install your plugins manually'
-        logger.info(info)
+        print_method(info)
     tree = html.fromstring(simple_package.text)
     packages = []
     for child in tree.body:
         if match_name is None or match_name in child.text:
             packages.append(child.text)
-            logger.info(f'Got package {child.text}')
+            print_method(f'Got package {child.text}')
     return packages
 
 
@@ -164,7 +165,8 @@ def get_pypi_pymodaq(package_name='pymodaq-plugins', pymodaq_version: Version = 
             return get_metadata_from_json(latest)
 
 
-def get_pypi_plugins(browse_pypi=True, pymodaq_version: Union[Version, str] = None) -> List[dict]:
+def get_pypi_plugins(browse_pypi=True, pymodaq_version: Union[Version, str] = None,
+                     print_method=logger.info) -> List[dict]:
     """Fetch the list of plugins (for a given version) of pymodaq
 
     Parameters
@@ -173,16 +175,18 @@ def get_pypi_plugins(browse_pypi=True, pymodaq_version: Union[Version, str] = No
         If True get the list from pypi server, if False from the builtin json (deprecated, should be True)
     pymodaq_version: Union[str, Version]
         a given pymodaq version (or the latest if None)
+    print_method: Callable
+        a callable accepting str argument
 
     Returns
     -------
     list of dictionaries giving info on plugins
     """
     plugins = []
-    packages = get_pypi_package_list('pymodaq-plugins')
+    packages = get_pypi_package_list('pymodaq-plugins', print_method=print_method)
     pymodaq_latest = Version(get_pypi_pymodaq('pymodaq')['version'])
     for package in packages:
-        logger.info(f'Fetching metadata for package {package}')
+        print_method(f'Fetching metadata for package {package}')
         metadata = get_pypi_pymodaq(package, pymodaq_version, pymodaq_latest)
         if metadata is not None:
             title = metadata['description'].split('\n')[0]
@@ -232,26 +236,31 @@ def get_check_repo(plugin_dict):
         logger.info(f'SHA256 is Ok')
 
 
-def get_plugins(from_json=False, browse_pypi=True, pymodaq_version: Version = None):
+def get_plugins(from_json=False, browse_pypi=True, pymodaq_version: Version = None, print_method=logger.info):
     """get PyMoDAQ plugins
 
     Parameters
     ----------
-    from_json: (bool) if True get the plugins list and source files from the json data file (deprecated) else from the pypi
-    server
-    browse_pypi: (bool) if from_json is False:
-        if True get the list of plugins name from the https://pypi.org/simple/ website, then get the sources from the pypi
-            server
-        if False, get the list of plugins name from the json data, then fetch the source from the pypi server
-
+    from_json: bool
+        if True get the plugins list and source files from the json data file (deprecated) else from the pypi server
+    browse_pypi: bool
+        if from_json is False:
+            if True get the list of plugins name from the https://pypi.org/simple/ website, then get the sources from
+            the pypiserver
+            if False, get the list of plugins name from the json data, then fetch the source from the pypi server
+    pymodaq_version: Version
+        the current version of PyMoDAQ
+    print_method: Callable
+        a callable accepting string
     Returns
     -------
     plugins_available: list of available plugins for installation
     plugins_installed: list of already installed plugins
     plugins_update: list of plugins with existing update
     """
-    logger.info('Fetching plugin list')
-    plugins_available = get_pypi_plugins(browse_pypi=browse_pypi, pymodaq_version=pymodaq_version)
+    print_method('Fetching plugin list')
+    plugins_available = get_pypi_plugins(browse_pypi=browse_pypi, pymodaq_version=pymodaq_version,
+                                         print_method=print_method)
 
     plugins = deepcopy(plugins_available)
     plugins_installed_init = [{'plugin-name': entry.module_name,
