@@ -6,9 +6,7 @@ from packaging import version
 from packaging.version import Version, parse
 from packaging.requirements import Requirement
 from packaging.specifiers import SpecifierSet
-import pkg_resources
-from jsonschema import validate
-import json
+
 from distlib.index import PackageIndex
 from pathlib import Path
 #using pip directly https://pip.pypa.io/en/latest/reference/pip_install/#git
