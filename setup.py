@@ -35,7 +35,8 @@ setup(
     packages=find_packages(where='./src'),
     package_dir={'': 'src'},
     include_package_data=True,
-    entry_points={'console_scripts': ['plugin_manager=pymodaq_plugin_manager.manager:main',]},
+    entry_points={'console_scripts': ['plugin_manager=pymodaq_plugin_manager.manager:main',
+                                      'write_plugins_doc=pymodaq_plugin_manager.validate:write_plugin_doc']},
     install_requires=[
         'distlib',
         'jsonschema',
