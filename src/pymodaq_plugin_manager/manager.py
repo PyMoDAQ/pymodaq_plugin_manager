@@ -109,8 +109,9 @@ class PluginFetcher(QtCore.QObject):
         self.print_method = print_method
 
     def fetch_plugins(self):
-        self.plugins_signal.emit(get_plugins(False, pymodaq_version=get_pymodaq_version(),
-                                             print_method=self.print_method))
+        plugins = get_plugins(False, pymodaq_version=get_pymodaq_version(),
+                                             print_method=self.print_method)
+        self.plugins_signal.emit(plugins)
 
 
 class PluginManager(QtCore.QObject):
@@ -123,6 +124,15 @@ class PluginManager(QtCore.QObject):
 
     def __init__(self, parent, standalone=False):
         super().__init__()
+
+        self.model_available: TableModel = None
+        self.model_update: TableModel = None
+        self.model_installed: TableModel = None
+
+        self.plugins_available: list = None
+        self.plugins_installed: list = None
+        self.plugins_update: list = None
+
         self.parent = parent
         self.parent.setLayout(QtWidgets.QVBoxLayout())
         self.standalone = standalone

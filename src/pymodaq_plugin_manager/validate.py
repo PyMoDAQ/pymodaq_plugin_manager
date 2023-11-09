@@ -1,9 +1,9 @@
 import logging
 from typing import List, Union
-
+import platform
 from hashlib import sha256
 from packaging import version
-from packaging.version import Version
+from packaging.version import Version, parse
 from packaging.requirements import Requirement
 from packaging.specifiers import SpecifierSet
 import pkg_resources
@@ -18,6 +18,12 @@ import requests
 from lxml import html
 from copy import deepcopy
 import re
+
+if parse(platform.python_version()) >= parse('3.8'):  # from version 3.8 this feature is included in the
+    # standard lib
+    from importlib import metadata
+else:
+    import importlib_metadata as metadata
 
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.StreamHandler())
@@ -235,6 +241,28 @@ def get_check_repo(plugin_dict):
     else:
         logger.info(f'SHA256 is Ok')
 
+def get_entrypoints(group='pymodaq.plugins'):
+    """ Get the list of modules defined from a group entry point
+
+    Because of evolution in the package, one or another of the forms below may be deprecated.
+    We start from the newer way down to the older
+
+    Parameters
+    ----------
+    group: str
+        the name of the group
+    """
+    try:
+        discovered_entrypoints = metadata.entry_points(group=group)
+    except TypeError:
+        try:
+            discovered_entrypoints = metadata.entry_points().select(group=group)
+        except AttributeError:
+            discovered_entrypoints = metadata.entry_points().get(group, [])
+    if isinstance(discovered_entrypoints, tuple):  # API for python > 3.8
+        discovered_entrypoints = list(discovered_entrypoints)
+    return discovered_entrypoints
+
 
 def get_plugins(from_json=False, browse_pypi=True, pymodaq_version: Version = None, print_method=logger.info):
     """get PyMoDAQ plugins
@@ -263,8 +291,9 @@ def get_plugins(from_json=False, browse_pypi=True, pymodaq_version: Version = No
                                          print_method=print_method)
 
     plugins = deepcopy(plugins_available)
-    plugins_installed_init = [{'plugin-name': entry.module_name,
-                          'version': entry.dist.version} for entry in pkg_resources.iter_entry_points('pymodaq.plugins')]
+    discovered_plugins = get_entrypoints('pymodaq.plugins')
+    plugins_installed_init = [{'plugin-name': entry.value,
+                          'version': entry.dist.version} for entry in discovered_plugins]
     plugins_installed = []
     for plug in plugins_installed_init:
         d = find_dict_in_list_from_key_val(plugins_available, 'plugin-name', plug['plugin-name'])
