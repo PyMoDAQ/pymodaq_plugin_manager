@@ -346,7 +346,7 @@ class PluginManager(QtCore.QObject):
         try:
             self.print_info(' '.join(command))
 
-            with subprocess.Popen(command, stdout=subprocess.PIPE, universal_newlines=True, shell=True) as sp:
+            with subprocess.Popen(command, stdout=subprocess.PIPE, universal_newlines=True) as sp:
                 while True:
                     self.print_info(sp.stdout.readline())
                     return_code = sp.poll()
