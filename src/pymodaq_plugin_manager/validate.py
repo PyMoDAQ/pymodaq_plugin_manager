@@ -291,7 +291,7 @@ def get_plugins(from_json=False, browse_pypi=True, pymodaq_version: Version = No
     plugins = deepcopy(plugins_available)
     discovered_plugins = get_entrypoints('pymodaq.plugins')
     plugins_installed_init = [{'plugin-name': entry.value,
-                          'version': entry.dist.version} for entry in discovered_plugins]
+                          'version': metadata.version(entry.value)} for entry in discovered_plugins]
     plugins_installed = []
     for plug in plugins_installed_init:
         d = find_dict_in_list_from_key_val(plugins_available, 'plugin-name', plug['plugin-name'])
@@ -414,5 +414,5 @@ def write_plugin_doc():
 
 
 if __name__ == '__main__':
-    write_plugin_doc()  # do not modify this as it is run by github actions
-
+    #write_plugin_doc()  # do not modify this as it is run by github actions
+    get_plugins()
