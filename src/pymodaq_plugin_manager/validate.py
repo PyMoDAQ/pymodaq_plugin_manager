@@ -187,23 +187,28 @@ def get_pypi_plugins(browse_pypi=True, pymodaq_version: Union[Version, str] = No
     list of dictionaries giving info on plugins
     """
     plugins = []
+    exclude_plugins = ['pymodaq_plugins',
+                       'pymodaq_plugins_orsay',
+                       'pymodaq_plugins_template',
+                       ]
     packages = get_pypi_package_list('pymodaq-plugins', print_method=print_method)
     pymodaq_latest = Version(get_pypi_pymodaq('pymodaq')['version'])
     for package in packages:
-        print_method(f'Fetching metadata for package {package}')
-        metadata = get_pypi_pymodaq(package, pymodaq_version, pymodaq_latest)
-        if metadata is not None:
-            title = metadata['description'].split('\n')[0]
-            if '(' in title and ')' in title:
-                display_name = re.search(r'\((.*?)\)', title).group(1)
-            else:
-                display_name = title
-            plugin = {'plugin-name': package.replace('-', '_'), 'display-name': display_name,
-                      'version': metadata['version'],
-                      'id': '', 'repository': '', 'description': metadata['description'],
-                      'instruments': '', 'authors': [metadata['author']], 'contributors': [],
-                      'homepage': metadata['project_url']}
-            plugins.append(plugin)
+        if package not in exclude_plugins:
+            print_method(f'Fetching metadata for package {package}')
+            metadata = get_pypi_pymodaq(package, pymodaq_version, pymodaq_latest)
+            if metadata is not None:
+                title = metadata['description'].split('\n')[0]
+                if '(' in title and ')' in title:
+                    display_name = re.search(r'\((.*?)\)', title).group(1)
+                else:
+                    display_name = title
+                plugin = {'plugin-name': package.replace('-', '_'), 'display-name': display_name,
+                          'version': metadata['version'],
+                          'id': '', 'repository': '', 'description': metadata['description'],
+                          'instruments': '', 'authors': [metadata['author']], 'contributors': [],
+                          'homepage': metadata['project_url']}
+                plugins.append(plugin)
     return plugins
 
 
@@ -353,9 +358,6 @@ def capitalize(string, Nfirst=1):
 def write_plugin_doc():
     """Update the README from info of all available plugins"""
 
-    exclude_plugins = ['pymodaq_plugins_orsay',
-                       'pymodaq_plugins_template',
-                       ]
 
     plugins = get_pypi_plugins(browse_pypi=True)
     base_path = Path(__file__).parent
@@ -368,59 +370,59 @@ def write_plugin_doc():
 
     for ind, plug in enumerate(plugins):
         tmp = []
-        if plug['plugin-name'] not in exclude_plugins:
-            for k in header_keys:
-                if k == 'display-name':
-                    tmp.append(f'<a href="{plug["homepage"].rstrip()}"'
-                               f' target="_top">'
-                               f'{capitalize(plug["plugin-name"].rstrip()[16:])}'
-                               f'</a> ')
-                elif k == 'authors':
-                    authors = extract_authors_from_description(plug['description'])
-                    if len(authors) == 0:
-                        authors == plug[k]
-                    doc, tag, text = Doc().tagtext()
-                    with tag('ul'):
-                        for auth in authors:
-                            with tag('li'):
-                                text(auth.rstrip())
+
+        for k in header_keys:
+            if k == 'display-name':
+                tmp.append(f'<a href="{plug["homepage"].rstrip()}"'
+                           f' target="_top">'
+                           f'{capitalize(plug["plugin-name"].rstrip()[16:])}'
+                           f'</a> ')
+            elif k == 'authors':
+                authors = extract_authors_from_description(plug['description'])
+                if len(authors) == 0:
+                    authors == plug[k]
+                doc, tag, text = Doc().tagtext()
+                with tag('ul'):
+                    for auth in authors:
+                        with tag('li'):
+                            text(auth.rstrip())
+                tmp.append(doc.getvalue())
+            elif k == 'version':
+                tmp.append(f'<a href="{plug["homepage"]}" target="_top">{plug["version"]}</a> ')
+            elif k == 'description':
+                doc, tag, text = Doc().tagtext()
+                #text(plug[k]+'\r\n')
+                if plug['instruments'] != '':
+
+                    for inst in plug['instruments']:
+                        text(f'{inst}:')
+                        with tag('ul'):
+                            for instt in plug['instruments'][inst]:
+                                with tag('li'):
+                                    text(instt.rstrip())
                     tmp.append(doc.getvalue())
-                elif k == 'version':
-                    tmp.append(f'<a href="{plug["homepage"]}" target="_top">{plug["version"]}</a> ')
-                elif k == 'description':
-                    doc, tag, text = Doc().tagtext()
-                    #text(plug[k]+'\r\n')
-                    if plug['instruments'] != '':
-
-                        for inst in plug['instruments']:
-                            text(f'{inst}:')
-                            with tag('ul'):
-                                for instt in plug['instruments'][inst]:
-                                    with tag('li'):
-                                        text(instt.rstrip())
-                        tmp.append(doc.getvalue())
-                    else:
-                        lines = plug['description'].split('\n')
-                        header_inst = ['Actuators', 'Viewer0D', 'Viewer1D', 'Viewer2D', 'ViewerND']
-                        for header_ind, head in enumerate(header_inst):
-                            for ind_line, line in enumerate(lines):
-                                if head in line:
-                                    text(line.rstrip())
-                                    with tag('ul'):
-                                        for subline in lines[ind_line+1:]:
-                                            if subline[0:4] == '* **':
-                                                with tag('li'):
-                                                    text(subline[2:].rstrip())
-                                            elif any([hd in subline for hd in header_inst[header_ind+1:]]):
-                                                break
-
-
-                        tmp.append(doc.getvalue())
-                        # else:
-                        #     tmp.append('')
                 else:
-                    tmp.append(plug[k])
-            plugins_tmp.append(tmp)
+                    lines = plug['description'].split('\n')
+                    header_inst = ['Actuators', 'Viewer0D', 'Viewer1D', 'Viewer2D', 'ViewerND']
+                    for header_ind, head in enumerate(header_inst):
+                        for ind_line, line in enumerate(lines):
+                            if head in line:
+                                text(line.rstrip())
+                                with tag('ul'):
+                                    for subline in lines[ind_line+1:]:
+                                        if subline[0:4] == '* **':
+                                            with tag('li'):
+                                                text(subline[2:].rstrip())
+                                        elif any([hd in subline for hd in header_inst[header_ind+1:]]):
+                                            break
+
+
+                    tmp.append(doc.getvalue())
+                    # else:
+                    #     tmp.append('')
+            else:
+                tmp.append(plug[k])
+        plugins_tmp.append(tmp)
 
     writer = MarkdownTableWriter(
         table_name="PyMoDAQ Plugins",
