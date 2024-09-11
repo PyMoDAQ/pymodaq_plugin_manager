@@ -342,6 +342,7 @@ def write_plugin_doc():
     """Update the README from info of all available plugins"""
 
     exclude_plugins = ['pymodaq_plugins_orsay',
+                       'pymodaq_plugins_template',
                        ]
 
     plugins = get_pypi_plugins(browse_pypi=True)
