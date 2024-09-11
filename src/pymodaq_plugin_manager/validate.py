@@ -337,6 +337,18 @@ def extract_authors_from_description(description):
     authors_raw = description[posa:posc if posc != -1 else posi]
     return authors_raw.split('\n* ')[1:]
 
+def capitalize(string, Nfirst=1):
+    """
+    Returns same string but with first Nfirst letters upper
+    Parameters
+    ----------
+    string: (str)
+    Nfirst: (int)
+    Returns
+    -------
+    str
+    """
+    return string[:Nfirst].upper() + string[Nfirst:]
 
 def write_plugin_doc():
     """Update the README from info of all available plugins"""
@@ -361,9 +373,8 @@ def write_plugin_doc():
                 if k == 'display-name':
                     tmp.append(f'<a href="{plug["homepage"].rstrip()}"'
                                f' target="_top">'
-                               f'{plug["plugin-name"].rstrip()}'
-                               f'\n'
-                               f'{plug["display-name"].rstrip()}</a> ')
+                               f'{capitalize(plug["plugin-name"].rstrip()[16:])}'
+                               f'</a> ')
                 elif k == 'authors':
                     authors = extract_authors_from_description(plug['description'])
                     if len(authors) == 0:
