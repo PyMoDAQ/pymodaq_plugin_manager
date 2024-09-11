@@ -328,12 +328,22 @@ def extract_authors_from_description(description):
     posa = description.find('Authors')
     posc = description.find('\n\nContributors')
     posi = description.find('\n\nInstruments')
+    if posi == -1:
+        posi = description.find('\nInstruments')  # in case only one new line has been used
+        if posi == -1:
+            posi = description.find('Instruments')
+            if posi == -1:
+                posi == posa + 50
     authors_raw = description[posa:posc if posc != -1 else posi]
     return authors_raw.split('\n* ')[1:]
 
 
 def write_plugin_doc():
     """Update the README from info of all available plugins"""
+
+    exclude_plugins = ['pymodaq_plugins_orsay',
+                       ]
+
     plugins = get_pypi_plugins(browse_pypi=True)
     base_path = Path(__file__).parent
 
@@ -345,55 +355,56 @@ def write_plugin_doc():
 
     for ind, plug in enumerate(plugins):
         tmp = []
-        for k in header_keys:
-            if k == 'display-name':
-                tmp.append(f'<a href="{plug["homepage"]}" target="_top">{plug["display-name"]}</a> ')
-            elif k == 'authors':
-                authors = extract_authors_from_description(plug['description'])
-                if len(authors) == 0:
-                    authors == plug[k]
-                doc, tag, text = Doc().tagtext()
-                with tag('ul'):
-                    for auth in authors:
-                        with tag('li'):
-                            text(auth)
-                tmp.append(doc.getvalue())
-            elif k == 'version':
-                tmp.append(f'<a href="{plug["homepage"]}" target="_top">{plug["version"]}</a> ')
-            elif k == 'description':
-                doc, tag, text = Doc().tagtext()
-                #text(plug[k]+'\r\n')
-                if plug['instruments'] != '':
-
-                    for inst in plug['instruments']:
-                        text(f'{inst}:')
-                        with tag('ul'):
-                            for instt in plug['instruments'][inst]:
-                                with tag('li'):
-                                    text(instt)
+        if plug['plugin-name'] not in exclude_plugins:
+            for k in header_keys:
+                if k == 'display-name':
+                    tmp.append(f'<a href="{plug["homepage"]}" target="_top">{plug["display-name"]}</a> ')
+                elif k == 'authors':
+                    authors = extract_authors_from_description(plug['description'])
+                    if len(authors) == 0:
+                        authors == plug[k]
+                    doc, tag, text = Doc().tagtext()
+                    with tag('ul'):
+                        for auth in authors:
+                            with tag('li'):
+                                text(auth.rstrip())
                     tmp.append(doc.getvalue())
+                elif k == 'version':
+                    tmp.append(f'<a href="{plug["homepage"]}" target="_top">{plug["version"]}</a> ')
+                elif k == 'description':
+                    doc, tag, text = Doc().tagtext()
+                    #text(plug[k]+'\r\n')
+                    if plug['instruments'] != '':
+
+                        for inst in plug['instruments']:
+                            text(f'{inst}:')
+                            with tag('ul'):
+                                for instt in plug['instruments'][inst]:
+                                    with tag('li'):
+                                        text(instt)
+                        tmp.append(doc.getvalue())
+                    else:
+                        lines = plug['description'].split('\n')
+                        header_inst = ['Actuators', 'Viewer0D', 'Viewer1D', 'Viewer2D', 'ViewerND']
+                        for header_ind, head in enumerate(header_inst):
+                            for ind_line, line in enumerate(lines):
+                                if head in line:
+                                    text(line)
+                                    with tag('ul'):
+                                        for subline in lines[ind_line+1:]:
+                                            if subline[0:4] == '* **':
+                                                with tag('li'):
+                                                    text(subline[2:])
+                                            elif any([hd in subline for hd in header_inst[header_ind+1:]]):
+                                                break
+
+
+                        tmp.append(doc.getvalue())
+                        # else:
+                        #     tmp.append('')
                 else:
-                    lines = plug['description'].split('\n')
-                    header_inst = ['Actuators', 'Viewer0D', 'Viewer1D', 'Viewer2D', 'ViewerND']
-                    for header_ind, head in enumerate(header_inst):
-                        for ind_line, line in enumerate(lines):
-                            if head in line:
-                                text(line)
-                                with tag('ul'):
-                                    for subline in lines[ind_line+1:]:
-                                        if subline[0:4] == '* **':
-                                            with tag('li'):
-                                                text(subline[2:])
-                                        elif any([hd in subline for hd in header_inst[header_ind+1:]]):
-                                            break
-
-
-                    tmp.append(doc.getvalue())
-                    # else:
-                    #     tmp.append('')
-            else:
-                tmp.append(plug[k])
-        plugins_tmp.append(tmp)
+                    tmp.append(plug[k])
+            plugins_tmp.append(tmp)
 
     writer = MarkdownTableWriter(
         table_name="PyMoDAQ Plugins",
@@ -414,5 +425,5 @@ def write_plugin_doc():
 
 
 if __name__ == '__main__':
-    #write_plugin_doc()  # do not modify this as it is run by github actions
-    get_plugins()
+    write_plugin_doc()  # do not modify this as it is run by github actions
+    #get_plugins()
