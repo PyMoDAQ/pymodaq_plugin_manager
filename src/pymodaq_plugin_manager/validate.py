@@ -359,7 +359,8 @@ def write_plugin_doc():
         if plug['plugin-name'] not in exclude_plugins:
             for k in header_keys:
                 if k == 'display-name':
-                    tmp.append(f'<a href="{plug["homepage"]}" target="_top">{plug["display-name"]}</a> ')
+                    tmp.append(f'<a href="{plug["homepage"].rstrip()}"'
+                               f' target="_top">{plug["display-name"].rstrip()}</a> ')
                 elif k == 'authors':
                     authors = extract_authors_from_description(plug['description'])
                     if len(authors) == 0:
@@ -382,7 +383,7 @@ def write_plugin_doc():
                             with tag('ul'):
                                 for instt in plug['instruments'][inst]:
                                     with tag('li'):
-                                        text(instt)
+                                        text(instt.rstrip())
                         tmp.append(doc.getvalue())
                     else:
                         lines = plug['description'].split('\n')
@@ -390,12 +391,12 @@ def write_plugin_doc():
                         for header_ind, head in enumerate(header_inst):
                             for ind_line, line in enumerate(lines):
                                 if head in line:
-                                    text(line)
+                                    text(line.rstrip())
                                     with tag('ul'):
                                         for subline in lines[ind_line+1:]:
                                             if subline[0:4] == '* **':
                                                 with tag('li'):
-                                                    text(subline[2:])
+                                                    text(subline[2:].rstrip())
                                             elif any([hd in subline for hd in header_inst[header_ind+1:]]):
                                                 break
 
