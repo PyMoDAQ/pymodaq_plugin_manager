@@ -352,7 +352,7 @@ def write_plugin_doc():
     header = ['Repo Name', 'Authors', 'Version plugin', 'Instruments']
     plugins_tmp = []
 
-    plugins.sort(key=lambda plugin: plugin['display-name'])
+    plugins.sort(key=lambda plugin: plugin['plugin-name'])
 
     for ind, plug in enumerate(plugins):
         tmp = []
@@ -360,7 +360,10 @@ def write_plugin_doc():
             for k in header_keys:
                 if k == 'display-name':
                     tmp.append(f'<a href="{plug["homepage"].rstrip()}"'
-                               f' target="_top">{plug["display-name"].rstrip()}</a> ')
+                               f' target="_top">'
+                               f'{plug["plugin-name"].rstrip()}'
+                               f'\n'
+                               f'{plug["display-name"].rstrip()}</a> ')
                 elif k == 'authors':
                     authors = extract_authors_from_description(plug['description'])
                     if len(authors) == 0:
