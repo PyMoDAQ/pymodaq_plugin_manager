@@ -1,3 +1,4 @@
+chardet
 distlib
 jsonschema
 pytablewriter
