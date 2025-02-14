@@ -58,7 +58,8 @@ class PyMoDAQPlugin:
         bool:
             True if the plugin could be installed or is already installed, False otherwise    
         '''
-        command = [sys.executable, '-m', 'pip', 'install', f'{self._name}=={self._version}']
+        package = f'{self._name}=={self._version}' if self._version else f'{self._name}'
+        command = [sys.executable, '-m', 'pip', 'install', package]
         if args.pymodaq:
             command.append(args.pymodaq)
             
@@ -117,6 +118,7 @@ class PyMoDAQPlugin:
 def parse_args():
     parser = argparse.ArgumentParser(description="Detect incompatibilities between a PyMoDAQ version and the released plugins")
     parser.add_argument("-r", type=Path, default=Path("reports/"), dest="reports_path", help="Path to the reports folder (default: reports/)")
+    parser.add_argument("-p", type=str, default=None, dest="plugin", help="plugin to check (instead of the complete list)")
     parser.add_argument(nargs="?", type=str, default="", dest="pymodaq", help="Installation source of the PyMoDAQ package (default: empty string)")
 
     return parser.parse_args()
@@ -137,9 +139,13 @@ def main():
     code = 0
     args.reports_path.mkdir(parents=True, exist_ok=True)
 
-    
-    plugin_list = get_pypi_plugins()
-    
+
+    if args.plugin:
+        plugin_list = [{"plugin-name" : args.plugin, "version" : None}]
+    else:
+        plugin_list = get_pypi_plugins()
+
+
     for p in plugin_list:
         plugin = PyMoDAQPlugin(p['plugin-name'], p['version'])
         if plugin.install():
