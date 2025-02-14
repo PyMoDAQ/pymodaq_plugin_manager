@@ -7,9 +7,8 @@ import subprocess
 import importlib
 import argparse
 
+from pymodaq_plugin_manager.validate import  get_pypi_plugins
 
-from pymodaq_plugin_manager.utils import get_pymodaq_version
-from pymodaq_plugin_manager.validate import get_plugins, get_pypi_pymodaq, get_package_metadata, get_pypi_plugins
 
 def _detect_encoding(filename):
     '''
@@ -27,6 +26,7 @@ def _detect_encoding(filename):
     with open(filename, "rb") as f:
         raw = f.read()
         return chardet.detect(raw)['encoding']
+
 
 class PyMoDAQPlugin:
     '''
@@ -115,6 +115,7 @@ class PyMoDAQPlugin:
         
         return len(self._failed_imports) == 0
 
+
 def parse_args():
     parser = argparse.ArgumentParser(description="Detect incompatibilities between a PyMoDAQ version and the released plugins")
     parser.add_argument("-r", type=Path, default=Path("reports/"), dest="reports_path", help="Path to the reports folder (default: reports/)")
@@ -122,6 +123,7 @@ def parse_args():
     parser.add_argument(nargs="?", type=str, default="", dest="pymodaq", help="Installation source of the PyMoDAQ package (default: empty string)")
 
     return parser.parse_args()
+
 
 def main():
     '''
@@ -156,5 +158,7 @@ def main():
             plugin.save_install_report()
             code = 1
     sys.exit(code)
+
+
 if __name__ == '__main__':
     main()

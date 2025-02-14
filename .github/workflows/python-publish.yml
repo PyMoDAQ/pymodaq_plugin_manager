@@ -8,24 +8,31 @@ on:
     types: [created]
 
 jobs:
-  deploy:
+  build:
 
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4.2.0
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v5.2.0
       with:
-        python-version: '3.x'
+        python-version: '3.11'
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install setuptools wheel twine toml
-    - name: Build and publish
-      env:
-        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+        pip install hatch hatchling
+    - name: Get history and tags for SCM versioning to work
       run: |
-        python setup.py sdist bdist_wheel
-        twine upload dist/*
+        git branch
+        git fetch --prune --unshallow
+        git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+        hatch version
+    - name: Build
+      run: hatch build
+    - name: publish
+      env:
+        HATCH_INDEX_USER: ${{ secrets.PYPI_USERNAME }}
+        HATCH_INDEX_AUTH: ${{ secrets.PYPI_PASSWORD }}
+      run: |
+        hatch publish
