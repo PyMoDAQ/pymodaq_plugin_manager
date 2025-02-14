@@ -190,14 +190,14 @@ def get_pypi_plugins(browse_pypi=True, pymodaq_version: Union[Version, str] = No
     exclude_plugins = ['pymodaq_plugins',
                        'pymodaq_plugins_orsay',
                        'pymodaq_plugins_template',
-                       'pymodaq_plugins_KDC101',
+                       'pymodaq_plugins_KDC101', #should not exists on its own but should be incorporated into thorlabs
                        'pymodaq_plugins_AvaSpec',
-                       'pymodaq_plugins_MozzaSpectro'
+                       'pymodaq_plugins_MozzaSpectro',
                        ]
     packages = get_pypi_package_list('pymodaq-plugins', print_method=print_method)
     pymodaq_latest = Version(get_pypi_pymodaq('pymodaq')['version'])
     for package in packages:
-        if package not in exclude_plugins:
+        if package.replace('-', '_') not in exclude_plugins:
             print_method(f'Fetching metadata for package {package}')
             metadata = get_pypi_pymodaq(package, pymodaq_version, pymodaq_latest)
             if metadata is not None:
