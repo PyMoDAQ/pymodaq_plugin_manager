@@ -1,7 +1,4 @@
-import json
-from pathlib import Path
-base_path = Path(__file__).parent
+from pymodaq_utils.utils import get_version
 
-with open(str(Path(__file__).parent.joinpath('VERSION')), 'r') as fvers:
-    __version__ = fvers.read().strip()
+__version__ = get_version('pymodaq_plugin_manager')
 

@@ -45,6 +45,9 @@ setup(
         'yawrap',
         'lxml',
         'readme_renderer',
+        'chardet',
+        'packaging'
+
         ],
     **setupOpts
 )
