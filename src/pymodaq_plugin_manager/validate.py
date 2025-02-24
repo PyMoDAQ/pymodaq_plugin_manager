@@ -346,7 +346,7 @@ def extract_authors_from_description(description):
 
     authors_end = pos_if_need if pos_if_need != -1 else posc
     if authors_end == -1 or authors_end > posi:
-        authors_end == posi
+        authors_end = posi
 
     authors_raw = description[posa:authors_end]
     return authors_raw.split('\n* ')[1:]
