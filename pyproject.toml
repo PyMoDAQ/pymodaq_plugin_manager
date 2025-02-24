@@ -1,0 +1,66 @@
+[build-system]
+requires = ["hatchling>=1.9.0", "hatch-vcs", "toml"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pymodaq_plugin_manager"
+dynamic = [
+    "version",
+]
+description = "Manager and interface to list, install or remove PyMoDAQ's plugins"
+readme = "README_base.md"
+license = { file="LICENSE" }
+requires-python = ">=3.9"
+authors = [
+    { name = "Sébastien Weber", email = "sebastien.weber@cemes.fr" },
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Other Environment",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Human Machine Interfaces",
+    "Topic :: Scientific/Engineering :: Visualization",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: User Interfaces",
+]
+
+dependencies = [
+    'pymodaq',
+    'distlib',
+    'jsonschema',
+    'pytablewriter',
+    'requests',
+    'yawrap',
+    'lxml',
+    'readme_renderer',
+    'chardet',
+    'packaging'
+]
+
+
+[project.urls]
+Homepage = "http://pymodaq.cnrs.fr"
+Source = "https://github.com/PyMoDAQ/pymodaq_plugins_manager"
+Tracker = "https://github.com/PyMoDAQ/pymodaq_plugins_manager/issues"
+
+[tool.hatch.version]
+source = "vcs"
+fallback-version = '1.2.4'
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/src",
+]
+
+
+[project.scripts]
+plugin_manager = 'pymodaq_plugin_manager.manager:main'
+write_plugins_doc = 'pymodaq_plugin_manager.validate:write_plugin_doc'
+plugin_checker = 'pymodaq_plugin_manager.compatibility_checker:main'

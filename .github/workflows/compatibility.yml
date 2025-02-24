@@ -36,7 +36,7 @@ jobs:
       - name: Run script
         run: |
           source venv/bin/activate
-          python scripts/compatibility-checker.py "git+https://github.com/PyMoDAQ/PyMoDAQ.git@${{ matrix.pymodaq-version }}"
+          python src/pymodaq_plugin_manager/compatibility_checker.py "git+https://github.com/PyMoDAQ/PyMoDAQ.git@${{ matrix.pymodaq-version }}"
 
       - name: Upload reports if failed
         if: failure()
