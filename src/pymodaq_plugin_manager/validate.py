@@ -418,13 +418,11 @@ def write_plugin_doc():
                         for ind_line, line in enumerate(lines):
                             if head in line:
                                 instrument_text.append(line.rstrip())
-                                with tag('ul'):
-                                    for subline in lines[ind_line+1:]:
-                                        if subline[0:4] == '* **':
-                                            with tag('li'):
-                                                instrument_text.append(subline[2:].rstrip())
-                                        elif any([hd in subline for hd in header_inst[header_ind+1:]]):
-                                            break
+                                for subline in lines[ind_line+1:]:
+                                    if subline[0:4] == '* **':
+                                        instrument_text.append(subline[2:].rstrip())
+                                    elif any([hd in subline for hd in header_inst[header_ind+1:]]):
+                                        break
                         if len(instrument_text) > 1:
                             text(instrument_text[0])
                             for inst_txt in instrument_text[1:]:
