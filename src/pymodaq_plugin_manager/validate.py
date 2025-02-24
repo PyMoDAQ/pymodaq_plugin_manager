@@ -414,16 +414,23 @@ def write_plugin_doc():
                     lines = plug['description'].split('\n')
                     header_inst = ['Actuators', 'Viewer0D', 'Viewer1D', 'Viewer2D', 'ViewerND']
                     for header_ind, head in enumerate(header_inst):
+                        instrument_text = []
                         for ind_line, line in enumerate(lines):
                             if head in line:
-                                text(line.rstrip())
+                                instrument_text.append(line.rstrip())
                                 with tag('ul'):
                                     for subline in lines[ind_line+1:]:
                                         if subline[0:4] == '* **':
                                             with tag('li'):
-                                                text(subline[2:].rstrip())
+                                                instrument_text.append(subline[2:].rstrip())
                                         elif any([hd in subline for hd in header_inst[header_ind+1:]]):
                                             break
+                        if len(instrument_text) > 1:
+                            text(instrument_text[0])
+                            for inst_txt in instrument_text[1:]:
+                                with tag('ul'):
+                                    with tag('li'):
+                                        text(inst_txt)
 
 
                     tmp.append(doc.getvalue())
