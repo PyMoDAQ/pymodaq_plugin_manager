@@ -334,6 +334,7 @@ def extract_authors_from_description(description):
     """
 
     posa = description.find('Authors')
+    pos_if_need = description.find('\n\n.. if needed use this field')
     posc = description.find('\n\nContributors')
     posi = description.find('\n\nInstruments')
     if posi == -1:
@@ -342,7 +343,9 @@ def extract_authors_from_description(description):
             posi = description.find('Instruments')
             if posi == -1:
                 posi == posa + 50
-    authors_raw = description[posa:posc if posc != -1 else posi]
+
+    authors_end = pos_if_need if pos_if_need != -1 else posc if posc != -1 else posi
+    authors_raw = description[posa:authors_end]
     return authors_raw.split('\n* ')[1:]
 
 def capitalize(string, Nfirst=1):
