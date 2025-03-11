@@ -1,4 +1,4 @@
-name: Compatibility verification between PyMoDAQ and plugins
+name: Compatibility verification between PyMoDAQ (latest) and plugins
 
 on:
   schedule:
@@ -9,8 +9,6 @@ jobs:
   check-compatibility:
     strategy:
       fail-fast: false
-      matrix:
-        pymodaq-version: ["4.4.x", "5.0.x_dev"]
     runs-on: ubuntu-latest
     steps:
       - name: Set up Python
@@ -31,18 +29,18 @@ jobs:
           source venv/bin/activate
           python -m pip install --upgrade pip
           pip install hatch pyqt5
-          pip install git+https://github.com/PyMoDAQ/PyMoDAQ.git@${{ matrix.pymodaq-version }}
-
+          pip install git+https://github.com/PyMoDAQ/PyMoDAQ.git
+          
       - name: Run script
         run: |
           source venv/bin/activate
-          python src/pymodaq_plugin_manager/compatibility_checker.py "git+https://github.com/PyMoDAQ/PyMoDAQ.git@${{ matrix.pymodaq-version }}"
+          python src/pymodaq_plugin_manager/compatibility_checker.py "git+https://github.com/PyMoDAQ/PyMoDAQ.git"
 
       - name: Upload reports if failed
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: failure-reports-${{ matrix.pymodaq-version }}
+          name: failure-reports
           path: reports
 
       - name: Check version
