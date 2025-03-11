@@ -1,4 +1,4 @@
-from pymodaq_utils.utils import get_version
+from importlib import metadata
 
-__version__ = get_version('pymodaq_plugin_manager')
+__version__ = metadata.version('pymodaq_plugin_manager')
 
