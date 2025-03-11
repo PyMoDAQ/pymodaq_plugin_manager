@@ -41,8 +41,12 @@ jobs:
       - name: Run script
         run: |
           source venv/bin/activate
-          python src/pymodaq_plugin_manager/compatibility_checker.py "git+https://github.com/PyMoDAQ/PyMoDAQ.git@${{ matrix.pymodaq-version }}"
-
+          if [[ "${{ matrix.pymodaq-version }}" = "latest" ]]; then
+            pymodaq="git+https://github.com/PyMoDAQ/PyMoDAQ.git"
+          else
+            pymodaq="git+https://github.com/PyMoDAQ/PyMoDAQ.git@${{ matrix.pymodaq-version }}"
+          fi
+            python src/pymodaq_plugin_manager/compatibility_checker.py "${pymodaq}"
       - name: Upload reports if failed
         if: failure()
         uses: actions/upload-artifact@v4
