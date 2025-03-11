@@ -36,6 +36,7 @@ jobs:
           else
             pip install git+https://github.com/PyMoDAQ/PyMoDAQ.git@${{ matrix.pymodaq-version }}
           fi
+          pip install -e .
           
       - name: Run script
         run: |
