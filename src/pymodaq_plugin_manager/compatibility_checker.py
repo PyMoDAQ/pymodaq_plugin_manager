@@ -66,15 +66,19 @@ class PyMoDAQPlugin:
         self._install_result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
         return self._install_result.returncode == 0
 
-    def _save_report(self, name, stream):
-        with open(args.reports_path / name, 'w') as f:
+    def _save_report(self, name, stream, path = None):
+        if not path:
+            path = args.reports_path
+        else:
+            path = Path(path) 
+        with open(path / name, 'w') as f:
             f.write(stream)
 
-    def save_install_report(self):
-        self._save_report(f'install_report_{self._name}_{self._version}.txt', self._install_result.stdout)
+    def save_install_report(self, path = None):
+        self._save_report(f'install_report_{self._name}_{self._version}.txt', self._install_result.stdout, path=path)
     
-    def save_import_report(self):
-        self._save_report(f'import_report_{self._name}_{self._version}.txt', '\n'.join(self._failed_imports + [''])) 
+    def save_import_report(self, path = None):
+        self._save_report(f'import_report_{self._name}_{self._version}.txt', '\n'.join(self._failed_imports + ['']), path=path) 
 
     def all_imports_valid(self) -> bool:
         '''

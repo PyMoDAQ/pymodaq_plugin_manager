@@ -32,7 +32,6 @@ classifiers = [
 ]
 
 dependencies = [
-    'pymodaq',
     'distlib',
     'jsonschema',
     'pytablewriter',
