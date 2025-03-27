@@ -6,6 +6,9 @@ from pathlib import Path
 import subprocess
 import importlib
 import argparse
+import pkgutil
+
+from pymodaq_data import Q_, Unit
 
 from pymodaq_plugin_manager.validate import  get_pypi_plugins
 
@@ -37,6 +40,9 @@ class PyMoDAQPlugin:
         self._name = name
         self._version = version
         self._install_result = None
+        self.failed_imports = []
+        self.failed_units = []
+        self.failed_other = []
 
     @property
     def name(self):
@@ -76,9 +82,54 @@ class PyMoDAQPlugin:
 
     def save_install_report(self, path = None):
         self._save_report(f'install_report_{self._name}_{self._version}.txt', self._install_result.stdout, path=path)
-    
+
     def save_import_report(self, path = None):
         self._save_report(f'import_report_{self._name}_{self._version}.txt', '\n'.join(self._failed_imports + ['']), path=path) 
+
+    def save_import_report(self):
+        self._save_report(f'import_report_{self._name}_{self._version}.txt', '\n'.join(self.failed_imports + ['']))
+
+    def save_units_report(self):
+        self._save_report(f'unit_report_{self._name}_{self._version}.txt', '\n'.join(self.failed_units + ['']))
+
+    def save_other_report(self):
+        self._save_report(f'other_report_{self._name}_{self._version}.txt', '\n'.join(self.failed_other + ['']))
+
+    def get_move_plugins(self):
+        pkg_name = self._name
+        try:
+            move_mod = importlib.import_module(f'{pkg_name}.daq_move_plugins')
+            plugin_list = []
+            try:
+
+                for mod in pkgutil.iter_modules([str(move_mod.path.parent)]):
+                    if 'daq_move_' in mod:
+                        plugin_list.append(mod[1])
+            except Exception as e:
+                self.failed_other.append(f'Unknown: {e} in {mod}')
+        except Exception as e:
+            plugin_list = []
+            move_mod = None
+            self.failed_other.append(f'Unknown: {e} in {move_mod}')
+
+
+        return plugin_list, move_mod
+
+    def units_valid(self):
+        plugin_list, move_mod = self.get_move_plugins()
+        for plug in plugin_list:
+            try:
+                name = plug.split('daq_move_')[1]
+                print(name)
+                klass = getattr(getattr(move_mod, plug), f'DAQ_Move_{name}')
+                if not isinstance(klass._controller_units, list):
+                    units = [klass._controller_units]
+                else:
+                    units = klass._controller_units
+                for unit in units:
+                    Unit(unit)  # check if the unit is known from pint
+            except Exception as e:
+                self.failed_units.append(f'Unit error in {move_mod}/{plug}: {str(e)}')
 
     def all_imports_valid(self) -> bool:
         '''
@@ -89,7 +140,7 @@ class PyMoDAQPlugin:
         bool:
             True if all imports are valid (no import failed), False otherwise    
         '''
-        self._failed_imports = []
+
         install_path = self._get_location()
 
         for filename in Path(install_path).glob('**/*.py'):
@@ -111,13 +162,11 @@ class PyMoDAQPlugin:
                                         importlib.import_module(node.module)
                                 
                                 except (ImportError, ModuleNotFoundError):
-                                    self._failed_imports.append(f'"{import_code}" in {filename} ({node.lineno})') 
+                                    self.failed_imports.append(f'"{import_code}" in {filename} ({node.lineno})')
                                 except Exception as e:
-                                    print(f'Unknown: {e}')
+                                    self.failed_other.append(f'Unknown: {e} in {filename}')
                     except TypeError as te:
                         pass
-        
-        return len(self._failed_imports) == 0
 
 
 def parse_args():
@@ -145,7 +194,6 @@ def main():
     code = 0
     args.reports_path.mkdir(parents=True, exist_ok=True)
 
-
     if args.plugin:
         plugin_list = [{"plugin-name" : args.plugin, "version" : None}]
     else:
@@ -155,8 +203,16 @@ def main():
     for p in plugin_list:
         plugin = PyMoDAQPlugin(p['plugin-name'], p['version'])
         if plugin.install():
-            if not plugin.all_imports_valid():
+            plugin.all_imports_valid()
+            if len(plugin.failed_imports) > 0:
                 plugin.save_import_report()
+                code = 1
+            plugin.units_valid()
+            if len(plugin.failed_units) > 0:
+                plugin.save_units_report()
+                code = 1
+            if len(plugin.failed_other) > 0:
+                plugin.save_other_report()
                 code = 1
         else:
             plugin.save_install_report()
