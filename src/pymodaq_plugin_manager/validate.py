@@ -206,8 +206,8 @@ def get_pypi_plugins(browse_pypi=True, pymodaq_version: Union[Version, str] = No
             print_method(f'Fetching metadata for package {package}')
             metadata = get_pypi_pymodaq(package, pymodaq_version, pymodaq_latest)
             if metadata is not None:
-                title = metadata['description'].split('\n')[0]
-                display_name = ' '.join(title.split('_')[2:]).capitalize()
+                #title = metadata['description'].split('\n')[0]
+                display_name = ' '.join(package.split('_')[2:]).capitalize()
                 plugin = {'plugin-name': package, 'display-name': display_name,
                           'version': metadata['version'],
                           'id': '', 'repository': '', 'description': metadata['description'],
