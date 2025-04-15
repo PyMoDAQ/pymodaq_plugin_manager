@@ -75,9 +75,9 @@ class FilterProxy(QtCore.QSortFilterProxyModel):
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        self.textRegExp = QtCore.QRegExp()
-        self.textRegExp.setCaseSensitivity(QtCore.Qt.CaseInsensitive)
-        self.textRegExp.setPatternSyntax(QtCore.QRegExp.Wildcard)
+        self.textRegExp = QtCore.QRegularExpression()
+        self.textRegExp.setPatternOptions(QtCore.QRegularExpression.CaseInsensitiveOption)
+        #self.textRegExp.setPatternSyntax(QtCore.QRegularExpression.Wildcard)
 
     def filterAcceptsRow(self, sourcerow, parent_index):
         plugin_index = self.sourceModel().index(sourcerow, 0, parent_index)
@@ -110,7 +110,7 @@ class PluginFetcher(QtCore.QObject):
 
     def fetch_plugins(self):
         plugins = get_plugins(False, pymodaq_version=get_pymodaq_version(),
-                                             print_method=self.print_method)
+                              print_method=self.print_method)
         self.plugins_signal.emit(plugins)
 
 
