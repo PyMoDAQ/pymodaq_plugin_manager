@@ -51,7 +51,8 @@ def find_dict_in_list_from_key_val(dicts, key, value):
     return None
 
 
-def get_pypi_package_list(match_name: str = None, print_method=logger.info) -> List[str]:
+def get_pypi_package_list(match_name: Union[str, list[str]] = None,
+                          print_method=logger.info) -> List[str]:
     """Connect to the "simple" pypi url to get the list of all packages matching all or part of
     the given name
 
@@ -66,6 +67,8 @@ def get_pypi_package_list(match_name: str = None, print_method=logger.info) -> L
     get_pypi_package_list('pymodaq_plugins') will retrieve the names of all packages having 'pymodaq_plugins'
     in their name
     """
+    if isinstance(match_name, str):
+        match_name = [match_name]
     status = 'Connecting to the pypi repository, may take some time to retrieve the list'
     print_method(status)
     simple_package = requests.get('https://pypi.org/simple/')
@@ -75,7 +78,7 @@ def get_pypi_package_list(match_name: str = None, print_method=logger.info) -> L
     tree = html.fromstring(simple_package.text)
     packages = []
     for child in tree.body:
-        if match_name is None or match_name in child.text:
+        if match_name is None or all([name in child.text for name in match_name]):
             packages.append(child.text)
             print_method(f'Got package {child.text}')
     return packages
@@ -193,20 +196,19 @@ def get_pypi_plugins(browse_pypi=True, pymodaq_version: Union[Version, str] = No
                        'pymodaq_plugins_KDC101', #should not exists on its own but should be incorporated into thorlabs
                        'pymodaq_plugins_AvaSpec',
                        'pymodaq_plugins_MozzaSpectro',
+                       'pymodaq_plugins_template',
                        ]
-    packages = get_pypi_package_list('pymodaq-plugins', print_method=print_method)
+    packages = get_pypi_package_list(['pymodaq', 'plugins'], print_method=print_method)
     pymodaq_latest = Version(get_pypi_pymodaq('pymodaq')['version'])
     for package in packages:
-        if package.replace('-', '_') not in exclude_plugins:
+        package = package.replace('-', '_')
+        if package not in exclude_plugins:
             print_method(f'Fetching metadata for package {package}')
             metadata = get_pypi_pymodaq(package, pymodaq_version, pymodaq_latest)
             if metadata is not None:
                 title = metadata['description'].split('\n')[0]
-                if '(' in title and ')' in title:
-                    display_name = re.search(r'\((.*?)\)', title).group(1)
-                else:
-                    display_name = title
-                plugin = {'plugin-name': package.replace('-', '_'), 'display-name': display_name,
+                display_name = ' '.join(title.split('_')[2:]).capitalize()
+                plugin = {'plugin-name': package, 'display-name': display_name,
                           'version': metadata['version'],
                           'id': '', 'repository': '', 'description': metadata['description'],
                           'instruments': '', 'authors': [metadata['author']], 'contributors': [],
