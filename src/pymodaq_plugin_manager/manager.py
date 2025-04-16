@@ -3,7 +3,7 @@ from packaging import version as version_mod
 import sys
 import subprocess
 
-
+from enum import Enum
 import numpy as np
 from qtpy import QtWidgets, QtCore
 from qtpy.QtCore import Qt, Slot, Signal
@@ -64,7 +64,11 @@ class TableModel(TableModel):
                     return False
             if role == Qt.CheckStateRole:
                 if index.column() == 0:
-                    self._selected[index.row()] = value == Qt.Checked.value
+                    # Qt.Checked is an enum in qt6 but an int in qt5
+                    # it can be directly compared in qt5 but getting
+                    # the value attribute is needed with qt6
+                    qt_checked =  Qt.Checked.value if  isinstance(Qt.Checked, Enum) else Qt.Checked
+                    self._selected[index.row()] = value == qt_checked
                     self.dataChanged.emit(index, index, [role])
                     return True
         return False
