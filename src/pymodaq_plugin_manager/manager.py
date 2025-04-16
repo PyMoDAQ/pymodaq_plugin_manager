@@ -103,14 +103,14 @@ class FilterProxy(QtCore.QSortFilterProxyModel):
 class PluginFetcher(QtCore.QObject):
 
     plugins_signal = QtCore.Signal(tuple)
+    print_signal = QtCore.Signal(str)
 
-    def __init__(self, print_method=logger.info):
+    def __init__(self):
         super().__init__()
-        self.print_method = print_method
 
     def fetch_plugins(self):
         plugins = get_plugins(False, pymodaq_version=get_pymodaq_version(),
-                              print_method=self.print_method)
+                              print_method=self.print_signal.emit)
         self.plugins_signal.emit(plugins)
 
 
@@ -141,8 +141,9 @@ class PluginManager(QtCore.QObject):
         self.enable_ui(False)
 
         self.plugin_thread = QtCore.QThread()
-        plugin_fetcher = PluginFetcher(self.print_info)
+        plugin_fetcher = PluginFetcher()
         plugin_fetcher.plugins_signal.connect(self.setup_models)
+        plugin_fetcher.print_signal.connect(self.print_info)
         plugin_fetcher.moveToThread(self.plugin_thread)
         self.plugin_thread.plugin_fetcher = plugin_fetcher
         self.plugin_thread.started.connect(plugin_fetcher.fetch_plugins)
@@ -432,7 +433,7 @@ def main():
     win.setCentralWidget(widget)
     win.show()
     prog = PluginManager(widget, standalone=True)
-    sys.exit(app.exec_())
+    app.exec()
 
 
 if __name__ == '__main__':
