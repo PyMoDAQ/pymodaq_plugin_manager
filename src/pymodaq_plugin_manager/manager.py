@@ -64,7 +64,7 @@ class TableModel(TableModel):
                     return False
             if role == Qt.CheckStateRole:
                 if index.column() == 0:
-                    self._selected[index.row()] = value == Qt.Checked
+                    self._selected[index.row()] = value == Qt.Checked.value
                     self.dataChanged.emit(index, index, [role])
                     return True
         return False
