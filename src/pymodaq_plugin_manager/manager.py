@@ -36,25 +36,25 @@ class TableModel(TableModel):
             f |= Qt.ItemIsUserCheckable
         return f
 
-    def data(self, index, role=Qt.DisplayRole):
+    def data(self, index, role=Qt.ItemDataRole.DisplayRole):
         if index.isValid():
-            if role == Qt.DisplayRole or role == Qt.EditRole:
+            if role == Qt.ItemDataRole.DisplayRole or role == Qt.ItemDataRole.EditRole:
                 if index.column() == 0:
                     dat = self._data[index.row()][0]
                 else:
                     dat = self._data[index.row()][index.column()]
                 return dat
-            elif role == Qt.CheckStateRole:
+            elif role == Qt.ItemDataRole.CheckStateRole:
                 if index.column() == 0:
                     if self._selected[index.row()]:
-                        return Qt.Checked
+                        return Qt.CheckState.Checked
                     else:
-                        return Qt.Unchecked
+                        return Qt.CheckState.Unchecked
         return QVariant()
 
     def setData(self, index, value, role):
         if index.isValid():
-            if role == Qt.EditRole:
+            if role == Qt.ItemDataRole.EditRole:
                 if self.validate_data(index.row(), index.column(), value):
                     self._data[index.row()][index.column()] = value
                     self.dataChanged.emit(index, index, [role])
@@ -62,12 +62,12 @@ class TableModel(TableModel):
 
                 else:
                     return False
-            if role == Qt.CheckStateRole:
+            if role == Qt.ItemDataRole.CheckStateRole:
                 if index.column() == 0:
                     # Qt.Checked is an enum in qt6 but an int in qt5
                     # it can be directly compared in qt5 but getting
                     # the value attribute is needed with qt6
-                    qt_checked =  Qt.Checked.value if  isinstance(Qt.Checked, Enum) else Qt.Checked
+                    qt_checked =  Qt.CheckState.value
                     self._selected[index.row()] = value == qt_checked
                     self.dataChanged.emit(index, index, [role])
                     return True
@@ -78,29 +78,29 @@ class FilterProxy(QtCore.QSortFilterProxyModel):
     """Utility to filter the View"""
     def __init__(self, parent=None):
         super().__init__(parent)
-
-        self.textRegExp = QtCore.QRegularExpression()
-        self.textRegExp.setPatternOptions(QtCore.QRegularExpression.CaseInsensitiveOption)
-        #self.textRegExp.setPatternSyntax(QtCore.QRegularExpression.Wildcard)
-
+        self.text = ''
     def filterAcceptsRow(self, sourcerow, parent_index):
         plugin_index = self.sourceModel().index(sourcerow, 0, parent_index)
         try:
             plugin = self.sourceModel().plugins[plugin_index.row()]
-            match = False
-            if not not plugin:
-                match = match or self.textRegExp.pattern().lower() in plugin['plugin-name'].lower()
-                match = match or self.textRegExp.pattern().lower() in plugin['display-name'].lower()
-                match = match or self.textRegExp.pattern().lower() in plugin['description'].lower()
-                for plug in plugin['instruments']:
-                    match = match | any(self.textRegExp.pattern().lower() in p.lower() for p in plugin['instruments'][plug])
+            match = self.text == ''
+            if not (match or not plugin):
+                if self.parent().filter_name_cb.isChecked():
+                    match = match or self.text in plugin['plugin-name'].lower()
+                    match = match or self.text in plugin['display-name'].lower()
+                if self.parent().filter_description_cb.isChecked():
+                    match = match or self.text in plugin['description'].lower()
+                if self.parent().filter_instrument_cb.isChecked():                        
+                    for plug in plugin['instruments']:
+                        match = match | any(self.text in p.lower() for p in plugin['instruments'][plug])
             return match
+
         except Exception as e:
             print(e)
             return True
 
-    def setTextFilter(self, regexp):
-        self.textRegExp.setPattern(regexp)
+    def setTextFilter(self, regexp: str):
+        self.text = regexp.lower()
         self.invalidateFilter()
 
 
@@ -229,8 +229,30 @@ class PluginManager(QtCore.QObject):
         self.action_button.clicked.connect(self.do_action)
         settings_widget.layout().addWidget(self.action_button)
 
-
         self.parent.layout().addWidget(settings_widget)
+
+        search_widget = QtWidgets.QWidget()
+        search_widget.setLayout(QtWidgets.QHBoxLayout())
+        search_widget.setSizePolicy(
+            QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Fixed
+        )
+        self.filter_options_cb = QtWidgets.QCheckBox("Search filter settings:")
+        self.filter_options_cb.stateChanged.connect(self.show_filter_settings)
+        search_widget.layout().addWidget(self.filter_options_cb)
+
+        self.filter_name_cb = QtWidgets.QCheckBox('Name')
+        self.filter_name_cb.setCheckState(Qt.CheckState.Checked)
+        search_widget.layout().addWidget(self.filter_name_cb)
+
+        self.filter_description_cb = QtWidgets.QCheckBox('Description')
+        self.filter_description_cb.setCheckState(Qt.CheckState.Unchecked)
+        search_widget.layout().addWidget(self.filter_description_cb)
+
+        self.filter_instrument_cb = QtWidgets.QCheckBox('Instruments')
+        self.filter_instrument_cb.setCheckState(Qt.CheckState.Unchecked)
+        search_widget.layout().addWidget(self.filter_instrument_cb)
+
+        self.parent.layout().addWidget(search_widget)
 
         splitter = QtWidgets.QSplitter(Qt.Vertical)
 
@@ -249,7 +271,14 @@ class PluginManager(QtCore.QObject):
         splitter.addWidget(self.info_widget)
 
         self.parent.layout().addWidget(splitter)
+
+        self.show_filter_settings(False)
         QtWidgets.QApplication.processEvents()
+
+    def show_filter_settings(self,status):
+        self.filter_instrument_cb.setVisible(status)
+        self.filter_description_cb.setVisible(status)
+        self.filter_name_cb.setVisible(status)
 
     def setup_models(self, plugins: tuple):
         self.plugins_available, self.plugins_installed, self.plugins_update = plugins
@@ -270,9 +299,12 @@ class PluginManager(QtCore.QObject):
                                           editable=[False, False],
                                           plugins=self.plugins_installed)
 
-        model_available_proxy = FilterProxy()
+        model_available_proxy = FilterProxy(self)
         model_available_proxy.setSourceModel(self.model_available)
         self.search_edit.textChanged.connect(model_available_proxy.setTextFilter)
+        self.filter_name_cb.stateChanged.connect(model_available_proxy.invalidateFilter)
+        self.filter_description_cb.stateChanged.connect(model_available_proxy.invalidateFilter)
+        self.filter_instrument_cb.stateChanged.connect(model_available_proxy.invalidateFilter)
         self.table_view.setModel(model_available_proxy)
         self.table_view.setSortingEnabled(True)
         self.table_view.clicked.connect(self.item_clicked)
