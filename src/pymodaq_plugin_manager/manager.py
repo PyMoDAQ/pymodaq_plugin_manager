@@ -33,7 +33,7 @@ class TableModel(TableModel):
     def flags(self, index):
         f = super().flags(index)
         if index.column() == 0:
-            f |= Qt.ItemIsUserCheckable
+            f |= Qt.ItemFlag.ItemIsUserCheckable            
         return f
 
     def data(self, index, role=Qt.ItemDataRole.DisplayRole):
@@ -79,18 +79,20 @@ class FilterProxy(QtCore.QSortFilterProxyModel):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.text = ''
+
     def filterAcceptsRow(self, sourcerow, parent_index):
         plugin_index = self.sourceModel().index(sourcerow, 0, parent_index)
+        parent = self.parent()
         try:
             plugin = self.sourceModel().plugins[plugin_index.row()]
             match = self.text == ''
             if not (match or not plugin):
-                if self.parent().filter_name_cb.isChecked():
+                if hasattr(parent, "filter_name_cb") and parent.filter_name_cb.isChecked():
                     match = match or self.text in plugin['plugin-name'].lower()
                     match = match or self.text in plugin['display-name'].lower()
-                if self.parent().filter_description_cb.isChecked():
+                if hasattr(parent, "filter_description_cb") and parent.filter_description_cb.isChecked():
                     match = match or self.text in plugin['description'].lower()
-                if self.parent().filter_instrument_cb.isChecked():                        
+                if hasattr(parent, "filter_instrument_cb") and parent.filter_instrument_cb.isChecked():                        
                     for plug in plugin['instruments']:
                         match = match | any(self.text in p.lower() for p in plugin['instruments'][plug])
             return match
