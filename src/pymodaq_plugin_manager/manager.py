@@ -333,7 +333,8 @@ class PluginManager(QtCore.QObject):
         msgBox = QtWidgets.QMessageBox()
         msgBox.setText(f"All actions were performed!")
         msgBox.setInformativeText(f"Do you want to quit and restart the application to take into account the modifications?")
-        msgBox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Close | QtWidgets.QMessageBox.StandardButton.Cancel)
+        msgBox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Close |
+                                  QtWidgets.QMessageBox.StandardButton.Cancel)
         restart_button = msgBox.addButton('Restart', QtWidgets.QMessageBox.ButtonRole.ApplyRole)
         msgBox.setDefaultButton(QtWidgets.QMessageBox.StandardButton.Close)
         ret = msgBox.exec()
