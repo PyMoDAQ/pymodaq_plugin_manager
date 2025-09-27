@@ -69,7 +69,8 @@ class MyStyle(QtWidgets.QProxyStyle):
         we're hovering over.  This may not always work depending on global
         style - for instance I think it won't work on OSX.
         """
-        if element == self.PrimitiveElement.PE_IndicatorItemViewItemDrop and not option.rect.isNull():
+        
+        if element == QtWidgets.QStyle.PrimitiveElement.PE_IndicatorItemViewItemDrop and not option.rect.isNull():
             option_new = QtWidgets.QStyleOption(option)
             option_new.rect.setLeft(0)
             if widget:
