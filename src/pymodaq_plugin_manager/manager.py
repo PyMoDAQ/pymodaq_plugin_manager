@@ -67,7 +67,7 @@ class TableModel(TableModel):
                     # Qt.Checked is an enum in qt6 but an int in qt5
                     # it can be directly compared in qt5 but getting
                     # the value attribute is needed with qt6
-                    qt_checked =  Qt.CheckState.value
+                    qt_checked =  Qt.CheckState.Checked.value
                     self._selected[index.row()] = value == qt_checked
                     self.dataChanged.emit(index, index, [role])
                     return True
@@ -403,19 +403,19 @@ class PluginManager(QtCore.QObject):
 
     def update_model(self, plugin_choice):
         self.search_edit.textChanged.disconnect()
-        model_proxy = FilterProxy()
+        self.model_proxy = FilterProxy(self)
         if plugin_choice == 'Available':
-            model_proxy.setSourceModel(self.model_available)
+            self.model_proxy.setSourceModel(self.model_available)
             self.action_button.setText('Install')
         elif plugin_choice == 'Update':
-            model_proxy.setSourceModel(self.model_update)
+            self.model_proxy.setSourceModel(self.model_update)
             self.action_button.setText('Update')
         elif plugin_choice == 'Installed':
-            model_proxy.setSourceModel(self.model_installed)
+            self.model_proxy.setSourceModel(self.model_installed)
             self.action_button.setText('Remove')
-        self.search_edit.textChanged.connect(model_proxy.setTextFilter)
-        self.table_view.setModel(model_proxy)
-        self.item_clicked(model_proxy.index(0, 0))
+        self.search_edit.textChanged.connect(self.model_proxy.setTextFilter)
+        self.table_view.setModel(self.model_proxy)
+        self.item_clicked(self.model_proxy.index(0, 0))
 
     def item_clicked(self, index):
         if index.isValid():
