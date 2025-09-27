@@ -165,12 +165,13 @@ class PluginManager(QtCore.QObject):
             if version_mod.parse(max(available_versions)) > current_version:
                 msgBox.setText(f"A new version of PyMoDAQ Plugin Manager is available, {str(max(available_versions))}!")
                 msgBox.setInformativeText("Do you want to install it?")
-                msgBox.setStandardButtons(msgBox.Ok | msgBox.Cancel)
-                msgBox.setDefaultButton(msgBox.Ok)
+                msgBox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok |
+                                          QtWidgets.QMessageBox.StandardButton.Cancel)
+                msgBox.setDefaultButton(QtWidgets.QMessageBox.StandardButton.Ok)
 
                 ret = msgBox.exec()
 
-                if ret == msgBox.Ok:
+                if ret == QtWidgets.QMessageBox.StandardButton.Ok:
                     command = [sys.executable, '-m', 'pip', 'install', f'pymodaq-plugin-manager=={str(max(available_versions))}']
                     subprocess.Popen(command)
 
@@ -303,12 +304,13 @@ class PluginManager(QtCore.QObject):
         msgBox = QtWidgets.QMessageBox()
         msgBox.setText(f"You will {action} this list of plugins: {plugins}")
         msgBox.setInformativeText("Do you want to proceed?")
-        msgBox.setStandardButtons(msgBox.Ok | msgBox.Cancel)
-        msgBox.setDefaultButton(msgBox.Ok)
+        msgBox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok |
+                                  QtWidgets.QMessageBox.StandardButton.Cancel)
+        msgBox.setDefaultButton(QtWidgets.QMessageBox.StandardButton.Ok)
 
         ret = msgBox.exec()
         self.info_widget.clear()
-        if ret == msgBox.Ok:
+        if ret == QtWidgets.QMessageBox.StandardButton.Ok:
             for index in indexes_plugin:
                 # plugin_dict = get_plugin(plug)
                 if self.plugin_choice.currentText() == 'Available' or self.plugin_choice.currentText() == 'Update':
@@ -331,11 +333,12 @@ class PluginManager(QtCore.QObject):
         msgBox = QtWidgets.QMessageBox()
         msgBox.setText(f"All actions were performed!")
         msgBox.setInformativeText(f"Do you want to quit and restart the application to take into account the modifications?")
-        msgBox.setStandardButtons(msgBox.Close | msgBox.Cancel)
-        restart_button = msgBox.addButton('Restart', msgBox.ApplyRole)
-        msgBox.setDefaultButton(msgBox.Close)
+        msgBox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Close |
+                                  QtWidgets.QMessageBox.StandardButton.Cancel)
+        restart_button = msgBox.addButton('Restart', QtWidgets.QMessageBox.ButtonRole.ApplyRole)
+        msgBox.setDefaultButton(QtWidgets.QMessageBox.StandardButton.Close)
         ret = msgBox.exec()
-        if ret == msgBox.Close:
+        if ret == QtWidgets.QMessageBox.StandardButton.Close:
             self.quit()
         elif msgBox.clickedButton() is restart_button:
             self.restart()
