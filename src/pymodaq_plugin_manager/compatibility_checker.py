@@ -40,9 +40,10 @@ class PyMoDAQPlugin:
         self._name = name
         self._version = version
         self._install_result = None
-        self.failed_imports = []
-        self.failed_units = []
-        self.failed_other = []
+
+        self._failed_imports = []
+        self._failed_units = []
+        self._failed_other = []
 
     @property
     def name(self):
@@ -51,6 +52,19 @@ class PyMoDAQPlugin:
     @property
     def version(self):
         return self._version
+
+    @property
+    def failed_imports(self):
+        return self._failed_imports
+
+    @property
+    def failed_units(self):
+        return self._failed_units
+    
+    @property
+    def failed_other(self):
+        return self._failed_other
+    
     
     def _get_location(self):
         return importlib.util.find_spec(self._name).submodule_search_locations[0]
@@ -86,14 +100,11 @@ class PyMoDAQPlugin:
     def save_import_report(self, path = None):
         self._save_report(f'import_report_{self._name}_{self._version}.txt', '\n'.join(self._failed_imports + ['']), path=path) 
 
-    def save_import_report(self):
-        self._save_report(f'import_report_{self._name}_{self._version}.txt', '\n'.join(self.failed_imports + ['']))
+    def save_units_report(self, path = None):
+        self._save_report(f'unit_report_{self._name}_{self._version}.txt', '\n'.join(self._failed_units + ['']), path=path)
 
-    def save_units_report(self):
-        self._save_report(f'unit_report_{self._name}_{self._version}.txt', '\n'.join(self.failed_units + ['']))
-
-    def save_other_report(self):
-        self._save_report(f'other_report_{self._name}_{self._version}.txt', '\n'.join(self.failed_other + ['']))
+    def save_other_report(self, path = None):
+        self._save_report(f'other_report_{self._name}_{self._version}.txt', '\n'.join(self._failed_other + ['']), path=path)
 
     def get_move_plugins(self):
         pkg_name = self._name
@@ -106,11 +117,11 @@ class PyMoDAQPlugin:
                     if 'daq_move_' in mod:
                         plugin_list.append(mod[1])
             except Exception as e:
-                self.failed_other.append(f'Unknown: {e} in {mod}')
+                self._failed_other.append(f'Unknown: {e} in {mod}')
         except Exception as e:
             plugin_list = []
             move_mod = None
-            self.failed_other.append(f'Unknown: {e} in {move_mod}')
+            self._failed_other.append(f'Unknown: {e} in {move_mod}')
 
 
         return plugin_list, move_mod
@@ -162,9 +173,9 @@ class PyMoDAQPlugin:
                                         importlib.import_module(node.module)
                                 
                                 except (ImportError, ModuleNotFoundError):
-                                    self.failed_imports.append(f'"{import_code}" in {filename} ({node.lineno})')
+                                    self._failed_imports.append(f'"{import_code}" in {filename} ({node.lineno})')
                                 except Exception as e:
-                                    self.failed_other.append(f'Unknown: {e} in {filename}')
+                                    self._failed_other.append(f'Unknown: {e} in {filename}')
                     except TypeError as te:
                         pass
 
