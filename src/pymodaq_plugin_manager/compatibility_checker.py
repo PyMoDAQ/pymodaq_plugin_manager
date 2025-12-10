@@ -88,7 +88,14 @@ class PyMoDAQPlugin:
 
     def _save_report(self, name, stream, path = None):
         if not path:
+            
+            try:
+                args
+            except NameError:
+                args = parse_args()
+
             path = args.reports_path
+            
         else:
             path = Path(path) 
         with open(path / name, 'w') as f:
@@ -140,7 +147,8 @@ class PyMoDAQPlugin:
                 for unit in units:
                     Unit(unit)  # check if the unit is known from pint
             except Exception as e:
-                self.failed_units.append(f'Unit error in {move_mod}/{plug}: {str(e)}')
+                self._failed_units.append(f'Unit error in {move_mod}/{plug}: {str(e)}')
+        return len(self._failed_units) == 0
 
     def all_imports_valid(self) -> bool:
         '''
@@ -178,14 +186,16 @@ class PyMoDAQPlugin:
                                     self._failed_other.append(f'Unknown: {e} in {filename}')
                     except TypeError as te:
                         pass
+        return len(self._failed_imports) == 0
 
+    def other_valid(self) -> bool:
+        return len(plugin.failed_other) == 0
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Detect incompatibilities between a PyMoDAQ version and the released plugins")
     parser.add_argument("-r", type=Path, default=Path("reports/"), dest="reports_path", help="Path to the reports folder (default: reports/)")
     parser.add_argument("-p", type=str, default=None, dest="plugin", help="plugin to check (instead of the complete list)")
     parser.add_argument(nargs="?", type=str, default="", dest="pymodaq", help="Installation source of the PyMoDAQ package (default: empty string)")
-
     return parser.parse_args()
 
 
@@ -214,15 +224,15 @@ def main():
     for p in plugin_list:
         plugin = PyMoDAQPlugin(p['plugin-name'], p['version'])
         if plugin.install():
-            plugin.all_imports_valid()
-            if len(plugin.failed_imports) > 0:
+            
+            if not plugin.all_imports_valid():
                 plugin.save_import_report()
                 code = 1
-            plugin.units_valid()
-            if len(plugin.failed_units) > 0:
+            
+            if not plugin.units_valid():
                 plugin.save_units_report()
                 code = 1
-            if len(plugin.failed_other) > 0:
+            if not plugin.other_valid():
                 plugin.save_other_report()
                 code = 1
         else:
