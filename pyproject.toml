@@ -40,7 +40,8 @@ dependencies = [
     'lxml',
     'readme_renderer',
     'chardet',
-    'packaging'
+    'packaging',
+    'pymodaq_utils>=5.2.0'
 ]
 
 
