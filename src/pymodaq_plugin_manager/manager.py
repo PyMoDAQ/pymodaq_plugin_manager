@@ -3,15 +3,14 @@ from packaging import version as version_mod
 import sys
 import subprocess
 
-from enum import Enum
 import numpy as np
 from qtpy import QtWidgets, QtCore
-from qtpy.QtCore import Qt, Slot, Signal
+from qtpy.QtCore import Qt, Signal
 from qtpy.QtGui import QTextCursor
 from readme_renderer.rst import render
 
 from pymodaq_plugin_manager.validate import get_plugins
-from pymodaq_plugin_manager.validate import get_pypi_pymodaq, get_package_metadata
+from pymodaq_utils.packages import get_package_metadata
 from pymodaq_plugin_manager import __version__ as version
 from pymodaq_plugin_manager.utils import QVariant, TableModel, TableView, SpinBoxDelegate, get_pymodaq_version
 
