@@ -10,6 +10,7 @@ from qtpy.QtGui import QTextCursor
 from readme_renderer.rst import render
 
 from pymodaq_plugin_manager.validate import get_plugins
+from pymodaq_plugin_manager.search import plugin_matches, instrument_names
 from pymodaq_utils.packages import get_package_metadata
 from pymodaq_plugin_manager import __version__ as version
 from pymodaq_plugin_manager.utils import QVariant, TableModel, TableView, SpinBoxDelegate, get_pymodaq_version
@@ -84,20 +85,17 @@ class FilterProxy(QtCore.QSortFilterProxyModel):
         parent = self.parent()
         try:
             plugin = self.sourceModel().plugins[plugin_index.row()]
-            match = self.text == ''
-            if not (match or not plugin):
-                if hasattr(parent, "filter_name_cb") and parent.filter_name_cb.isChecked():
-                    match = match or self.text in plugin['plugin-name'].lower()
-                    match = match or self.text in plugin['display-name'].lower()
-                if hasattr(parent, "filter_description_cb") and parent.filter_description_cb.isChecked():
-                    match = match or self.text in plugin['description'].lower()
-                if hasattr(parent, "filter_instrument_cb") and parent.filter_instrument_cb.isChecked():                        
-                    for plug in plugin['instruments']:
-                        match = match | any(self.text in p.lower() for p in plugin['instruments'][plug])
-            return match
-
+            if not plugin:
+                return True
+            return plugin_matches(
+                plugin, self.text,
+                in_name=getattr(parent, 'filter_name_cb', None) is None or parent.filter_name_cb.isChecked(),
+                in_description=(getattr(parent, 'filter_description_cb', None) is not None
+                                and parent.filter_description_cb.isChecked()),
+                in_instruments=(getattr(parent, 'filter_instrument_cb', None) is None
+                                or parent.filter_instrument_cb.isChecked()))
         except Exception as e:
-            print(e)
+            logger.exception(str(e))
             return True
 
     def setTextFilter(self, regexp: str):
@@ -212,7 +210,7 @@ class PluginManager(QtCore.QObject):
         self.check_updates_pb.clicked.connect(lambda: self.check_version(True))
 
         self.search_edit = QtWidgets.QLineEdit()
-        self.search_edit.setPlaceholderText("Plugin name")
+        self.search_edit.setPlaceholderText("Plugin or instrument (e.g. Kinesis, iXon, Thorlabs)")
 
         settings_widget.layout().addWidget(self.plugin_choice)
         settings_widget.layout().addStretch()
@@ -251,7 +249,7 @@ class PluginManager(QtCore.QObject):
         search_widget.layout().addWidget(self.filter_description_cb)
 
         self.filter_instrument_cb = QtWidgets.QCheckBox('Instruments')
-        self.filter_instrument_cb.setCheckState(Qt.CheckState.Unchecked)
+        self.filter_instrument_cb.setCheckState(Qt.CheckState.Checked)
         search_widget.layout().addWidget(self.filter_instrument_cb)
 
         self.parent.layout().addWidget(search_widget)
@@ -282,24 +280,24 @@ class PluginManager(QtCore.QObject):
         self.filter_description_cb.setVisible(status)
         self.filter_name_cb.setVisible(status)
 
+    @staticmethod
+    def _make_model(plugins: list) -> TableModel:
+        """Table of plugins: name, version and the instruments they interface (a summary, the full list is searchable)"""
+        def summary(plugin):
+            names = ', '.join(instrument_names(plugin))
+            return names if len(names) <= 90 else names[:87] + '...'
+
+        return TableModel([[plugin['display-name'], plugin['version'], summary(plugin)] for plugin in plugins],
+                          header=['Plugin', 'Version', 'Instruments'],
+                          editable=[False, False, False],
+                          plugins=plugins)
+
     def setup_models(self, plugins: tuple):
         self.plugins_available, self.plugins_installed, self.plugins_update = plugins
 
-        self.model_available = TableModel([[plugin['display-name'],
-                                            plugin['version']] for plugin in self.plugins_available],
-                                          header=['Plugin', 'Version'],
-                                          editable=[False, False],
-                                          plugins=self.plugins_available)
-        self.model_update = TableModel([[plugin['display-name'],
-                                         plugin['version']] for plugin in self.plugins_update],
-                                       header=['Plugin', 'Version'],
-                                       editable=[False, False],
-                                       plugins=self.plugins_update)
-        self.model_installed = TableModel([[plugin['display-name'],
-                                            plugin['version']] for plugin in self.plugins_installed],
-                                          header=['Plugin', 'Version'],
-                                          editable=[False, False],
-                                          plugins=self.plugins_installed)
+        self.model_available = self._make_model(self.plugins_available)
+        self.model_update = self._make_model(self.plugins_update)
+        self.model_installed = self._make_model(self.plugins_installed)
 
         model_available_proxy = FilterProxy(self)
         model_available_proxy.setSourceModel(self.model_available)

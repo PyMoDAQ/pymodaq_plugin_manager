@@ -14,6 +14,7 @@ from copy import deepcopy
 
 from pymodaq_utils.packages import get_pypi_package_list, get_pypi_pymodaq, get_entrypoints, \
     extract_authors_from_description
+from pymodaq_utils.plugin_tools.readme import parse_readme
 
 if parse(platform.python_version()) >= parse('3.8'):  # from version 3.8 this feature is included in the
     # standard lib
@@ -85,10 +86,13 @@ def get_pypi_plugins(browse_pypi=True, pymodaq_version: Union[Version, str] = No
             if metadata is not None:
                 #title = metadata['description'].split('\n')[0]
                 display_name = ' '.join(package.split('_')[2:]).capitalize()
+                readme = parse_readme(metadata['description'])
                 plugin = {'plugin-name': package, 'display-name': display_name,
                           'version': metadata['version'],
                           'id': '', 'repository': '', 'description': metadata['description'],
-                          'instruments': '', 'authors': [metadata['author']], 'contributors': [],
+                          'instruments': readme.instruments_as_dict(),
+                          'authors': readme.authors or [metadata['author']],
+                          'contributors': readme.contributors,
                           'homepage': metadata['project_url']}
                 plugins.append(plugin)
     return plugins
@@ -202,7 +206,7 @@ def write_plugin_doc():
             elif k == 'description':
                 doc, tag, text = Doc().tagtext()
                 #text(plug[k]+'\r\n')
-                if plug['instruments'] != '':
+                if plug['instruments']:
 
                     for inst in plug['instruments']:
                         text(f'{inst}:')
