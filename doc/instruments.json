@@ -1,0 +1,3284 @@
+{
+ "schema": 1,
+ "generated": "2026-11-25T16:42:03+00:00",
+ "plugins": [
+  {
+   "plugin-name": "pymodaq_plugins_acs_motion",
+   "display-name": "Acs motion",
+   "version": "5.3.1",
+   "pymodaq": ">=5.3.2",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_acs_motion/",
+   "authors": [
+    "Jérémie Margueritat (jeremie.margueritat@univ-lyon1.fr)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Actuators": [
+     {
+      "name": "ACS motion control",
+      "description": "control up to 8 stages."
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "5.3.1",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "5.3.0",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "1.1.0",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "1.0.3",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "1.0.2",
+     "pymodaq": ">=5.0.0"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_alcatel",
+   "display-name": "Alcatel",
+   "version": "1.1.0",
+   "pymodaq": ">=4.0.0",
+   "homepage": "https://pypi.org/project/pymodaq-plugins-alcatel/",
+   "authors": [
+    "Titouan Gadeyne (titouan.gadeyne@cea.fr)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Viewer0D": [
+     {
+      "name": "ACM1000",
+      "description": "Alcatel ACM 1000 six-port gauge controller"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "1.1.0",
+     "pymodaq": ">=4.0.0"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_amplitude",
+   "display-name": "Amplitude",
+   "version": "5.3.0",
+   "pymodaq": ">=5.3.2",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_amplitude/",
+   "authors": [
+    "_S. J. Weber"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Viewer0D": [
+     {
+      "name": "AmplitudeSystemsCRC16",
+      "description": "Let you control the laser settings and grab info on the laser status (tested on a Satsuma)"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "5.3.0",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "1.0.0",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "0.1.1",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.1.0",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.0.2",
+     "pymodaq": ">=2.0"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_andor",
+   "display-name": "Andor",
+   "version": "5.3.0",
+   "pymodaq": ">=5.3.2",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_andor/",
+   "authors": [
+    "Sébastien. J. Weber"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Actuators": [
+     {
+      "name": "Shamrock",
+      "description": "Shamrock series of spectrometer used as a monochromator"
+     }
+    ],
+    "Viewer1D": [
+     {
+      "name": "ShamrockCCDLegacy",
+      "description": "Shamrock series of spectrometer using the Andor CCD cameras (built using double inheritance), this is a legacy plugin don't use it anymore"
+     },
+     {
+      "name": "ShamrockSCMOSLegacy",
+      "description": "Shamrock series of spectrometer using the Andor SCMOS cameras (Not tested) (built using double inheritance), this is a legacy plugin don't use it anymore"
+     },
+     {
+      "name": "ShamrockCCD",
+      "description": "Shamrock series of spectrometer using the Andor CCD cameras (built using CCD camera inheritance and Shamrock composition)"
+     },
+     {
+      "name": "ShamrockSCMOS",
+      "description": "Shamrock series of spectrometer using the Andor SCMOS cameras (Not tested) (built using SCMOS camera inheritance and Shamrock composition)"
+     }
+    ],
+    "Viewer2D": [
+     {
+      "name": "AndorCCD",
+      "description": "Andor CCD camera using the SDK2"
+     },
+     {
+      "name": "AndorSCMOS",
+      "description": "Andor CCD camera using the SDK3"
+     },
+     {
+      "name": "AndorSCMOSPll",
+      "description": "Andor CCD camera using the SDK3 through the pylablib driver (experimental but already in use, subject to changes)"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "5.3.0",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "5.0.2",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.1",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.0",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "1.1.2",
+     "pymodaq": ">=4.0"
+    },
+    {
+     "version": "1.1.1",
+     "pymodaq": ">=4.0"
+    },
+    {
+     "version": "1.1.0",
+     "pymodaq": ">=4.0"
+    },
+    {
+     "version": "1.0.0",
+     "pymodaq": ">=4.0"
+    },
+    {
+     "version": "0.1.1",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.1.0",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.0.4",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.0.2",
+     "pymodaq": ""
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_arduino",
+   "display-name": "Arduino",
+   "version": "5.3.1",
+   "pymodaq": ">=5.3.2",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_arduino/",
+   "authors": [
+    "Sebastien J. Weber (sebastien.weber@cemes.fr)",
+    "Jérémie Margueritat"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Actuators": [
+     {
+      "name": "LED",
+      "description": "control of a multicolor LED using three PWM digital outputs and the Telemetrix library. Allows the control of the three color channel independently"
+     },
+     {
+      "name": "LEDwithLCD",
+      "description": "same as LED actuator but displaying the red, green, blue values on a standard 16x2 liquid crystal display"
+     },
+     {
+      "name": "Analog",
+      "description": "data acquisition from analog inputs"
+     }
+    ],
+    "Extensions": [
+     {
+      "name": "ColorSynthesizer",
+      "description": "DashBoard extension using RBG LED actuators. Allows to quicly select a RGB value and apply those to the actuators"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "5.3.1",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "5.3.0",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "5.0.1",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "0.0.4",
+     "pymodaq": ">=4.3.0"
+    },
+    {
+     "version": "0.0.3",
+     "pymodaq": ">=4.3.0"
+    },
+    {
+     "version": "0.0.2",
+     "pymodaq": ">=4.3.0"
+    },
+    {
+     "version": "0.0.1",
+     "pymodaq": ">=4.3.0"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_avantes",
+   "display-name": "Avantes",
+   "version": "5.0.0",
+   "pymodaq": ">=5.0.0",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_avantes/",
+   "authors": [
+    "Bernhard Lang (bernhard.lang@unige.ch)",
+    "Eric Studemann (eric.studemann@unige.ch)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Viewer1D": [
+     {
+      "name": "avantes",
+      "description": "control of an Avantes AvaSpec ULS2048CL EVO spectrometer"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "5.0.0",
+     "pymodaq": ">=5.0.0"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_basler",
+   "display-name": "Basler",
+   "version": "5.3.0",
+   "pymodaq": ">=5.3.2",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_basler/",
+   "authors": [
+    "Benedikt Burger",
+    "Romain Geneaux"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Viewer2D": [
+     {
+      "name": "Basler",
+      "description": "control of Basler cameras"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "5.3.0",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "5.1.0",
+     "pymodaq": ">=4.4.7"
+    },
+    {
+     "version": "1.0.1",
+     "pymodaq": ">=4.4.7"
+    },
+    {
+     "version": "1.0.0",
+     "pymodaq": ">=4.4.7"
+    },
+    {
+     "version": "0.1.1",
+     "pymodaq": ">=4.0.0"
+    },
+    {
+     "version": "0.0.1",
+     "pymodaq": ">=4.0.0"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_beam_shaping",
+   "display-name": "Beam shaping",
+   "version": "5.3.3",
+   "pymodaq": "<5.4,>=5.3.2",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_beam_shaping/",
+   "authors": [
+    "Sebastien J. Weber (sebastien.weber@cemes.fr)",
+    "Valentin Rollo (valentin.rollo@cemes.fr)"
+   ],
+   "contributors": [],
+   "instruments": {},
+   "releases": [
+    {
+     "version": "5.3.3",
+     "pymodaq": "<5.4,>=5.3.2"
+    },
+    {
+     "version": "5.3.2",
+     "pymodaq": "<5.4,>=5.3.2"
+    },
+    {
+     "version": "5.3.1",
+     "pymodaq": "<5.4,>=5.3.2"
+    },
+    {
+     "version": "5.3.0",
+     "pymodaq": "<5.4,>=5.3.2"
+    },
+    {
+     "version": "5.2.0",
+     "pymodaq": ">5.2.8"
+    },
+    {
+     "version": "5.0.0",
+     "pymodaq": ">5.1.5"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_bnc",
+   "display-name": "Bnc",
+   "version": "0.1.0",
+   "pymodaq": ">=4.4.7",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_bnc/",
+   "authors": [
+    "Christian Cabello"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Actuators": [
+     {
+      "name": "BNC",
+      "description": "control of BNC575 Delay Generator"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "0.1.0",
+     "pymodaq": ">=4.4.7"
+    },
+    {
+     "version": "0.0.10",
+     "pymodaq": ">=4.1.0"
+    },
+    {
+     "version": "0.0.9",
+     "pymodaq": ">=4.1.0"
+    },
+    {
+     "version": "0.0.8",
+     "pymodaq": ">=4.1.0"
+    },
+    {
+     "version": "0.0.7",
+     "pymodaq": ">=4.1.0"
+    },
+    {
+     "version": "0.0.6",
+     "pymodaq": ">=4.1.0"
+    },
+    {
+     "version": "0.0.5",
+     "pymodaq": ">=4.1.0"
+    },
+    {
+     "version": "0.0.4",
+     "pymodaq": ">=4.1.0"
+    },
+    {
+     "version": "0.0.3",
+     "pymodaq": ">=4.1.0"
+    },
+    {
+     "version": "0.0.2",
+     "pymodaq": ">=4.1.0"
+    },
+    {
+     "version": "0.0.1",
+     "pymodaq": ">=4.1.0"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_cellkraft",
+   "display-name": "Cellkraft",
+   "version": "5.3.0",
+   "pymodaq": ">=5.3.2",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_cellkraft/",
+   "authors": [
+    "Loïc Guillmard (loic.guillmard@cnrs.fr)",
+    "Sébastien Guerrero (sebastien.guerrero@insa-lyon.fr)",
+    "Fabien Villedieu (fabien.villedieu.pro@gmail.com)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Actuators": [
+     {
+      "name": "CellkraftE1500",
+      "description": "Control all the various parameters of the CellkraftE1500 steam generator"
+     }
+    ],
+    "Viewer0D": [
+     {
+      "name": "Pressure",
+      "description": "Acquires pressure from CellkraftE1500 steam generator"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "5.3.0",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "1.0.1",
+     "pymodaq": ""
+    },
+    {
+     "version": "1.0.0",
+     "pymodaq": ""
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_crystal_technology",
+   "display-name": "Crystal technology",
+   "version": "5.3.0",
+   "pymodaq": ">=5.3.2",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_crystal_technology/",
+   "authors": [
+    "Sébastien J. Weber (sebastien.weber@cnrs.fr)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Actuators": [
+     {
+      "name": "AOTFPro",
+      "description": "control of the AOTF from YSl and Crystal Technology"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "5.3.0",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "5.0.1",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "0.0.1",
+     "pymodaq": ""
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_daqmx",
+   "display-name": "Daqmx",
+   "version": "5.3.0",
+   "pymodaq": ">=5.3.2",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_daqmx/",
+   "authors": [
+    "Sébastien J. Weber"
+   ],
+   "contributors": [
+    "Amelie Jarnac",
+    "Aurore Finco",
+    "Sébastien Guerrero (sebastien.guerrero@insa-lyon.fr)",
+    "Cyril Auclair (cyril.auclair@insa-lyon.fr)"
+   ],
+   "instruments": {
+    "Actuators": [
+     {
+      "name": "NIDAQmx",
+      "description": "General generation (voltage / current) with National Instrument materials"
+     }
+    ],
+    "Viewer0D": [
+     {
+      "name": "NIDAQmx",
+      "description": "General measurement with National Instrument materials (one value per channel and per acquisition)"
+     }
+    ],
+    "Viewer1D": [
+     {
+      "name": "NIDAQmx",
+      "description": "General measurement with National Instrument materials, acquired in the hardware buffer"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "5.3.0",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "1.1.0",
+     "pymodaq": ">=5.3.7"
+    },
+    {
+     "version": "1.0.1",
+     "pymodaq": ">=4.4"
+    },
+    {
+     "version": "1.0.0",
+     "pymodaq": ">=4.4"
+    },
+    {
+     "version": "0.4.0",
+     "pymodaq": ">4.0.1"
+    },
+    {
+     "version": "0.3.1",
+     "pymodaq": ">4.0.1"
+    },
+    {
+     "version": "0.3.0",
+     "pymodaq": ">4.0.1"
+    },
+    {
+     "version": "0.2.0",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.1.0",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.0.4",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.0.3",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.0.2",
+     "pymodaq": ">=2.0"
+    },
+    {
+     "version": "0.0.1",
+     "pymodaq": ">=2.0"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_datamixer",
+   "display-name": "Datamixer",
+   "version": "0.0.6",
+   "pymodaq": ">=5.1.0.alpha",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_datamixer/",
+   "authors": [
+    "Sebastien J. Weber (sebastien.weber@cemes.fr)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Viewer0D": [
+     {
+      "name": "DataMixer",
+      "description": "Fake detector allowing to display the results of the extension calculations within the DashBoard, hence allowing those data to be used within other extensions aka the DAQ_Scan"
+     }
+    ],
+    "Extensions": [
+     {
+      "name": "DataMixer",
+      "description": "extension to the DashBoard: the DataMixer. It allows to mix data from other DashBoard detectors using scripted formula from the full name of the data or from more complex model allowing a form of live post-analysis. The data out of the formula or out of the models can be used within the DashBoard for other extensions (for instance live plots in a scan)"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "0.0.6",
+     "pymodaq": ">=5.1.0.alpha"
+    },
+    {
+     "version": "0.0.5",
+     "pymodaq": ">5.0.0"
+    },
+    {
+     "version": "0.0.4",
+     "pymodaq": ">=5.0.1"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_femto",
+   "display-name": "Femto",
+   "version": "0.1.0",
+   "pymodaq": "",
+   "homepage": "https://pypi.org/project/pymodaq-plugins-femto/",
+   "authors": [
+    "_S. J. Weber"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Viewer1D": [
+     {
+      "name": "femto",
+      "description": "Fake detector mocking typically a spectrometer acquiring FROG traces (but not limited to FROG)"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "0.1.0",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.0.2",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.0.1",
+     "pymodaq": ""
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_flim",
+   "display-name": "Flim",
+   "version": "0.1.0",
+   "pymodaq": "",
+   "homepage": "https://pypi.org/project/pymodaq-plugins-flim/",
+   "authors": [
+    "Sebastien J. Weber"
+   ],
+   "contributors": [],
+   "instruments": {
+    "ViewerND": [
+     {
+      "name": "FLIM",
+      "description": "FLIM using piezoconcept XY stage and picoquant timeharp TH260\""
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "0.1.0",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.0.2",
+     "pymodaq": ""
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_greateyes",
+   "display-name": "Greateyes",
+   "version": "1.0.2",
+   "pymodaq": ">=4.0",
+   "homepage": "https://pypi.org/project/pymodaq-plugins-greateyes/",
+   "authors": [
+    "Romain Geneaux"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Viewer2D": [
+     {
+      "name": "GreateyesCCD",
+      "description": "Greateyes CCD cameras using the SDK"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "1.0.2",
+     "pymodaq": ">=4.0"
+    },
+    {
+     "version": "1.0.1",
+     "pymodaq": ""
+    },
+    {
+     "version": "1.0.0",
+     "pymodaq": ""
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_hamamatsu",
+   "display-name": "Hamamatsu",
+   "version": "0.3.0",
+   "pymodaq": "",
+   "homepage": "https://pypi.org/project/pymodaq-plugins-hamamatsu/",
+   "authors": [
+    "Romain Géneaux (romain.geneaux@cea.fr)",
+    "Bastien Bégon (bastien.begon@crpp.cnrs.fr)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Viewer1D": [
+     {
+      "name": "Mini-spectrometers",
+      "description": "USB spectrometers from the Hamamatsu Mini-spectrometers series."
+     }
+    ],
+    "Viewer2D": [
+     {
+      "name": "Cameras using DCAM-API",
+      "description": "Hardware ROI (region of interest) and binning (1x or 2x) are supported. To use ROIs, click on \"Show/Hide ROI selection area\" in the viewer panel (icon with dashed rectangle). Position the rectangle as you wish, either with mouse or by entering coordinates, then click \"Update ROI\" button."
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "0.3.0",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.2.0",
+     "pymodaq": "<4.0"
+    },
+    {
+     "version": "0.1.0",
+     "pymodaq": ""
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_hinds",
+   "display-name": "Hinds",
+   "version": "0.0.3",
+   "pymodaq": ">=4.3.6",
+   "homepage": "https://pypi.org/project/pymodaq-plugins-hinds/",
+   "authors": [
+    "Astha Khandelwal (asthak@iisc.ac.in)",
+    "Daichi Kozawa (KOZAWA.Daichi@nims.go.jp)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Actuators": [
+     {
+      "name": "PEM 200",
+      "description": "controller for the Photoelastic modulator"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "0.0.3",
+     "pymodaq": ">=4.3.6"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_holoeye",
+   "display-name": "Holoeye",
+   "version": "5.3.1",
+   "pymodaq": ">=5.3.2",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_holoeye/",
+   "authors": [
+    "Sebastien J. Weber (sebastien.weber@cemes.fr)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Actuators": [
+     {
+      "name": "Holoeye",
+      "description": "load a DataActuator (should be used from an external application creating the complex 2D DataActuator)"
+     },
+     {
+      "name": "HoloeyeFile",
+      "description": "Used to load phase data into the SLM from a file"
+     },
+     {
+      "name": "HoloeyeSplitScreen",
+      "description": "Used to load a binary phase mask into the SLM and control both the split ratio (percentage of vertical/horizontal screen size) and the grey level in each part of the screen."
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "5.3.1",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "5.3.0",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "5.2.0",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.1.2",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.1.0",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.0",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "1.0.2",
+     "pymodaq": ">=4.0"
+    },
+    {
+     "version": "1.0.0",
+     "pymodaq": ">=4.0"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_horiba",
+   "display-name": "Horiba",
+   "version": "2.0.0",
+   "pymodaq": ">=4.1.0",
+   "homepage": "https://pypi.org/project/pymodaq-plugins-horiba/",
+   "authors": [
+    "Sebastien J. Weber"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Viewer1D": [
+     {
+      "name": "Labspec6TCP",
+      "description": "Control of Labspec6 settings and acquisition using TCP/IP communication"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "2.0.0",
+     "pymodaq": ">=4.1.0"
+    },
+    {
+     "version": "1.0.0",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.1.0",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.0.2",
+     "pymodaq": ">=2.0"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_imagingsource",
+   "display-name": "Imagingsource",
+   "version": "0.1.0",
+   "pymodaq": ">=4.4.7",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_imagingsource/",
+   "authors": [
+    "First Author (christian.cabello@ip-paris.fr)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Viewer2D": [
+     {
+      "name": "DMK",
+      "description": "control of DMK Imaging Source cameras"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "0.1.0",
+     "pymodaq": ">=4.4.7"
+    },
+    {
+     "version": "0.0.13",
+     "pymodaq": ">=4.4.7"
+    },
+    {
+     "version": "0.0.12",
+     "pymodaq": ">=4.0.0"
+    },
+    {
+     "version": "0.0.11",
+     "pymodaq": ">=4.0.0"
+    },
+    {
+     "version": "0.0.10",
+     "pymodaq": ">=4.0.0"
+    },
+    {
+     "version": "0.0.9",
+     "pymodaq": ">=4.0.0"
+    },
+    {
+     "version": "0.0.8",
+     "pymodaq": ">=4.0.0"
+    },
+    {
+     "version": "0.0.7",
+     "pymodaq": ">=4.0.0"
+    },
+    {
+     "version": "0.0.6",
+     "pymodaq": ">=4.0.0"
+    },
+    {
+     "version": "0.0.5",
+     "pymodaq": ">=4.0.0"
+    },
+    {
+     "version": "0.0.4",
+     "pymodaq": ">=5.0.2"
+    },
+    {
+     "version": "0.0.3",
+     "pymodaq": ">=5.0.2"
+    },
+    {
+     "version": "0.0.2",
+     "pymodaq": ">=5.0.2"
+    },
+    {
+     "version": "0.0.1",
+     "pymodaq": ">=4.1.0"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_keithley",
+   "display-name": "Keithley",
+   "version": "5.0.2",
+   "pymodaq": ">=5.0.0",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_keithley/",
+   "authors": [
+    "Sebastien J. Weber",
+    "Sébastien Guerrero (sebastien.guerrero@insa-lyon.fr)"
+   ],
+   "contributors": [
+    "Nicolas Bruyant",
+    "Loïc Guilmard (loic.guilmard@insa-lyon.fr)",
+    "Anthony Buthod (anthony.buthod@insa-lyon.fr)",
+    "Arnaud Meyer (arnaud.meyer@univ-st-etienne.fr)"
+   ],
+   "instruments": {
+    "Actuators": [
+     {
+      "name": "Keithley2400",
+      "description": "Sourcemeter Keithley 2400 (using pymeasure intermediate package)"
+     },
+     {
+      "name": "Keithley2600",
+      "description": "Keithley 2600 series Sourcemeter"
+     }
+    ],
+    "Viewer0D": [
+     {
+      "name": "Keithley_Pico",
+      "description": "Pico-Amperemeter Keithley 648X Series, 6430 and 6514"
+     },
+     {
+      "name": "Keithley2100",
+      "description": "Multimeter Keithley 2100"
+     },
+     {
+      "name": "Keithley2110",
+      "description": "Multimeter Keithley 2110"
+     },
+     {
+      "name": "Keithley2600",
+      "description": "Keithley 2600 series Sourcemeter"
+     },
+     {
+      "name": "Keithley2700",
+      "description": "Keithley 2700 Multimeter/Switch System -- RS-232/GPIB -- 2 slots (7700 series modules)"
+     },
+     {
+      "name": "Keithley2701",
+      "description": "Keithley 2701 Ethernet Multimeter/Switch System -- Ethernet/RS-232 -- 2 slots (7700 series modules)"
+     },
+     {
+      "name": "Keithley2750",
+      "description": "Keithley 2750 Multimeter/Switch System -- RS-232/GPIB -- 2 slots (7700 series modules)"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "5.0.2",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "1.2.0",
+     "pymodaq": ">=4.0"
+    },
+    {
+     "version": "1.1.0",
+     "pymodaq": ">=4.0"
+    },
+    {
+     "version": "1.0.1",
+     "pymodaq": ">=4.0"
+    },
+    {
+     "version": "1.0.0",
+     "pymodaq": ">=4.0"
+    },
+    {
+     "version": "0.0.1",
+     "pymodaq": ""
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_keithley_dasilva",
+   "display-name": "Keithley dasilva",
+   "version": "1.0.2",
+   "pymodaq": ">=5.2.0",
+   "homepage": "https://pypi.org/project/pymodaq-plugins-keithley-dasilva/",
+   "authors": [
+    "DA SILVA Camille (camille.dasilva.tab@gmail.com)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Actuators": [
+     {
+      "name": "Keithley2400",
+      "description": "voltage sourcing on Keithley 2400-series sourcemeters (tested on 2410)"
+     }
+    ],
+    "Viewer0D": [
+     {
+      "name": "Keithley2400",
+      "description": "current measurement on Keithley 2400-series sourcemeters used as an ammeter (tested on 2420)"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "1.0.2",
+     "pymodaq": ">=5.2.0"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_kern",
+   "display-name": "Kern",
+   "version": "1.0.0",
+   "pymodaq": ">=5.0.0",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_kern/",
+   "authors": [
+    "Cyril Auclair (cyril.auclair@insa-lyon.fr)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Viewer0D": [
+     {
+      "name": "daq_0Dviewer_Kern_572_573_KB_DS_FKB",
+      "description": "control of 572, 573, KB, DS and FKB 0D detectors (weight balances)"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "1.0.0",
+     "pymodaq": ">=5.0.0"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_lakeshore",
+   "display-name": "Lakeshore",
+   "version": "1.0.2",
+   "pymodaq": ">=5.0.0",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_lakeshore/",
+   "authors": [
+    "Aurore Finco (aurore.finco@umontpellier.fr)",
+    "Carolin Schrader (carolin.schrader@umontpellier.fr)",
+    "Florie Mesple (florie.mesple@gmail.com)",
+    "Lucas Moreau--Lalaux (lucas.moreau-lalaux@ens-lyon.fr)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Actuators": [
+     {
+      "name": "335 Temperature Controller",
+      "description": "control of a temperature actuator (heater output 1)"
+     }
+    ],
+    "Viewer0D": [
+     {
+      "name": "335 Temperature Controller",
+      "description": "control of a temperature 0D detector"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "1.0.2",
+     "pymodaq": ">=5.0.0"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_mock",
+   "display-name": "Mock",
+   "version": "5.3.0",
+   "pymodaq": ">=5.3.2",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_mock/",
+   "authors": [
+    "Sebastien J. Weber"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Actuators": [
+     {
+      "name": "Mock",
+      "description": "actuator to test PyMoDAQ functionalities"
+     },
+     {
+      "name": "MockTau",
+      "description": "mock actuator with characteristic time to reach set value"
+     },
+     {
+      "name": "TCP server",
+      "description": "to communicate with other DAQ_Move or third party applications"
+     },
+     {
+      "name": "LECO director",
+      "description": "to communicate with other DAQ_Move or third party applications"
+     }
+    ],
+    "Viewer0D": [
+     {
+      "name": "Mock 0D",
+      "description": "detector to test PyMoDAQ functionalities"
+     },
+     {
+      "name": "Mock Adaptive",
+      "description": "detector to test PyMoDAQ adaptive scan mode"
+     },
+     {
+      "name": "TCP server",
+      "description": "to communicate with other DAQ_Viewer or third party applications"
+     },
+     {
+      "name": "LECO director",
+      "description": "to communicate with other DAQ_Viewer or third party applications"
+     }
+    ],
+    "Viewer1D": [
+     {
+      "name": "Mock 1D",
+      "description": "detector to test PyMoDAQ functionalities"
+     },
+     {
+      "name": "Mock Spectro",
+      "description": "detector to test pymodaq_spectro functionalities"
+     },
+     {
+      "name": "TCP server",
+      "description": "to communicate with other DAQ_Viewer or third party applications"
+     },
+     {
+      "name": "LECO director",
+      "description": "to communicate with other DAQ_Viewer or third party applications"
+     }
+    ],
+    "Viewer2D": [
+     {
+      "name": "Mock 2D",
+      "description": "detector to test PyMoDAQ functionalities"
+     },
+     {
+      "name": "TCP server",
+      "description": "to communicate with other DAQ_Viewer or third party applications"
+     },
+     {
+      "name": "LECO director",
+      "description": "to communicate with other DAQ_Viewer or third party applications"
+     }
+    ],
+    "ViewerND": [
+     {
+      "name": "Mock ND",
+      "description": "detector to test PyMoDAQ functionalities"
+     },
+     {
+      "name": "LECO director",
+      "description": "to communicate with other DAQ_Viewer or third party applications"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "5.3.0",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "5.0.17",
+     "pymodaq": ">=5.2.9"
+    },
+    {
+     "version": "5.0.16",
+     "pymodaq": ">=5.2.9"
+    },
+    {
+     "version": "5.0.15",
+     "pymodaq": ">=5.3.0"
+    },
+    {
+     "version": "5.0.14",
+     "pymodaq": ">=5.3.0"
+    },
+    {
+     "version": "5.0.13",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.12",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.10",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.9",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.8",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.7",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.6",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.5",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.4",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "4.4.5",
+     "pymodaq": ">=4.3.6"
+    },
+    {
+     "version": "4.4.4",
+     "pymodaq": ">=4.0.5"
+    },
+    {
+     "version": "4.4.2",
+     "pymodaq": ">=4.0.0"
+    },
+    {
+     "version": "4.4.0",
+     "pymodaq": ">=4.0.0"
+    },
+    {
+     "version": "4.3.6",
+     "pymodaq": ">=4.0.0"
+    },
+    {
+     "version": "4.3.5",
+     "pymodaq": ">=4.0.0"
+    },
+    {
+     "version": "4.3.3",
+     "pymodaq": ">=4.0.0"
+    },
+    {
+     "version": "4.3.2",
+     "pymodaq": ">=4.0.0"
+    },
+    {
+     "version": "4.3.1",
+     "pymodaq": ">=4.0.0"
+    },
+    {
+     "version": "4.3.0",
+     "pymodaq": ">=4.0.0"
+    },
+    {
+     "version": "4.2.2",
+     "pymodaq": ">=4.0.0"
+    },
+    {
+     "version": "4.2.1",
+     "pymodaq": ">=4.0.0"
+    },
+    {
+     "version": "4.2.0",
+     "pymodaq": ">=4.0.0"
+    },
+    {
+     "version": "4.1.2",
+     "pymodaq": ">=4.0.0"
+    },
+    {
+     "version": "4.1.1",
+     "pymodaq": ">=4.0.0"
+    },
+    {
+     "version": "4.1.0",
+     "pymodaq": ">=4.0.0"
+    },
+    {
+     "version": "4.0.2",
+     "pymodaq": ">=4.0.0"
+    },
+    {
+     "version": "4.0.1",
+     "pymodaq": ">=4.0.0"
+    },
+    {
+     "version": "4.0.0",
+     "pymodaq": ""
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_mockexamples",
+   "display-name": "Mockexamples",
+   "version": "5.3.9",
+   "pymodaq": ">=5.3.9",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_mockexamples/",
+   "authors": [
+    "Sebastien J. Weber (sebastien.weber@cnrs.fr)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Actuators": [
+     {
+      "name": "BSPiezoMirror",
+      "description": "(beam steering_): simulates a piezo mirror (X and Y tilt); shows a controller shared with four other modules."
+     },
+     {
+      "name": "BSPowerMeter",
+      "description": "(beam steering_): simulates the power (W) of the steered beam; shows an axis of the shared beam steering controller."
+     },
+     {
+      "name": "MockHeater",
+      "description": "(heater_): simulates a heating power (W); shows a closed loop for the PID extension."
+     },
+     {
+      "name": "MockTempController",
+      "description": "(temperature controller_): simulates a temperature controller (Temperature and Power axes); shows a master actuator with a slave detector."
+     },
+     {
+      "name": "MockRandom",
+      "description": "(gaussian scan_): simulates the position of a noisy Gaussian; shows an actuator and detectors sharing a controller ID."
+     },
+     {
+      "name": "Harmonics",
+      "description": "(harmonics_): simulates the power (W) of a harmonics source; shows units from pint quantities."
+     },
+     {
+      "name": "MockComplexSignal",
+      "description": "(complex signal_): simulates X and Y axes over a 2D signal; shows axes given as a name to ID dictionary."
+     },
+     {
+      "name": "MockNamedAxes",
+      "description": "(actuator interfaces_): simulates a three-axis controller; shows axes with a name and an integer ID."
+     },
+     {
+      "name": "MockBinary",
+      "description": "(actuator interfaces_): simulates a two-state device (0 or 1); shows the binary actuator interface."
+     },
+     {
+      "name": "MockRelative",
+      "description": "(actuator interfaces_): simulates a stage moved relatively only; shows the relative actuator interface."
+     },
+     {
+      "name": "BSPiezoMirrorRunTimeError",
+      "description": "(error tests_): simulates the piezo mirror failing when read; shows how an error in get_actuator_value is handled."
+     },
+     {
+      "name": "BSPiezoMirrorTimeout",
+      "description": "(error tests_): simulates the piezo mirror timing out at initialization; shows how an initialization timeout is handled."
+     },
+     {
+      "name": "BSPiezoMirrorUninitializing",
+      "description": "(error tests_): simulates the piezo mirror failing at initialization; shows how a failed initialization is handled."
+     }
+    ],
+    "Viewer0D": [
+     {
+      "name": "BSPhotodiode",
+      "description": "(beam steering_): simulates a photodiode on the steered beam; shows a 0D detector on a shared controller."
+     },
+     {
+      "name": "MockHeater",
+      "description": "(heater_): simulates the temperature of a heated object; shows a detector in a closed loop."
+     },
+     {
+      "name": "MockTempController",
+      "description": "(temperature controller_): simulates the temperature and power of the controller; shows a slave detector receiving its controller."
+     },
+     {
+      "name": "MockRandom",
+      "description": "(gaussian scan_): simulates a noisy Gaussian read at the actuator position; shows a detector coupled to an actuator by ID."
+     },
+     {
+      "name": "Harmonics",
+      "description": "(harmonics_): simulates the power of the harmonics source; shows data with pint units."
+     },
+     {
+      "name": "MockComplexSignal",
+      "description": "(complex signal_): simulates a signal read at the actuators position; shows scans in one or two dimensions."
+     },
+     {
+      "name": "MockAdaptive",
+      "description": "(complex signal_): simulates a signal at requested positions; shows the positions argument of an adaptive scan."
+     },
+     {
+      "name": "MockErrors",
+      "description": "(error tests_): simulates a 0D value with its standard deviation; shows data with errors from hardware averaging."
+     }
+    ],
+    "Viewer1D": [
+     {
+      "name": "MockRandom",
+      "description": "(gaussian scan_): simulates a shuffled Gaussian; shows the sort button of the 1D viewer."
+     },
+     {
+      "name": "Harmonics",
+      "description": "(harmonics_): simulates the harmonics spectrum of the source; shows pint units and roi_select."
+     },
+     {
+      "name": "CookbookSpectrometer",
+      "description": "(spectrometer_): simulates a spectrometer with grating, laser line and exposure; shows a calibrated wavelength axis (nm) and the interface of the spectrometer extension. It replaces Mock_spectro, removed in this version: a saved preset that uses it must pick CookbookSpectrometer instead."
+     },
+     {
+      "name": "MockSpectroErrors",
+      "description": "(error tests_): simulates a spectrometer that averages itself (hardware averaging); shows how a plugin fills the errors of the data with the standard error of the mean, as PyMoDAQ does when it averages (PyMoDAQ PR 1401)."
+     }
+    ],
+    "Viewer2D": [
+     {
+      "name": "BSCamera",
+      "description": "(beam steering_): simulates a camera imaging a laser spot, with fringes and drift; shows live acquisition, several data and a shared controller."
+     },
+     {
+      "name": "RoiStuff",
+      "description": "(beam steering_): simulates the beam steering camera cropped to a ROI; shows roi_select receiving the ROI from the viewer."
+     },
+     {
+      "name": "CookbookCamera",
+      "description": "(camera driver_): simulates a camera with its own acquisition thread and buffer; shows the camera base class of pymodaq_plugins_utils and its driver contract."
+     }
+    ],
+    "ViewerND": [
+     {
+      "name": "MockEvents",
+      "description": "(photon events_): simulates a photon counting camera replaying a recording; shows N-dimensional data from an acquisition thread."
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "5.3.9",
+     "pymodaq": ">=5.3.9"
+    },
+    {
+     "version": "5.3.8",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "5.3.7",
+     "pymodaq": ">=5.2.8"
+    },
+    {
+     "version": "5.3.6",
+     "pymodaq": ">=5.2.8"
+    },
+    {
+     "version": "5.3.5",
+     "pymodaq": ">=5.3.0"
+    },
+    {
+     "version": "5.3.4",
+     "pymodaq": ">=5.3.0"
+    },
+    {
+     "version": "5.3.3",
+     "pymodaq": ">=5.3.0"
+    },
+    {
+     "version": "5.3.2",
+     "pymodaq": ">=5.3.0"
+    },
+    {
+     "version": "5.3.1",
+     "pymodaq": ">=5.3.0"
+    },
+    {
+     "version": "5.3.0",
+     "pymodaq": ">=5.3.0"
+    },
+    {
+     "version": "5.0.12",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.11",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.10",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.9",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.8",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.7",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.6",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.5",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.4",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.3",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.2",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.1",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.0",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "4.0.3",
+     "pymodaq": ">=4.0.0"
+    },
+    {
+     "version": "4.0.2",
+     "pymodaq": ">=4.0.0"
+    },
+    {
+     "version": "4.0.1",
+     "pymodaq": ">=4.0.0"
+    },
+    {
+     "version": "1.0.8",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "1.0.7",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "1.0.6",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "1.0.5",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "1.0.4",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "1.0.3",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "1.0.1",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "0.2.4",
+     "pymodaq": ">=4.1.0"
+    },
+    {
+     "version": "0.2.3",
+     "pymodaq": ">=4.1.0"
+    },
+    {
+     "version": "0.2.2",
+     "pymodaq": ">=4.1.0"
+    },
+    {
+     "version": "0.2.1",
+     "pymodaq": ">=4.1.0"
+    },
+    {
+     "version": "0.2.0",
+     "pymodaq": ">=4.2.0"
+    },
+    {
+     "version": "0.1.1",
+     "pymodaq": ">=4.1.0"
+    },
+    {
+     "version": "0.1.0",
+     "pymodaq": ">=4.0.8"
+    },
+    {
+     "version": "0.0.2",
+     "pymodaq": ">=4.0.8"
+    },
+    {
+     "version": "0.0.1",
+     "pymodaq": ">=4.0.8"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_montana",
+   "display-name": "Montana",
+   "version": "5.3.0",
+   "pymodaq": ">=5.3.2",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_montana/",
+   "authors": [
+    "Sébastien J. Weber (sebastien.weber@cemes.fr)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Actuators": [
+     {
+      "name": "CryoTemperature",
+      "description": "control the User1 (could be the ATSM) temperature set point"
+     },
+     {
+      "name": "Rook",
+      "description": "control of the Rook nano-positioner"
+     }
+    ],
+    "Viewer0D": [
+     {
+      "name": "CryoInfo",
+      "description": "Get the Cryostat Temperature and Pressure"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "5.3.0",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "0.0.2",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "0.0.1",
+     "pymodaq": ">=5.0.0"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_newport",
+   "display-name": "Newport",
+   "version": "5.3.0",
+   "pymodaq": ">=5.3.2",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_newport/",
+   "authors": [
+    "Sebastien J. Weber",
+    "David Bresteau (david.bresteau@cea.fr)",
+    "Sébastien Quistrebert (sebastien.quistrebert@ens-paris-saclay.fr)",
+    "Bastien Bégon (bastien.begon@crpp.cnrs.fr)",
+    "Elias Sfeir",
+    "Aurore Finco (aurore.finco@umontpellier.fr)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Actuators": [
+     {
+      "name": "Conex",
+      "description": "Piezo actuators from the CONEX-AGAP series\""
+     },
+     {
+      "name": "Newport_ESP100",
+      "description": "ESP100 motion controllers"
+     },
+     {
+      "name": "AgilisSerial",
+      "description": "for controllers AG-UC8 and AG-UC2 tested with motorized mounts AG-M100N (no encoder)"
+     },
+     {
+      "name": "XPS-Q8",
+      "description": "8-axis Universal Motion Controller/Driver, ethernet"
+     },
+     {
+      "name": "SMC100",
+      "description": "Single axis motion controller"
+     },
+     {
+      "name": "Picomotor8742",
+      "description": "4-axis open-loop motion controller"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "5.3.0",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "5.0.1",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.0",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "1.4.1",
+     "pymodaq": ">=4.3.0"
+    },
+    {
+     "version": "1.4.0",
+     "pymodaq": ">=4.3.0"
+    },
+    {
+     "version": "1.3.1",
+     "pymodaq": ">=4.3.0"
+    },
+    {
+     "version": "1.2.0",
+     "pymodaq": ">4.0"
+    },
+    {
+     "version": "1.1.0",
+     "pymodaq": ">4.0"
+    },
+    {
+     "version": "1.0.2",
+     "pymodaq": ">4.0"
+    },
+    {
+     "version": "1.0.1",
+     "pymodaq": ">4.0"
+    },
+    {
+     "version": "1.0.0",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.1.1",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.0.3",
+     "pymodaq": ">=2.0"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_nkt",
+   "display-name": "Nkt",
+   "version": "1.1.0",
+   "pymodaq": ">=5.0.0",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_nkt/",
+   "authors": [
+    "Bastien Bégon (bastien.begon@crpp.cnrs.fr)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Actuators": [
+     {
+      "name": "SuperK Extreme",
+      "description": "Supercontinuum laser (emission state and output power control)"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "1.1.0",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "1.0.0",
+     "pymodaq": ">=4.3.6"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_oceaninsight",
+   "display-name": "Oceaninsight",
+   "version": "5.3.1",
+   "pymodaq": ">=5.3.2",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_oceaninsight/",
+   "authors": [
+    "Sebastien J. Weber",
+    "Nicolas Tappy",
+    "Arnaud Meyer"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Viewer1D": [
+     {
+      "name": "Omnidriver",
+      "description": "Control of Spectrometer using the Omnidriver library (should be installed)"
+     },
+     {
+      "name": "Seabreeze",
+      "description": "If the Omnidriver library is not available, a plugin implementation based on seabreeze is provided: https://python-seabreeze.readthedocs.io/en/latest/index.html"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "5.3.1",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "5.3.0",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "1.1.1",
+     "pymodaq": ">=4.3.0"
+    },
+    {
+     "version": "1.0.0",
+     "pymodaq": ">=4.0.10"
+    },
+    {
+     "version": "0.2.0",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.1.0",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.0.2",
+     "pymodaq": ">=2.0"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_opencv",
+   "display-name": "Opencv",
+   "version": "5.3.1",
+   "pymodaq": ">=5.3.9",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_opencv/",
+   "authors": [
+    "Sebastien J. Weber (sebastien.weber@cnrs.fr)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Viewer2D": [
+     {
+      "name": "opencv",
+      "description": "control of cameras using the opencv library (mainly webcams) It is built on the camera base class of pymodaq_plugins_utils (CameraBase), with the driver hardware/opencv_camera.py that follows the camera driver interface of that package. So it has the same settings as the other camera plugins: live and snap, averaging, the ROI drawn in the viewer (Update ROI from Viewer, Apply ROI, Clear ROI+Bin), binning and FPS. A webcam has neither a hardware ROI nor binning: they are applied on each image (binning is the mean of the pixels). Camera index: the camera to open (0 is usually the one built in the laptop). Color Conversion: OpenCV gives colour images, converted by default to gray (RGB2GRAY). With None the three channels (red, green, blue) are given. Cam. Settings: the properties that OpenCV can read on the camera (brightness, gain, exposure...), the unit of some depends on the backend. Changing the frame width or height there resets the ROI. Open Settings shows the settings window of the driver of the camera (DirectShow, Windows). The exposure time and buffer settings of the camera base class are hidden: OpenCV does not set them in a portable way, use Cam. Settings."
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "5.3.1",
+     "pymodaq": ">=5.3.9"
+    },
+    {
+     "version": "5.3.0",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "5.0.2",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.1",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "0.0.2",
+     "pymodaq": ">=4.0.0"
+    },
+    {
+     "version": "0.0.1",
+     "pymodaq": ">=4.0.0"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_optosigma",
+   "display-name": "Optosigma",
+   "version": "0.4.0",
+   "pymodaq": ">=4.3.0",
+   "homepage": "https://pypi.org/project/pymodaq-plugins-optosigma/",
+   "authors": [
+    "Amelie Deshazer",
+    "Daichi Kozawa"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Actuators": [
+     {
+      "name": "GSC-02C",
+      "description": "controller of GSC 2 Axis Stage Controller"
+     },
+     {
+      "name": "RMC-102",
+      "description": "controller of RMC-102 Remote Micrometer Controller"
+     },
+     {
+      "name": "SHRC203",
+      "description": "controller of SHRC203 3 Axis Stage Controller"
+     },
+     {
+      "name": "SBIS26",
+      "description": "controller of SBIS26 Driver Integrated Motorized Stage"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "0.4.0",
+     "pymodaq": ">=4.3.0"
+    },
+    {
+     "version": "0.3.1",
+     "pymodaq": ">=4.3.0"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_owis",
+   "display-name": "Owis",
+   "version": "5.3.0",
+   "pymodaq": ">=5.3.7",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_owis/",
+   "authors": [
+    "Jérémie Margueritat (jeremie.margueritat@univ-lyon1.fr)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Actuators": [
+     {
+      "name": "OWIS_PS10",
+      "description": "OWIS stages driven by PS 10 control units, one axis per unit, the units being chained on their CANopen bus (tested with HVM100N-30-HiSM, LTM60-25-HSM and DMT65-DM6-HSM stages)"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "5.3.0",
+     "pymodaq": ">=5.3.7"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_physik_instrumente",
+   "display-name": "Physik instrumente",
+   "version": "5.3.1",
+   "pymodaq": ">=5.3.2",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_physik_instrumente/",
+   "authors": [
+    "Sebastien J. Weber"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Actuators": [
+     {
+      "name": "PI",
+      "description": "All stages compatible with the GCS2 library. Tested on E-816, C-863 (mercury DC/Stepper), C-663, E-545. Using a wrapper around the PI library for ease of use and reusability elsewhere"
+     },
+     {
+      "name": "PILegacy",
+      "description": "All stages compatible with the GCS2 library. Tested on E-816, C-863 (mercury DC/Stepper), C-663, E-545. Using a direct communication through the PI library"
+     },
+     {
+      "name": "PI_MMCLegacy",
+      "description": "old controller and stages using the 32 bits MMC dll (requires 32bit python) C-862 controller. Using direct access to the 32bits dll. Only compatible with python 32bits"
+     },
+     {
+      "name": "PI_MMC",
+      "description": "old controller and stages using the 32 bits MMC dll (requires 32bit python) C-862 controller. Using a wrapper around the 32bits dlls (either direct on 32 bits python or through a server on 64bits python with the help of the msl-loadlib package"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "5.3.1",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "5.3.0",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "2.0.3",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "2.0.2",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "2.0.1",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "2.0.0",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "1.2.0",
+     "pymodaq": ">=4.1.0"
+    },
+    {
+     "version": "1.1.1",
+     "pymodaq": ">=4.0.7"
+    },
+    {
+     "version": "1.1.0",
+     "pymodaq": ">=4.0.7"
+    },
+    {
+     "version": "1.0.1",
+     "pymodaq": ">=4.0.7"
+    },
+    {
+     "version": "1.0.0",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.2.0",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.1.0",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.0.3",
+     "pymodaq": ">=2.0"
+    },
+    {
+     "version": "0.0.2",
+     "pymodaq": ">=2.0"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_picoquant",
+   "display-name": "Picoquant",
+   "version": "5.3.1",
+   "pymodaq": ">=5.3.2",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_picoquant/",
+   "authors": [
+    "Sebastien J. Weber"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Viewer1D": [
+     {
+      "name": "TH260",
+      "description": "Timeharp TH260 for photon counting and time tagging"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "5.3.1",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "5.3.0",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "5.0.2",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.1",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "0.1.0",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.0.2",
+     "pymodaq": ""
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_piezoconcept",
+   "display-name": "Piezoconcept",
+   "version": "5.3.0",
+   "pymodaq": ">=5.3.2",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_piezoconcept/",
+   "authors": [
+    "Sebastien J. Weber"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Actuators": [
+     {
+      "name": "PiezoConcept",
+      "description": "piezoconcept stages (tested on BIO2.100) using the usual serial commands"
+     },
+     {
+      "name": "PiezoConceptPI",
+      "description": "Special firmware to emulate functions form the GCS2 library from Physik Instrumente"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "5.3.0",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "5.0.2",
+     "pymodaq": ">=5.0.9"
+    },
+    {
+     "version": "5.0.1",
+     "pymodaq": ">=5.0.9"
+    },
+    {
+     "version": "5.0.0",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "1.1.0",
+     "pymodaq": ">=4.0.8"
+    },
+    {
+     "version": "1.0.0",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.1.0",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.0.4",
+     "pymodaq": ">=2.0"
+    },
+    {
+     "version": "0.0.3",
+     "pymodaq": ">=2.0"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_piezosystemjena",
+   "display-name": "Piezosystemjena",
+   "version": "0.1.0",
+   "pymodaq": "",
+   "homepage": "https://pypi.org/project/pymodaq-plugins-piezosystemjena/",
+   "authors": [
+    "Nicolas Tappy"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Actuators": [
+     {
+      "name": "NV40/3CLE",
+      "description": "Closed loop voltage amplifier for the control of piezo elements."
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "0.1.0",
+     "pymodaq": ""
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_pixelink",
+   "display-name": "Pixelink",
+   "version": "0.1.0",
+   "pymodaq": ">=4.4.7",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_pixelink/",
+   "authors": [
+    "First Author (christian.cabello@ip-paris.fr)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Viewer2D": [
+     {
+      "name": "Pixelink",
+      "description": "control of Pixelink cameras"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "0.1.0",
+     "pymodaq": ">=4.4.7"
+    },
+    {
+     "version": "0.0.2",
+     "pymodaq": ">=4.4.7"
+    },
+    {
+     "version": "0.0.1",
+     "pymodaq": ">=4.0.0"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_princeton_instruments",
+   "display-name": "Princeton instruments",
+   "version": "0.1.0",
+   "pymodaq": "",
+   "homepage": "https://pypi.org/project/pymodaq-plugins-princeton-instruments/",
+   "authors": [
+    "Nicolas Tappy"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Viewer2D": [
+     {
+      "name": "picam",
+      "description": "Control of cameras using the picam library."
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "0.1.0",
+     "pymodaq": ""
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_pylablib_camera",
+   "display-name": "Pylablib camera",
+   "version": "1.0.1",
+   "pymodaq": ">4.0",
+   "homepage": "https://pypi.org/project/pymodaq-plugins-pylablib-camera/",
+   "authors": [
+    "Romain Géneaux (romain.geneaux@cea.fr)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Viewer2D": [
+     {
+      "name": "GenericPylablibCamera",
+      "description": "Generic plugin for a camera, handling hardware ROI, hardware binning, grabbing frames using a callback, switching between 1D and 2D depending on data shape, and optional framerate display. The class needs to be subclassed in order to define two simple list_cameras and init_controller methods, which depend on the actual camera."
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "1.0.1",
+     "pymodaq": ">4.0"
+    },
+    {
+     "version": "1.0.0",
+     "pymodaq": ">4.0"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_raspberry",
+   "display-name": "Raspberry",
+   "version": "5.0.1",
+   "pymodaq": ">=5.0.0",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_raspberry/",
+   "authors": [
+    "Sebastien J. Weber (sebastien.weber@cnrs.fr)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Viewer2D": [
+     {
+      "name": "picamera",
+      "description": "control of the integrated pi camera using the Picamera2 library"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "5.0.1",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "0.0.2",
+     "pymodaq": ">=4.0.0"
+    },
+    {
+     "version": "0.0.1",
+     "pymodaq": ">=4.0.0"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_redpitaya",
+   "display-name": "Redpitaya",
+   "version": "5.3.0",
+   "pymodaq": ">=5.3.2",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_redpitaya/",
+   "authors": [
+    "Sebastien J. Weber (sebastien.weber@cemes.fr)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Viewer1D": [
+     {
+      "name": "RedPitayaSCPI",
+      "description": "perform analog data acquisition using one of the fast channels"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "5.3.0",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "0.0.3",
+     "pymodaq": ">=4.1.0"
+    },
+    {
+     "version": "0.0.2",
+     "pymodaq": ">=4.1.0"
+    },
+    {
+     "version": "0.0.1",
+     "pymodaq": ">=4.1.0"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_rohdeschwarz",
+   "display-name": "Rohdeschwarz",
+   "version": "1.0.3",
+   "pymodaq": ">=5.0.0",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_rohdeschwarz/",
+   "authors": [
+    "Aurore Finco (aurore.finco@umontpellier.fr)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Actuators": [
+     {
+      "name": "RSMWsource",
+      "description": "frequency control of microwave sources from SMA and SMB series"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "1.0.3",
+     "pymodaq": ">=5.0.0"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_signal_recovery",
+   "display-name": "Signal recovery",
+   "version": "0.1.0",
+   "pymodaq": ">=4.4",
+   "homepage": "https://pypi.org/project/pymodaq-plugins-signal-recovery/",
+   "authors": [
+    "Sebastien J. Weber (sebastien.weber@cemes.fr)",
+    "Louis Grandvaux (louis.grandvaux@espci.fr)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Actuators": [
+     {
+      "name": "Lockin_DSP7270",
+      "description": "control of the Lockin DSP7270 model (for instance to control the oscillator frequency)"
+     },
+     {
+      "name": "Lockin_DSP7265",
+      "description": "control of the Lockin DSP7265 model (diffenrential measurement not implemented)"
+     }
+    ],
+    "Viewer0D": [
+     {
+      "name": "Lockin_DSP7270",
+      "description": "control of the Lockin DSP7270 model"
+     },
+     {
+      "name": "Lockin_DSP7265",
+      "description": "control of the Lockin DSP7265 model"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "0.1.0",
+     "pymodaq": ">=4.4"
+    },
+    {
+     "version": "0.0.3",
+     "pymodaq": ">=4.1"
+    },
+    {
+     "version": "0.0.2",
+     "pymodaq": ">=4.1"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_slmsuite",
+   "display-name": "Slmsuite",
+   "version": "5.3.2",
+   "pymodaq": ">=5.3.2",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_slmsuite/",
+   "authors": [
+    "Sebastien J. Weber (sebastien.weber@cemes.fr)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Actuators": [
+     {
+      "name": "Slmsuite",
+      "description": "generic, choose the slmsuite class (SLM type) and give its constructor arguments as a Python dictionary (Arguments)"
+     },
+     {
+      "name": "SlmsuiteSimulated",
+      "description": "simulated SLM of slmsuite, no hardware needed"
+     },
+     {
+      "name": "SlmsuiteMeadowlark",
+      "description": "Meadowlark SLM (Windows only, Blink SDK)"
+     },
+     {
+      "name": "SlmsuiteHoloeye",
+      "description": "Holoeye SLM (SLM Display SDK)"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "5.3.2",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "5.3.1",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "5.3.0",
+     "pymodaq": ">=5.3.2"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_smaract",
+   "display-name": "Smaract",
+   "version": "5.3.0",
+   "pymodaq": ">=5.3.2",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_smaract/",
+   "authors": [
+    "David Bresteau (david.bresteau@cea.fr)",
+    "Sebastien J. Weber (sebastien.weber@cnrs.fr)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Actuators": [
+     {
+      "name": "SmaractMCS1",
+      "description": "SLC linear stages with sensor (S option) with MCS controller"
+     },
+     {
+      "name": "SmaractMCS2",
+      "description": "positionner with sensor (S option) with MCS2 controller"
+     },
+     {
+      "name": "SmaractSCU",
+      "description": "SLC linear or angular stages with or without sensors using the Instrumental-lib package and the simpler SCU controller"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "5.3.0",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "3.4.0",
+     "pymodaq": ">5.0.0"
+    },
+    {
+     "version": "3.3.0",
+     "pymodaq": ">5.0.0"
+    },
+    {
+     "version": "3.2.3",
+     "pymodaq": ">5.0.0"
+    },
+    {
+     "version": "3.1.1",
+     "pymodaq": ">5.0.0"
+    },
+    {
+     "version": "3.1.0",
+     "pymodaq": ">5.0.0"
+    },
+    {
+     "version": "3.0.0",
+     "pymodaq": ">5.0.0"
+    },
+    {
+     "version": "2.1.1",
+     "pymodaq": "<5.0.0"
+    },
+    {
+     "version": "2.1.0",
+     "pymodaq": ">=4.4.7"
+    },
+    {
+     "version": "2.0.4",
+     "pymodaq": ">=4.0.7"
+    },
+    {
+     "version": "2.0.3",
+     "pymodaq": ">=4.0.7"
+    },
+    {
+     "version": "2.0.0",
+     "pymodaq": ">=4.0.7"
+    },
+    {
+     "version": "1.0.0",
+     "pymodaq": ">=4.0.1"
+    },
+    {
+     "version": "0.2.0",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.1.2",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.1.1",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.1.0",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.0.4",
+     "pymodaq": ">=2.0"
+    },
+    {
+     "version": "0.0.3",
+     "pymodaq": ">=2.0"
+    },
+    {
+     "version": "0.0.2",
+     "pymodaq": ">=2.0"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_spectrum_instrumentation",
+   "display-name": "Spectrum instrumentation",
+   "version": "5.0.5",
+   "pymodaq": ">=5.0.0",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_spectrum_instrumentation/",
+   "authors": [
+    "Martin Luttmann (martin.luttmann@epfl.ch)",
+    "Malo Hervé (malo.herve@epfl.ch)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Viewer1D": [
+     {
+      "name": "Spectrum",
+      "description": "Simple 1D acquisition defined by a number of laser pulses to observe and a sample rate. Tested with model M2p.5936-x4"
+     },
+     {
+      "name": "Spectrum Lock In",
+      "description": "An advanced version of the Spectrum viewer, where the obtained trace is treated to extract data at certain frequencies (Lock In)"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "5.0.5",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.4",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.3",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.2",
+     "pymodaq": ">=5.0.0"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_standa",
+   "display-name": "Standa",
+   "version": "0.1.1",
+   "pymodaq": ">=4.4.7",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_standa/",
+   "authors": [
+    "First Author (christian.cabello@ip-paris.fr)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Actuators": [
+     {
+      "name": "Standa",
+      "description": "control of Standa 8SMC controller"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "0.1.1",
+     "pymodaq": ">=4.4.7"
+    },
+    {
+     "version": "0.1.0",
+     "pymodaq": ">=4.4.7"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_stanford_research_systems",
+   "display-name": "Stanford research systems",
+   "version": "5.3.1",
+   "pymodaq": ">=5.3.2",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_stanford_research_systems/",
+   "authors": [
+    "Sebastien J. Weber (sebastien.weber@cemes.fr)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Viewer0D": [
+     {
+      "name": "LockInSR830",
+      "description": "LockIn Amplifier SR830 (uses the pymeasure driver and is recommended)"
+     }
+    ],
+    "Viewer1D": [
+     {
+      "name": "LockInSR830",
+      "description": "LockIn Amplifier SR830, buffer of the instrument (CH1 and CH2) with a time axis"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "5.3.1",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "5.3.0",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "1.0.2",
+     "pymodaq": ">=4.0.0"
+    },
+    {
+     "version": "1.0.1",
+     "pymodaq": ">=4.0.0"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_stellarnet",
+   "display-name": "Stellarnet",
+   "version": "5.1.1",
+   "pymodaq": ">=4.0",
+   "homepage": "https://pypi.org/project/pymodaq-plugins-stellarnet/",
+   "authors": [
+    "Romain Geneaux"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Viewer1D": [
+     {
+      "name": "Stellarnet",
+      "description": "USB spectrometers made by StellarNet, Inc (https://www.stellarnet.us/spectrometers/)."
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "5.1.1",
+     "pymodaq": ">=4.0"
+    },
+    {
+     "version": "5.1.0",
+     "pymodaq": ">=4.0"
+    },
+    {
+     "version": "2.0.1",
+     "pymodaq": ">=4.0"
+    },
+    {
+     "version": "1.0.2",
+     "pymodaq": ""
+    },
+    {
+     "version": "1.0.1",
+     "pymodaq": ""
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_tango",
+   "display-name": "Tango",
+   "version": "1.0.21",
+   "pymodaq": ">=4.3.6",
+   "homepage": "https://pypi.org/project/pymodaq-plugins-tango/",
+   "authors": [
+    "Aline Vernier (aline.vernier@polytechnique.edu)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Actuators": [
+     {
+      "name": "None so far",
+      "description": ""
+     }
+    ],
+    "Viewer0D": [
+     {
+      "name": "Energymeter, generic",
+      "description": ""
+     }
+    ],
+    "Viewer1D": [
+     {
+      "name": "Spectrometer, generic",
+      "description": ""
+     }
+    ],
+    "Viewer2D": [
+     {
+      "name": "Basic camera view, generic",
+      "description": ""
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "1.0.21",
+     "pymodaq": ">=4.3.6"
+    },
+    {
+     "version": "1.0.20",
+     "pymodaq": ">=4.3.6"
+    },
+    {
+     "version": "1.0.19",
+     "pymodaq": ">=4.3.6"
+    },
+    {
+     "version": "1.0.18",
+     "pymodaq": ">=4.3.6"
+    },
+    {
+     "version": "1.0.17",
+     "pymodaq": ">=4.3.6"
+    },
+    {
+     "version": "1.0.16",
+     "pymodaq": ">=4.3.6"
+    },
+    {
+     "version": "1.0.15",
+     "pymodaq": ">=4.3.6"
+    },
+    {
+     "version": "1.0.14",
+     "pymodaq": ">=4.3.6"
+    },
+    {
+     "version": "1.0.13",
+     "pymodaq": ">=4.3.6"
+    },
+    {
+     "version": "1.0.12",
+     "pymodaq": ">=4.3.6"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_thorlabs",
+   "display-name": "Thorlabs",
+   "version": "5.3.0",
+   "pymodaq": ">=5.3.2",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_thorlabs/",
+   "authors": [
+    "Sebastien J. Weber",
+    "David Bresteau (david.bresteau@cea.fr)",
+    "Nicolas Tappy (nicolas.tappy@epfl.ch)",
+    "Romain Geneaux (romain.geneaux@cea.fr)",
+    "Amelie DeShazer (adeshazer@wisc.edu)",
+    "Astha Khandelwal (asthak@iisc.ac.in)",
+    "Daichi Kozawa (kozawa.daichi@nims.go.jp)",
+    "Arnaud Meyer (arnaud.meyer@univ-st-etienne.fr)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Actuators": [
+     {
+      "name": "KinesisIntegratedStepper",
+      "description": "Integrated Stepper Motor Kinesis series (tested on K10CR1)"
+     },
+     {
+      "name": "Kinesis_Flipper",
+      "description": "Kinesis series Flipper"
+     },
+     {
+      "name": "MFF101_pylablib",
+      "description": "Deprecated, use Kinesis_FLipper"
+     },
+     {
+      "name": "PRM1Z8_pylablib",
+      "description": "DC servo motorized 360° rotation mount (Thorlabs PRM1Z8) deprecated, use DCServoKCube"
+     },
+     {
+      "name": "BrushlessDCMotor",
+      "description": "Kinesis control of DC Brushless Motor (tested with the BBD201 controller)"
+     },
+     {
+      "name": "Kinesis_KPZ101",
+      "description": "Piezo Electric Stage Kinesis series (KPZ101)"
+     },
+     {
+      "name": "Kinesis_KIM101",
+      "description": "Four Channel Piezo Inertia Motion Kinesis series (KIM101)"
+     },
+     {
+      "name": "DCServoTCube",
+      "description": "DC Servo motors controlled using a TCube (tested with TDC001 and MTS50 motor)"
+     },
+     {
+      "name": "DCServoKCube",
+      "description": "DC Servo motors controlled using a KCube (tested with KDC101)"
+     }
+    ],
+    "Viewer0D": [
+     {
+      "name": "Kinesis_KPA101",
+      "description": "Position Sensitive Photodetector Kinesis series (KPA101)"
+     },
+     {
+      "name": "TLPMPowermeter",
+      "description": "TLPM dll compatible series (PM101x, PM102x, PM103x, PM100USB, PM16-Series, PM160, PM400, PM100A, PM100D, PM200)"
+     }
+    ],
+    "Viewer1D": [
+     {
+      "name": "CCSXXX",
+      "description": "Compact CCD Spectrometers (CCS100, CCS175, CCS200). Tested with CCS175/M"
+     }
+    ],
+    "Viewer2D": [
+     {
+      "name": "Thorlabs_DCx",
+      "description": "Thorlabs CCD camera. Tested with DCC3240M. (Deprecated use UC480 below)"
+     },
+     {
+      "name": "Thorlabs_TSI",
+      "description": "sCMOS camera series Zelux, Kiralux, Quantalux."
+     },
+     {
+      "name": "UC480",
+      "description": "Interface for simple camera of the thorlabs uc480 series or IDS µeye"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "5.3.0",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "5.0.6",
+     "pymodaq": ">=5.1.10"
+    },
+    {
+     "version": "5.0.5",
+     "pymodaq": ">=5.1.10"
+    },
+    {
+     "version": "5.0.4",
+     "pymodaq": ">=5.1.10"
+    },
+    {
+     "version": "5.0.3",
+     "pymodaq": ">=5.1.10"
+    },
+    {
+     "version": "5.0.2",
+     "pymodaq": ">=5.1.10"
+    },
+    {
+     "version": "5.0.1",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.0",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "1.8.1",
+     "pymodaq": ">=4.4.0"
+    },
+    {
+     "version": "1.8.0",
+     "pymodaq": ">=4.4.0"
+    },
+    {
+     "version": "1.7.1",
+     "pymodaq": ">=4.4.0"
+    },
+    {
+     "version": "1.6.0",
+     "pymodaq": ">=4.4.0"
+    },
+    {
+     "version": "1.5.0",
+     "pymodaq": ">=4.4.0"
+    },
+    {
+     "version": "1.4.1",
+     "pymodaq": ">=4.4.0"
+    },
+    {
+     "version": "1.4.0",
+     "pymodaq": ">=4.4.0"
+    },
+    {
+     "version": "1.3.1",
+     "pymodaq": ">=4.4.0"
+    },
+    {
+     "version": "1.2.0",
+     "pymodaq": ">=4.0"
+    },
+    {
+     "version": "1.1.1",
+     "pymodaq": ">=4.0"
+    },
+    {
+     "version": "1.1.0",
+     "pymodaq": ">=4.0"
+    },
+    {
+     "version": "1.0.2",
+     "pymodaq": ">=4.0"
+    },
+    {
+     "version": "1.0.1",
+     "pymodaq": ">=4.0"
+    },
+    {
+     "version": "1.0.0",
+     "pymodaq": ">=4.0"
+    },
+    {
+     "version": "0.3.0",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.2.0",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.1.2",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.1.1",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.1.0",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.0.2",
+     "pymodaq": ">=2.0"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_trinamic",
+   "display-name": "Trinamic",
+   "version": "0.1.0",
+   "pymodaq": ">=4.4.7",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_trinamic/",
+   "authors": [
+    "First Author (christian.cabello@ip-paris.fr)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Actuators": [
+     {
+      "name": "Trinamic",
+      "description": "control of Trinamic stepper control units"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "0.1.0",
+     "pymodaq": ">=4.4.7"
+    },
+    {
+     "version": "0.0.5",
+     "pymodaq": ">=4.4.7"
+    },
+    {
+     "version": "0.0.4",
+     "pymodaq": ">=4.4.7"
+    },
+    {
+     "version": "0.0.3",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.0.2",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.0.1",
+     "pymodaq": ""
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_uniblitz",
+   "display-name": "Uniblitz",
+   "version": "5.3.0",
+   "pymodaq": ">=5.3.2",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_uniblitz/",
+   "authors": [
+    "Matthieu Guer (matthieu.guer@cea.fr)",
+    "Romain Géneaux (romain.geneaux@cea.fr)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Actuators": [
+     {
+      "name": "VLM1",
+      "description": "control of Uniblitz VLM1 Shutter Interface Module by USB. Very basic functionality to switch the shutter, without reading the actual state of the shutter."
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "5.3.0",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "5.1.0",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "0.1.3",
+     "pymodaq": "<5,>4.0.0"
+    },
+    {
+     "version": "0.1.2",
+     "pymodaq": ""
+    },
+    {
+     "version": "0.1.0",
+     "pymodaq": ""
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_utils",
+   "display-name": "Utils",
+   "version": "5.3.6",
+   "pymodaq": ">=5.3.9",
+   "homepage": "https://pypi.org/project/pymodaq_plugins_utils/",
+   "authors": [
+    "Sebastien J. Weber (sebastien.weber@cemes.fr)",
+    "Constant Schouder (constant.schouder@universite-paris-saclay.fr)"
+   ],
+   "contributors": [],
+   "instruments": {},
+   "releases": [
+    {
+     "version": "5.3.6",
+     "pymodaq": ">=5.3.9"
+    },
+    {
+     "version": "5.3.5",
+     "pymodaq": ">=5.3.9"
+    },
+    {
+     "version": "5.3.4",
+     "pymodaq": ">=5.3.9"
+    },
+    {
+     "version": "5.3.3",
+     "pymodaq": ">=5.3.9"
+    },
+    {
+     "version": "5.3.2",
+     "pymodaq": ">=5.3.9"
+    },
+    {
+     "version": "5.3.1",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "5.3.0",
+     "pymodaq": ">=5.3.2"
+    },
+    {
+     "version": "5.0.7",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.6",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.5",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.4",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.3",
+     "pymodaq": ">=5.0.0"
+    },
+    {
+     "version": "5.0.2",
+     "pymodaq": ">=5.0.0"
+    }
+   ]
+  },
+  {
+   "plugin-name": "pymodaq_plugins_zaber",
+   "display-name": "Zaber",
+   "version": "2.0.2",
+   "pymodaq": "<=4.2.5,>4.0.8",
+   "homepage": "https://pypi.org/project/pymodaq-plugins-zaber/",
+   "authors": [
+    "Romain Géneaux",
+    "Sebastien J. Weber (sebastien.weber@cnrs.fr)"
+   ],
+   "contributors": [],
+   "instruments": {
+    "Actuators": [
+     {
+      "name": "Zaber",
+      "description": "All motors using the Zaber ASCII Motion Library. Rotations and translations should be both supported (units should adapt to the actuator type), but I only tested translation stages so far."
+     },
+     {
+      "name": "ZaberBinary",
+      "description": "control of zaber actuators using the legacy binary protocol"
+     }
+    ]
+   },
+   "releases": [
+    {
+     "version": "2.0.2",
+     "pymodaq": "<=4.2.5,>4.0.8"
+    },
+    {
+     "version": "2.0.1",
+     "pymodaq": ">4.0.8"
+    },
+    {
+     "version": "2.0.0",
+     "pymodaq": ">4.0.8"
+    },
+    {
+     "version": "1.1.0",
+     "pymodaq": ""
+    },
+    {
+     "version": "1.0.0",
+     "pymodaq": ""
+    }
+   ]
+  }
+ ]
+}
