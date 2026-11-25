@@ -11,10 +11,13 @@ from pathlib import Path
 from pytablewriter import MarkdownTableWriter
 from yawrap import Doc
 from copy import deepcopy
+import os
+from concurrent.futures import ThreadPoolExecutor
 
 from pymodaq_utils.packages import get_pypi_package_list, get_pypi_pymodaq, get_entrypoints, \
     extract_authors_from_description
 from pymodaq_utils.plugin_tools.readme import parse_readme
+from pymodaq_plugin_manager import index as plugin_index
 
 if parse(platform.python_version()) >= parse('3.8'):  # from version 3.8 this feature is included in the
     # standard lib
@@ -50,9 +53,20 @@ def find_dict_in_list_from_key_val(dicts, key, value):
     return None
 
 
+EXCLUDE_PLUGINS = ['pymodaq_plugins',
+                   'pymodaq_plugins_orsay',
+                   'pymodaq_plugins_template',
+                   'pymodaq_plugins_KDC101',  # should not exists on its own but should be incorporated into thorlabs
+                   'pymodaq_plugins_AvaSpec',
+                   'pymodaq_plugins_MozzaSpectro',
+                   ]
+
+
 def get_pypi_plugins(browse_pypi=True, pymodaq_version: Union[Version, str] = None,
-                     print_method=logger.info) -> List[dict]:
-    """Fetch the list of plugins (for a given version) of pymodaq
+                     print_method=logger.info, max_workers: int = 8) -> List[dict]:
+    """Fetch the list of plugins (for a given version) of pymodaq from PyPI
+
+    The metadata of the packages are requested in parallel.
 
     Parameters
     ----------
@@ -62,40 +76,59 @@ def get_pypi_plugins(browse_pypi=True, pymodaq_version: Union[Version, str] = No
         a given pymodaq version (or the latest if None)
     print_method: Callable
         a callable accepting str argument
+    max_workers: int
+        number of packages requested at the same time
 
     Returns
     -------
     list of dictionaries giving info on plugins
     """
-    plugins = []
-    exclude_plugins = ['pymodaq_plugins',
-                       'pymodaq_plugins_orsay',
-                       'pymodaq_plugins_template',
-                       'pymodaq_plugins_KDC101', #should not exists on its own but should be incorporated into thorlabs
-                       'pymodaq_plugins_AvaSpec',
-                       'pymodaq_plugins_MozzaSpectro',
-                       'pymodaq_plugins_template',
-                       ]
     packages = get_pypi_package_list(['pymodaq', 'plugins'], print_method=print_method)
     pymodaq_latest = Version(get_pypi_pymodaq('pymodaq')['version'])
-    for package in packages:
-        package = package.replace('-', '_')
-        if package not in exclude_plugins:
-            print_method(f'Fetching metadata for package {package}')
+    packages = sorted({package.replace('-', '_') for package in packages if package.replace('-', '_')
+                       not in EXCLUDE_PLUGINS})
+
+    def fetch(package):
+        print_method(f'Fetching metadata for package {package}')
+        try:
             metadata = get_pypi_pymodaq(package, pymodaq_version, pymodaq_latest)
-            if metadata is not None:
-                #title = metadata['description'].split('\n')[0]
-                display_name = ' '.join(package.split('_')[2:]).capitalize()
-                readme = parse_readme(metadata['description'])
-                plugin = {'plugin-name': package, 'display-name': display_name,
-                          'version': metadata['version'],
-                          'id': '', 'repository': '', 'description': metadata['description'],
-                          'instruments': readme.instruments_as_dict(),
-                          'authors': readme.authors or [metadata['author']],
-                          'contributors': readme.contributors,
-                          'homepage': metadata['project_url']}
-                plugins.append(plugin)
-    return plugins
+        except Exception:
+            logger.exception(f'Could not get the metadata of {package}')
+            return None
+        if metadata is None:
+            return None
+        display_name = ' '.join(package.split('_')[2:]).capitalize()
+        readme = parse_readme(metadata['description'])
+        return {'plugin-name': package, 'display-name': display_name,
+                'version': metadata['version'],
+                'id': '', 'repository': '', 'description': metadata['description'],
+                'instruments': readme.instruments_as_dict(),
+                'authors': readme.authors or [metadata['author']],
+                'contributors': readme.contributors,
+                'homepage': metadata['project_url']}
+
+    with ThreadPoolExecutor(max_workers=max_workers) as pool:
+        return [plugin for plugin in pool.map(fetch, packages) if plugin is not None]
+
+
+def get_available_plugins(pymodaq_version: Union[Version, str] = None, print_method=logger.info,
+                          use_index: bool = True) -> List[dict]:
+    """The plugins compatible with a version of PyMoDAQ
+
+    They are read from the static index (``doc/instruments.json`` of the repository, cached on disk), a single and fast
+    request. PyPI is browsed if the index is not available, or if ``use_index`` is False or the environment variable
+    ``PYMODAQ_PLUGIN_MANAGER_LIVE`` is ``1`` (to see a plugin released since the last build of the index).
+    """
+    if use_index and os.environ.get(plugin_index.ENV_LIVE, '') != '1':
+        print_method('Reading the plugin index')
+        index = plugin_index.fetch_index()
+        if index is not None:
+            plugins = plugin_index.plugins_from_index(index, pymodaq_version)
+            if plugins:
+                print_method(f"Plugin index of {index.get('generated', '')}: {len(plugins)} plugins")
+                return plugins
+        print_method('Plugin index not available, browsing PyPI (slower)')
+    return get_pypi_plugins(pymodaq_version=pymodaq_version, print_method=print_method)
 
 
 def get_plugin_sourcefile_id(filename):
@@ -132,8 +165,7 @@ def get_plugins(from_json=False, browse_pypi=True, pymodaq_version: Version = No
     plugins_update: list of plugins with existing update
     """
     print_method('Fetching plugin list')
-    plugins_available = get_pypi_plugins(browse_pypi=browse_pypi, pymodaq_version=pymodaq_version,
-                                         print_method=print_method)
+    plugins_available = get_available_plugins(pymodaq_version=pymodaq_version, print_method=print_method)
 
     plugins = deepcopy(plugins_available)
     discovered_plugins = get_entrypoints('pymodaq.plugins')
@@ -170,7 +202,11 @@ def capitalize(string, Nfirst=1):
     return string[:Nfirst].upper() + string[Nfirst:]
 
 def write_plugin_doc():
-    """Update the README from info of all available plugins"""
+    """Update the README, the table of plugins and the static index of instruments from info of all available plugins
+
+    The three files are built from the same list of plugins, in a single run (weekly job of the repository):
+    ``README.md``, ``doc/PluginList.md`` and ``doc/instruments.json`` (see :mod:`pymodaq_plugin_manager.index`)
+    """
 
 
     plugins = get_pypi_plugins(browse_pypi=True)
@@ -250,6 +286,9 @@ def write_plugin_doc():
         margin=1
     )
     writer.dump(base_path.parent.parent.joinpath('doc/PluginList.md'))
+
+    index = plugin_index.build_index(plugins)
+    plugin_index.save_index(index, base_path.parent.parent.joinpath('doc/instruments.json'))
 
 
     with open(base_path.parent.parent.joinpath('README_base.md'), 'r') as f:
